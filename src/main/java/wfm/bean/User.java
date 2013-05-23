@@ -15,6 +15,8 @@ public class User implements Serializable{
 	
 	private String username;
 	private String password;
+	private String membership; //bronze/silver/gold
+	
 	public String getUsername() {
 		return username;
 	}
@@ -26,6 +28,12 @@ public class User implements Serializable{
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getMembership() {
+		return membership;
+	}
+	public void setMembership(String membership){
+		this.membership = membership;
 	}
 
 }

@@ -19,6 +19,14 @@
 	        </redirect>
 		</navigation-case>
 	</navigation-rule>	
+	
+	<navigation-rule>
+		<from-view-id>/courseList.xhtml</from-view-id>
+		<navigation-case>
+			<if>#{true}</if>                   
+            <to-view-id>/login.jsf</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 
 
 </faces-config>

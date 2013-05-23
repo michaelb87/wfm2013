@@ -34,6 +34,6 @@ public class LoginTask {
 
 	    Map<String, Object> variables = new HashMap<String, Object>();
 	    variables.put("username", user.getUsername());
-	    return businessProcess.startProcessByKey("bookclass", variables);
+	    return businessProcess.startProcessByKey("sccms", variables);
 	}
 }
