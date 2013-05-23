@@ -16,7 +16,7 @@
 				Hello user  <h:outputText value="#{user.username}"/>!<br/><br/>Please select <u>one</u> of the following courses you want to attend!
 			</p>			
 
-			<h:dataTable value="#{CourseListBackingBean.items}" var="v_course" id="courseList" styleClass="rounded-corner" rowClasses="odd,even">
+			<h:dataTable value="#{courses.items}" var="v_course" id="courseList" frame="box" styleClass="rounded-corner" rowClasses="odd,even">
 				<h:column>
 					<f:facet name="header"><div id="start">ID</div></f:facet>
 					<h:outputText value="#{v_course.course.id}" />
@@ -28,7 +28,7 @@
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
 				<h:column>
-					<f:facet name="header"><div id="mid">Descritpion</div></f:facet>
+					<f:facet name="header"><div id="mid">Description</div></f:facet>
 					<h:outputText value="#{v_course.course.desc}" />
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
@@ -39,9 +39,7 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header"><div id="mid">Action</div></f:facet>
-					<h:outputLink value="#{formService.getCourseFormData(v_course.course.id).formKey}" action="#{businessProcess.completeTask(true)}">
-					Select									
-					</h:outputLink>
+					<h:commandLink value="Register" action="#{businessProcess.completeTask(true)}"/>										
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
 			</h:dataTable>

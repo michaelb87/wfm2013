@@ -10,7 +10,10 @@ public class MembershipTask {
 
 	@Inject
 	private User user;
-	
+	/*
+	 * kinda placeholder~
+	 * to do: validation check for particular course that has been registered for	 * 
+	 * */
 	public void validate(){
 		String membership = user.getMembership();
 		if(membership.equals("bronze")){

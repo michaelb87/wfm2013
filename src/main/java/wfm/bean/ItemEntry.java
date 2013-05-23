@@ -17,7 +17,7 @@ public class ItemEntry implements Serializable
 		
 	}
 	
-	public Course Course() { return this.course; }
+	public Course getCourse() { return this.course; }
 	public boolean getSelected() { return this.selected; }
 	
 	public void setCourse(Course course) { this.course = course; }
