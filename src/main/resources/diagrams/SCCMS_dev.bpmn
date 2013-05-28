@@ -7,8 +7,8 @@
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway" default="flow4"></exclusiveGateway>
     <userTask id="usertask2" name="go back to login" activiti:assignee="kermit" activiti:formKey="login"></userTask>
     <sequenceFlow id="flow4" sourceRef="exclusivegateway1" targetRef="usertask2"></sequenceFlow>
-    <sequenceFlow id="flow5" name="user == kermit" sourceRef="exclusivegateway1" targetRef="usertask1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${username == 'kermit'}]]></conditionExpression>
+    <sequenceFlow id="flow5" name="loggedIn == true" sourceRef="exclusivegateway1" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${loggedIn}]]></conditionExpression>
     </sequenceFlow>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow6" sourceRef="usertask2" targetRef="exclusivegateway2"></sequenceFlow>
@@ -46,7 +46,7 @@
         <omgdi:waypoint x="220.0" y="197.0"></omgdi:waypoint>
         <omgdi:waypoint x="320.0" y="199.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="68.0" x="-40.0" y="3.0"></omgdc:Bounds>
+          <omgdc:Bounds height="13.0" width="78.0" x="-40.0" y="3.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">

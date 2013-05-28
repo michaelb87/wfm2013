@@ -7,11 +7,14 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import wfm.bean.User;
+import wfm.db.ACT_ID_USER;
 
 @Stateful
 @Named
@@ -23,6 +26,11 @@ public class LoginTask {
 
 	@Inject
 	private User user;
+	
+	private String logedIn="false";
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	public void checkLogin() {
 		if (user.getUsername().equals("kermit"))
@@ -31,9 +39,17 @@ public class LoginTask {
 
 	public ProcessInstance startLogin() {
 		System.out.println("login task called");
+		ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
+		if((dbUser != null) && (user.getPassword().equals(dbUser.getPwd_()))); //TODO fix
+		{
+			logedIn="true";
+			System.out.println("log debug: " + dbUser.toString());
+		}
 
-	    Map<String, Object> variables = new HashMap<String, Object>();
-	    variables.put("username", user.getUsername());
-	    return businessProcess.startProcessByKey("sccms", variables);
+		Map<String, Object> variables = new HashMap<String, Object>();
+		
+		
+		variables.put("loggedIn", logedIn);
+		return businessProcess.startProcessByKey("sccms", variables);
 	}
 }
