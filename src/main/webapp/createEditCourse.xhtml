@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+	
+   	
+	<h1>List of available courses</h1>
+	<h:form>
+			<p>
+				Hello Trainer!<br/><br/>Please select <u>one</u> of the following courses you want to edit or create a new one yourself!
+			</p>			
+
+			<h:dataTable value="#{courses.items}" var="v_course" id="courseList" frame="box" styleClass="rounded-corner" rowClasses="odd,even">
+				<h:column>
+					<f:facet name="header"><div id="start">ID</div></f:facet>
+					<h:outputText value="#{v_course.course.id}" />
+					<f:facet name="footer"><div id="start"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Name</div></f:facet>
+					<h:outputText value="#{v_course.course.name}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Description</div></f:facet>
+					<h:outputText value="#{v_course.course.desc}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Type</div></f:facet>
+					<h:outputText value="#{v_course.course.type}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Action</div></f:facet>
+					<!-- <h:commandLink value="Edit" action="#{businessProcess.completeTask(true)}"/> -->										
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+			</h:dataTable>
+		
+		
+	   
+    <p:panel header="Masks">  
+        <h:panelGrid columns="2" cellpadding="5">  
+            <h:outputText value="ID: " />  
+            <p:inputMask value="#{v_course.course.id}"/>  
+              
+            <h:outputText value="Name: " />  
+            <p:inputMask value="#{v_course.course.name}" />  
+              
+            <h:outputText value="Description: " />  
+            <p:inputMask value="#{v_course.course.description}" />  
+              
+            <h:outputText value="Type: " />  
+            <p:inputMask value="#{v_course.course.type}" />  
+              
+            <p:commandButton value="Reset" type="reset" />  
+            <p:commandButton value="Submit" update="display" oncomplete="dialog.show()"/>  
+  
+        </h:panelGrid>  
+    </p:panel>  
+      
+    <p:dialog widgetVar="dialog" modal="true">  
+        <h:panelGrid id="display" columns="2" cellpadding="5">  
+      
+            <h:outputText value="ID: " />  
+            <h:outputText value="#{v_course.course.id}"/>  
+              
+            <h:outputText value="Name: " />  
+            <h:outputText value="#{v_course.course.name}" />  
+              
+            <h:outputText value="Description: " />  
+            <h:outputText value="#{v_course.course.description}" />  
+              
+            <h:outputText value="Type: " />  
+            <h:outputText value="#{v_course.course.type}" />  
+      
+        </h:panelGrid>  
+    </p:dialog>  
+      
+</h:form>  
+	</ui:define>	
+</ui:composition>

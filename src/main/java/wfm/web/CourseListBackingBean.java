@@ -28,7 +28,7 @@ public class CourseListBackingBean implements Serializable{
 		
 		ItemEntry e1 = new ItemEntry();
 		Course c1 = new Course();
-		c1.setId("course1");
+		c1.setId("1");
 		c1.setName("Course 1");
 		c1.setDesc("Description 1");
 		c1.setType("indoor (bronze)");
@@ -37,7 +37,7 @@ public class CourseListBackingBean implements Serializable{
 		
 		ItemEntry e2 = new ItemEntry();
 		Course c2 = new Course();
-		c2.setId("course2");
+		c2.setId("2");
 		c2.setName("Course 2");
 		c2.setDesc("Description 2");
 		c2.setType("indoor (silver)");
@@ -46,17 +46,17 @@ public class CourseListBackingBean implements Serializable{
 		
 		ItemEntry e3 = new ItemEntry();
 		Course c3 = new Course();
-		c3.setId("prod3");
-		c3.setName("Product 3");
-		c3.setDesc("Descritpion 3");
+		c3.setId("3");
+		c3.setName("Course 3");
+		c3.setDesc("Description 3");
 		c3.setType("indoor (gold)");
 		e3.setCourse(c3);		
 		items.add(e3);
 		
 		ItemEntry e4 = new ItemEntry();
 		Course c4 = new Course();
-		c4.setId("prod4");
-		c4.setName("Product 4");
+		c4.setId("4");
+		c4.setName("Course 4");
 		c4.setDesc("Description 4");
 		c4.setType("outdoor (gold)");
 		e4.setCourse(c4);

@@ -39,13 +39,22 @@ public class LoginTask {
 
 	public ProcessInstance startLogin() {
 		System.out.println("login task called");
-		ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
-		if((dbUser != null) && (user.getPassword().equals(dbUser.getPwd_()))); //TODO fix
-		{
-			logedIn="true";
-			System.out.println("log debug: " + dbUser.toString());
+		
+		try{
+			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
+			
+			if((dbUser != null) && (user.getPassword().equals(dbUser.getPwd_()))) //TODO fix
+			{
+				logedIn="true";
+				System.out.println("log debug: " + dbUser.toString());
+			}
+			else if(dbUser == null) logedIn="false";
 		}
-
+		catch(Exception e){
+			System.out.println("uhoh..bad");
+			e.printStackTrace();			
+		}
+		
 		Map<String, Object> variables = new HashMap<String, Object>();
 		
 		
