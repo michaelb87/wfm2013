@@ -25,7 +25,7 @@
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
 		<navigation-case>
-			<if>#{businessProcess.getVariable("loggedIn")}</if>
+			<if>#{uiMediator.nextTaskId==null}</if>
             <to-view-id>/login.jsf</to-view-id>
 			<redirect />
 		</navigation-case>

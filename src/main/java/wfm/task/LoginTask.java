@@ -83,8 +83,11 @@ public class LoginTask {
 
 		}
 		
-		System.out.println("logged in? " + isLogedIn());
-		variables.put("loggedIn", true);
+		//if(businessProcess.) { //if we already tried to log in...
+			System.out.println(">>>" + businessProcess.getProcessInstanceId());
+			//businessProcess.completeTask();
+		//}
+		variables.put("loggedIn", logedIn);
 		return businessProcess.startProcessByKey("sccms", variables);
 	}
 }
