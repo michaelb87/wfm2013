@@ -1,6 +1,8 @@
 package wfm.task;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateful;
@@ -9,11 +11,13 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import wfm.bean.User;
+import wfm.db.ACT_ID_MEMBERSHIP;
 import wfm.db.ACT_ID_USER;
 
 @Stateful
@@ -26,8 +30,12 @@ public class LoginTask {
 
 	@Inject
 	private User user;
-	
-	private String logedIn="false";
+
+	private boolean logedIn = false;
+
+	public boolean isLogedIn() {
+		return logedIn;
+	}
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -38,26 +46,49 @@ public class LoginTask {
 	}
 
 	public ProcessInstance startLogin() {
-		System.out.println("login task called");
-		
-		try{
-			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
-			
-			if((dbUser != null) && (user.getPassword().equals(dbUser.getPwd_()))) //TODO fix
-			{
-				logedIn="true";
-				System.out.println("log debug: " + dbUser.toString());
-			}
-			else if(dbUser == null) logedIn="false";
-		}
-		catch(Exception e){
-			System.out.println("uhoh..bad");
-			e.printStackTrace();			
-		}
-		
 		Map<String, Object> variables = new HashMap<String, Object>();
+		variables.put("group", ""); //empty entry
 		
-		
+		System.out.println("login task called");
+
+		try {
+			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class,
+					user.getUsername());
+
+			if (dbUser != null) {
+				if (user.getPassword().equals(dbUser.getPwd_())) {
+					logedIn = true;
+					System.out.println("log debug: " + dbUser.toString());
+				} else {
+					logedIn = false;
+					user.setPassword("");
+				}
+			} else {
+				user.setPassword("");
+				user.setUsername("");
+			}
+		} catch (Exception e) {
+			System.out.println("Exception parsing login from db");
+			// e.printStackTrace();
+		}
+
+		if (isLogedIn()) { // check for membership type
+
+			Query q = entityManager
+					.createNativeQuery("SELECT group_ID_  FROM ACT_ID_MEMBERSHIP a WHERE a.USER_ID_ ='"
+							+ user.getUsername() + "'");
+
+			@SuppressWarnings("unchecked")
+			List<String> userGroups = q.getResultList();
+			if (userGroups.contains("Trainer")) {
+				variables.put("group", "Trainer");
+			} else if (userGroups.contains("Member")) {
+				variables.put("group", "Member");
+			}
+
+			variables.put("group", "Member");
+		}
+
 		variables.put("loggedIn", logedIn);
 		return businessProcess.startProcessByKey("sccms", variables);
 	}
