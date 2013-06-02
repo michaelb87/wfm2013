@@ -34,7 +34,7 @@ public class LoginTask {
 	@Inject
 	private UIMediator uiMediator;
 
-	public boolean logedIn=false;
+	public boolean logedIn = false;
 
 	public boolean isLogedIn() {
 		return logedIn;
@@ -61,11 +61,15 @@ public class LoginTask {
 			if (dbUser != null) {
 				if (user.getPassword().equals(dbUser.getPwd_())) {
 					logedIn = true;
-					System.out.println("log debug: " + dbUser.toString());
-				} else
+				} else {
+					user.setPassword("");
 					logedIn = false;
-			} else
+				}
+			} else {
+				user.setPassword("");
+				user.setUsername("");
 				logedIn = false;
+			}
 		} catch (Exception e) {
 			System.out.println("Exception parsing login from db");
 			// e.printStackTrace();
@@ -86,14 +90,13 @@ public class LoginTask {
 			}
 
 		}
-		
-		
-			System.out.println("is logged in? " + isLogedIn());
-			//businessProcess.completeTask();
-		//}
+
+		System.out.println("is logged in? " + isLogedIn());
+		// businessProcess.completeTask();
+		// }
 		variables.put("loggedIn", logedIn);
 		try {
-		return businessProcess.startProcessByKey("sccms", variables);
+			return businessProcess.startProcessByKey("sccms", variables);
 		} catch (ActivitiCdiException ex) {
 			System.out.println("no process found... this is very dirty!");
 		}
