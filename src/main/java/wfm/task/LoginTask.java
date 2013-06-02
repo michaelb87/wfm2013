@@ -12,11 +12,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.activiti.cdi.ActivitiCdiException;
 import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import wfm.bean.User;
 import wfm.db.ACT_ID_USER;
+import wfm.uimediator.UIMediator;
 
 @Stateful
 @Named
@@ -29,8 +31,10 @@ public class LoginTask {
 	@Inject
 	private User user;
 
+	@Inject
+	private UIMediator uiMediator;
 
-	public boolean logedIn;
+	public boolean logedIn=false;
 
 	public boolean isLogedIn() {
 		return logedIn;
@@ -46,7 +50,7 @@ public class LoginTask {
 
 	public ProcessInstance startLogin() {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("group", ""); // empty entry
+		variables.put("group", "empty"); // empty entry
 
 		System.out.println("login task called");
 
@@ -83,11 +87,16 @@ public class LoginTask {
 
 		}
 		
-		//if(businessProcess.) { //if we already tried to log in...
-			System.out.println(">>>" + businessProcess.getProcessInstanceId());
+		
+			System.out.println("is logged in? " + isLogedIn());
 			//businessProcess.completeTask();
 		//}
 		variables.put("loggedIn", logedIn);
+		try {
 		return businessProcess.startProcessByKey("sccms", variables);
+		} catch (ActivitiCdiException ex) {
+			System.out.println("no process found... this is very dirty!");
+		}
+		return null;
 	}
 }

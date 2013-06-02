@@ -7,10 +7,17 @@
       http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
 
+
+
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
-
 		<navigation-case>
+		<if>#{loginTask.logedIn==false}</if>		
+			<to-view-id>/login.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<if>#{uiMediator.nextTaskId!=null}</if>
 			<to-view-id>#{uiMediator.nextTaskForm}.jsf</to-view-id>
 			<redirect>
 				<view-param>
@@ -18,21 +25,6 @@
 					<value>#{uiMediator.nextTaskId}</value>
 				</view-param>
 			</redirect>
-		</navigation-case>
-	</navigation-rule>
-	
-	
-	<navigation-rule>
-		<from-view-id>/login.xhtml</from-view-id>
-		<navigation-case>
-			<if>#{uiMediator.nextTaskId==null}</if>
-            <to-view-id>/login.jsf</to-view-id>
-			<redirect />
-		</navigation-case>
-		<navigation-case>
-			<if>#{uiMediator.nextTaskId!=null}</if>
-            <to-view-id>#{uiMediator.nextTaskForm}.jsf</to-view-id>
-	        <redirect />
 		</navigation-case>
 	</navigation-rule>
 
