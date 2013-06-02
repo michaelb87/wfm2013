@@ -1,7 +1,6 @@
 package wfm.task;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,6 @@ import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import wfm.bean.User;
-import wfm.db.ACT_ID_MEMBERSHIP;
 import wfm.db.ACT_ID_USER;
 
 @Stateful
@@ -31,7 +29,8 @@ public class LoginTask {
 	@Inject
 	private User user;
 
-	private boolean logedIn = false;
+
+	public boolean logedIn;
 
 	public boolean isLogedIn() {
 		return logedIn;
@@ -47,8 +46,8 @@ public class LoginTask {
 
 	public ProcessInstance startLogin() {
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("group", ""); //empty entry
-		
+		variables.put("group", ""); // empty entry
+
 		System.out.println("login task called");
 
 		try {
@@ -59,14 +58,10 @@ public class LoginTask {
 				if (user.getPassword().equals(dbUser.getPwd_())) {
 					logedIn = true;
 					System.out.println("log debug: " + dbUser.toString());
-				} else {
+				} else
 					logedIn = false;
-					user.setPassword("");
-				}
-			} else {
-				user.setPassword("");
-				user.setUsername("");
-			}
+			} else
+				logedIn = false;
 		} catch (Exception e) {
 			System.out.println("Exception parsing login from db");
 			// e.printStackTrace();
@@ -86,10 +81,10 @@ public class LoginTask {
 				variables.put("group", "Member");
 			}
 
-			variables.put("group", "Member");
 		}
-
-		variables.put("loggedIn", logedIn);
+		
+		System.out.println("logged in? " + isLogedIn());
+		variables.put("loggedIn", true);
 		return businessProcess.startProcessByKey("sccms", variables);
 	}
 }
