@@ -35,16 +35,19 @@ public class UiMediatedBusinessProcessBean extends BusinessProcess {
 	@Transactional
 	// JPA and Activiti shall do it in the same transaction
 	public void completeTask() {
-		System.out.println("yes it fired!!!!!!!! i am so happy");
-		taskCompletionEvent.fire(new TaskCompletionEvent());
 
+		taskCompletionEvent.fire(new TaskCompletionEvent());
+		System.out.println("yes it fired!!!!!!!! i am so happy");
+		
 		Task task = getTask();
+		System.out.println("task: " + task.getName() + " / processid: " + task.getProcessInstanceId());
 		super.completeTask();
 
 		if (task != null) {
 			uiMediator.checkProcessInstanceStatus(task.getAssignee(),
 					task.getProcessInstanceId());
 		}
+		System.out.println(">>");
 	}
 
 	@Override
