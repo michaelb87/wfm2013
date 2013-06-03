@@ -6,7 +6,7 @@
 	template="/WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
 	
-		<h1>Login:</h1><br />Please put in your credentials to proceed to the course selection!
+		<h2>Login:</h2><br />Please put in your credentials to proceed to the course selection!
 		<h:form>
 			<table>
 				<tr>
@@ -21,7 +21,7 @@
 				</tr>
 				<tr>
 					<td></td>
-					<td><h:commandButton action="#{loginTask.startLogin()}" value="save" type="submit" /></td>
+					<td><h:commandButton action="#{loginTask.startLogin()}" value="login" type="submit" /></td>
 				</tr>
 			</table>
 		</h:form>

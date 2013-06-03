@@ -2,11 +2,12 @@ package wfm.bean;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Named
-@XmlRootElement //SessionScoped
+@SessionScoped
 public class Course implements Serializable{
 	
 	private static final long serialVersionUID = 7576303891011573948L;
@@ -14,7 +15,11 @@ public class Course implements Serializable{
 	private String id; 
 	private String name;
 	private String desc;
+	private String memberType;
 	private String type; //indoor , outdoor
+	
+
+
 	
 	public Course(){
 		
@@ -48,6 +53,13 @@ public class Course implements Serializable{
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	public String getMemberType() {
+		return memberType;
+	}
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 	
 }

@@ -10,13 +10,39 @@
 		</f:metadata>
 
 
-		<h1>Create new Course</h1>
+		<h2>Add a new course</h2>
+
+		<p>Here you can add a new course!</p>
 		<h:form>
-			<p>
-				Hello ${user.username}<br />
-			</p>
+			<table>
+				<tr>
+					<td style="font-weight: bold;">Course name:</td>
+					<td><h:inputText id="course.name" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">Course description:</td>
+					<td><h:inputText id="course.desc" value="" />
+					</td>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">Member Type:</td>
+					<td><h:inputText id="course.memberType" value="gold" />
+					</td>
 
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">indoor/outdoor:</td>
+					<td><h:inputText id="course.type" value="indoor" />
+					</td>
 
+				</tr>
+				<tr>
+					<td />
+					<td><h:commandButton action="#{addCourseTask.goToAddCourse(taskId)}" value="done" type="submit" />
+					</td>
+				</tr>
+			</table>
 		</h:form>
 	</ui:define>
 </ui:composition>

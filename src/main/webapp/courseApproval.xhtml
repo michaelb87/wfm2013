@@ -10,16 +10,14 @@
    	</f:metadata>
 	
    	
-	<h1>Approve course registrations</h1>
-	<h:form>
+	<h2>Approve course registrations</h2>
+
 			<p>
 				Hello ${user.username}<br/>
 				<h:form>
-				<h:commandButton action="#{courseApprovalTask.goToAddCourse(taskId)}" value="done" type="Add Course" />
+				<h:commandButton action="#{courseApprovalTask.goToAddCourse(taskId)}" value="Add new course" type="submit" />
 				</h:form>
 			</p>			
 
-			
-		</h:form>
 	</ui:define>	
 </ui:composition>
