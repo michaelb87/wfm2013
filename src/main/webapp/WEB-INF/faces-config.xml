@@ -47,6 +47,25 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
+	
+		<navigation-rule>
+		<from-view-id>/addCourse.xhtml</from-view-id>
+		<navigation-case>
+			<if>#{uiMediator.nextTaskId!=null}</if>
+			<to-view-id>#{uiMediator.nextTaskForm}.jsf</to-view-id>
+			<redirect>
+				<view-param>
+					<name>taskId</name>
+					<value>#{uiMediator.nextTaskId}</value>
+				</view-param>
+			</redirect>
+		</navigation-case>
+				<navigation-case>
+			<if>#{uiMediator.nextTaskId==null}</if>
+			<to-view-id>login.jsf</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
 
 
 

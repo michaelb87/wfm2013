@@ -17,29 +17,23 @@
 			<table>
 				<tr>
 					<td style="font-weight: bold;">Course name:</td>
-					<td><h:inputText id="course.name" value="" />
+					<td><h:inputText value="#{course.name}" />
 					</td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Course description:</td>
-					<td><h:inputText id="course.desc" value="" />
+					<td><h:inputText value="#{course.desc}" />
 					</td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Member Type:</td>
-					<td><h:inputText id="course.memberType" value="gold" />
+					<td><h:inputText value="#{course.memberType}" />
 					</td>
 
 				</tr>
-				<tr>
-					<td style="font-weight: bold;">indoor/outdoor:</td>
-					<td><h:inputText id="course.type" value="indoor" />
-					</td>
-
-				</tr>
-				<tr>
+					<tr>
 					<td />
-					<td><h:commandButton action="#{addCourseTask.goToAddCourse(taskId)}" value="done" type="submit" />
+					<td><h:commandButton action="#{addCourseTask.addCourse(taskId)}" value="done" type="submit" />
 					</td>
 				</tr>
 			</table>

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import wfm.db.Course;
+
 @XmlRootElement 
 public class ItemEntry implements Serializable
 {

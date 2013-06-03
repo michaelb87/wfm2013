@@ -31,9 +31,6 @@ public class LoginTask {
 	@Inject
 	private User user;
 
-	@Inject
-	private UIMediator uiMediator;
-
 	public boolean logedIn = false;
 
 	public boolean isLogedIn() {

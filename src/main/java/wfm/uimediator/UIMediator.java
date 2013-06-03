@@ -50,12 +50,12 @@ public class UIMediator implements Serializable {
     }
   }
   public String getNextTaskId() {
-	  System.out.println("nextTaskID:  " + nextTaskId);
+	 // System.out.println("nextTaskID:  " + nextTaskId);
     return nextTaskId;
   }
 
   public String getNextTaskForm() {
-	  System.out.println("nextTaskForm:  " + nextTaskForm);
+	 // System.out.println("nextTaskForm:  " + nextTaskForm);
     return nextTaskForm;
   }
 
