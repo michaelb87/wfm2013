@@ -21,11 +21,7 @@ public class CourseApprovalTask {
 		System.out.println("going to add course soon... hope we can complete??");
 		businessProcess.startTask(taskId);
 		businessProcess.setVariable("approvalAction", "add");
-		try {
 		businessProcess.completeTask();
-		} catch(ActivitiCdiException e) {
-			System.out.println("no such task exception @ courseApprovalTask");
-		}
 		
 	}
 
