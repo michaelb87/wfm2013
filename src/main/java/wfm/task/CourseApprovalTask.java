@@ -17,8 +17,9 @@ public class CourseApprovalTask {
 	@Inject
 	private BusinessProcess businessProcess;
 	
-	public void goToAddCourse() {
+	public void goToAddCourse(String taskId) {
 		System.out.println("going to add course soon... hope we can complete??");
+		businessProcess.startTask(taskId);
 		businessProcess.setVariable("approvalAction", "add");
 		try {
 		businessProcess.completeTask();

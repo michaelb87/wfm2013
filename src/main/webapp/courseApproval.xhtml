@@ -5,9 +5,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
-		<f:metadata>
-		<f:viewParam name="taskId" />
-		<f:event type="preRenderView" listener="#{businessProcess.startTask(taskId, true)}" />            
+	<f:metadata>
+		<f:viewParam name="taskId" />      
    	</f:metadata>
 	
    	
@@ -16,7 +15,7 @@
 			<p>
 				Hello ${user.username}<br/>
 				<h:form>
-				<h:commandButton action="#{courseApprovalTask.goToAddCourse}" value="done" type="Add Course" />
+				<h:commandButton action="#{courseApprovalTask.goToAddCourse(taskId)}" value="done" type="Add Course" />
 				</h:form>
 			</p>			
 

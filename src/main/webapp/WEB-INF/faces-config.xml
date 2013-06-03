@@ -30,12 +30,17 @@
 
 
 	<navigation-rule>
+		<from-view-id>/courseApproval.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>/courseApproval.xhtml</from-action>
 			<if>#{uiMediator.nextTaskId!=null}</if>
 			<to-view-id>#{uiMediator.nextTaskForm}.jsf</to-view-id>
-			<redirect/>
+			<redirect>
+				<view-param>
+					<name>taskId</name>
+					<value>#{uiMediator.nextTaskId}</value>
+				</view-param>
 
+			</redirect>
 		</navigation-case>
 	</navigation-rule>
 

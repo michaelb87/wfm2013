@@ -5,15 +5,18 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
-	
-   	
-	<h1>Create new Course</h1>
-	<h:form>
-			<p>
-				Hello ${user.username}<br/>
-			</p>			
+		<f:metadata>
+			<f:viewParam name="taskId" />
+		</f:metadata>
 
-			
+
+		<h1>Create new Course</h1>
+		<h:form>
+			<p>
+				Hello ${user.username}<br />
+			</p>
+
+
 		</h:form>
-	</ui:define>	
+	</ui:define>
 </ui:composition>

@@ -76,6 +76,7 @@ public class LoginTask {
 		}
 
 		if (isLogedIn()) { // check for membership type
+			variables.put("username", user.getUsername());
 
 			Query q = entityManager
 					.createNativeQuery("SELECT group_ID_  FROM ACT_ID_MEMBERSHIP a WHERE a.USER_ID_ ='"
@@ -91,10 +92,8 @@ public class LoginTask {
 
 		}
 
-		System.out.println("is logged in? " + isLogedIn());
-		// businessProcess.completeTask();
-		// }
 		variables.put("loggedIn", logedIn);
+		
 		try {
 			return businessProcess.startProcessByKey("sccms", variables);
 		} catch (ActivitiCdiException ex) {
