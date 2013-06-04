@@ -8,9 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@Entity
 @Named
 @ConversationScoped
-@Entity
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = -2556217790431280277L;

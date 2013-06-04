@@ -33,14 +33,15 @@ public class addCourseTask {
 	public void addCourse(String taskId) {
 		businessProcess.startTask(taskId);
 		
+		course.setCourse_nr(10);
 		course.setMaxMembers(10);
 		course.setIndoor(true);
 		course.setTrainer(user.getUsername());
 
 		System.out.println("Course: " + course.toString());
 		// add to database:
-		//entityManager.persist(course);
-		//entityManager.flush();
+		entityManager.persist(course);
+		entityManager.flush();
 
 		businessProcess.setVariable("approvalAction", "logout");
 		businessProcess.completeTask();
