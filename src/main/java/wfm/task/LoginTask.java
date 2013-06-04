@@ -19,6 +19,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import wfm.bean.User;
 import wfm.db.ACT_ID_USER;
 import wfm.uimediator.UIMediator;
+import wfm.bean.CourseListBackingBean;
 
 @Stateful
 @Named
@@ -30,6 +31,9 @@ public class LoginTask {
 
 	@Inject
 	private User user;
+	
+	@Inject
+	private CourseListBackingBean courses;
 
 	public boolean logedIn = false;
 
@@ -40,10 +44,10 @@ public class LoginTask {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void checkLogin() {
+	/*public void checkLogin() {
 		if (user.getUsername().equals("kermit"))
 			System.out.println("kermit logged in");
-	}
+	}*/
 
 	public ProcessInstance startLogin() {
 		Map<String, Object> variables = new HashMap<String, Object>();
@@ -85,17 +89,23 @@ public class LoginTask {
 				variables.put("group", "Trainer");
 			} else if (userGroups.contains("Member")) {
 				variables.put("group", "Member");
+				
 			}
 
 		}
 
 		variables.put("loggedIn", logedIn);
 		
+
+		
 		try {
 			return businessProcess.startProcessByKey("sccms", variables);
 		} catch (ActivitiCdiException ex) {
 			System.out.println("no process found... this is very dirty!");
 		}
+		
+		
+		
 		return null;
 	}
 }

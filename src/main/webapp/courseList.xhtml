@@ -13,13 +13,13 @@
 	<h1>List of available courses</h1>
 	<h:form>
 			<p>
-				Hello user ${user.username}! <br/><br/>Please select <u>one</u> of the following courses you want to attend!
+				Hello ${user.username}! <br/><br/>Please select <u>one</u> of the following courses you want to attend!
 			</p>			
 
 			<h:dataTable value="#{courses.items}" var="v_course" id="courseList" frame="box" styleClass="rounded-corner" rowClasses="odd,even">
 				<h:column>
-					<f:facet name="header"><div id="start">ID</div></f:facet>
-					<h:outputText value="#{v_course.course.id}" />
+					<f:facet name="header"><div id="start">Number</div></f:facet>
+					<h:outputText value="#{v_course.course.course_nr}" />
 					<f:facet name="footer"><div id="start"> </div></f:facet>
 				</h:column>
 				<h:column>
@@ -33,13 +33,23 @@
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
 				<h:column>
-					<f:facet name="header"><div id="mid">Type</div></f:facet>
-					<h:outputText value="#{v_course.course.type}" />
+					<f:facet name="header"><div id="mid">Trainer</div></f:facet>
+					<h:outputText value="#{v_course.course.trainer}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Capacity</div></f:facet>
+					<h:outputText value="#{v_course.course.maxMembers}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>				
+				<h:column>
+					<f:facet name="header"><div id="mid">Indoor</div></f:facet>					
+					<h:selectBooleanCheckbox value="#{v_course.course.indoor}" />
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
 				<h:column>
 					<f:facet name="header"><div id="mid">Action</div></f:facet>
-					<h:commandLink value="Register" action="#{businessProcess.completeTask(true)}"/>										
+					<h:commandLink value="Register" action="#{registerCourseTask.registerCourse(taskId)}"/>										
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
 			</h:dataTable>
