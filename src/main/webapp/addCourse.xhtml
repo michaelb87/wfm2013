@@ -17,24 +17,35 @@
 			<table>
 				<tr>
 					<td style="font-weight: bold;">Course name:</td>
-					<td><h:inputText value="#{course.name}" />
-					</td>
+					<td><h:inputText value="#{course.name}" /></td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Course description:</td>
-					<td><h:inputText value="#{course.desc}" />
-					</td>
+					<td><h:inputText value="#{course.desc}" /></td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Member Type:</td>
-					<td><h:inputText value="#{course.memberType}" />
-					</td>
+					<td><h:selectOneMenu value="#{course.memberType}" var="type">
+							<f:selectItems value="#{membershipTypes.types}" />
+						</h:selectOneMenu></td>
 
 				</tr>
-					<tr>
+
+				<tr>
+					<td style="font-weight: bold;">Capacity:</td>
+					<td><h:inputText value="#{course.maxMembers}" /></td>
+				</tr>
+
+				<tr>
+					<td style="font-weight: bold;">Indoor</td>
+					<td><h:selectBooleanCheckbox value="#{course.indoor}" /></td>
+
+				</tr>
+				<tr>
 					<td />
-					<td><h:commandButton action="#{addCourseTask.addCourse(taskId)}" value="done" type="submit" />
-					</td>
+					<td><h:commandButton
+							action="#{addCourseTask.addCourse(taskId)}" value="done"
+							type="submit" /></td>
 				</tr>
 			</table>
 		</h:form>
