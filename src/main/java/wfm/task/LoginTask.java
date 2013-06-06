@@ -15,16 +15,17 @@ import javax.persistence.Query;
 import org.activiti.cdi.ActivitiCdiException;
 import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.apache.log4j.Logger;
 
 import wfm.bean.User;
 import wfm.db.ACT_ID_USER;
-import wfm.uimediator.UIMediator;
 import wfm.bean.CourseListBackingBean;
 
 @Stateful
 @Named
 @ConversationScoped
 public class LoginTask {
+	private static final Logger log = Logger.getLogger(LoginTask.class.getName());
 
 	@Inject
 	private BusinessProcess businessProcess;
@@ -54,6 +55,8 @@ public class LoginTask {
 		variables.put("group", "empty"); // empty entry
 
 		System.out.println("login task called");
+		log.debug("logger works");
+		log.info("Test");
 
 		try {
 			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class,
