@@ -24,5 +24,12 @@ public class CourseApprovalTask {
 		businessProcess.completeTask();
 		
 	}
+	public void goToDeleteCourse(String taskId) {
+		System.out.println("going to delete course soon... hope we can complete??");
+		businessProcess.startTask(taskId);
+		businessProcess.setVariable("approvalAction", "delete");
+		businessProcess.completeTask();
+		
+	}
 
 }

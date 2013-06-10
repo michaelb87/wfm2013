@@ -28,11 +28,14 @@ public class CourseListBackingBean implements Serializable{
 	private String page = "";*/
 
 	private List<ItemEntry> items;
+	private List<ItemEntry> personalItems; //for showing up in the delete courses screen
 
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	@Inject
+	private User user;
 
 	public List<ItemEntry> getItems(){
 
@@ -52,14 +55,36 @@ public class CourseListBackingBean implements Serializable{
 		}
 
 		return (ArrayList<ItemEntry>) items;
-
-
 	}
-
-
 	public void setItems(List<ItemEntry> items)
 	{
 		this.items = items;
+	}
+	
+	public List<ItemEntry> getPersonalItems(){
+		
+		System.out.println("Username for showing personal courses: "+user.getUsername());
+		
+		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.trainer='"+user.getUsername()+"'");
+		@SuppressWarnings("unchecked")
+		List<Course> courses =  query.getResultList();
+		System.out.println("Anzahl Kurse: "+courses.size());
+
+		personalItems = new ArrayList<ItemEntry>();
+		ItemEntry e;
+		Course c;
+		for(int i= 0; i<courses.size(); i++){
+			e = new ItemEntry();
+			c = courses.get(i);
+			e.setCourse(c);
+			personalItems.add(e);
+		}
+
+		return (ArrayList<ItemEntry>) personalItems;
+	}
+	public void setPersonalItems(List<ItemEntry> personalItems)
+	{
+		this.personalItems = personalItems;
 	}
 
 	/*public String getPage() { return page; }

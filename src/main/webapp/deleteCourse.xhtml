@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="taskId" />
+		</f:metadata>
+
+
+		<h2>Delete one of the courses</h2>
+
+		<p>Here you can delete one of the courses!</p>		
+		<h:form>
+			
+			<h:dataTable value="#{courses.personalItems}" var="v_course" id="courseList" frame="box" styleClass="rounded-corner" rowClasses="odd,even">
+				<h:column>
+					<f:facet name="header"><div id="start">Number</div></f:facet>
+					<h:outputText value="#{v_course.course.course_nr}" />
+					<f:facet name="footer"><div id="start"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Name</div></f:facet>
+					<h:outputText value="#{v_course.course.name}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Description</div></f:facet>
+					<h:outputText value="#{v_course.course.desc}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Trainer</div></f:facet>
+					<h:outputText value="#{v_course.course.trainer}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Capacity</div></f:facet>
+					<h:outputText value="#{v_course.course.maxMembers}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>				
+				<h:column>
+					<f:facet name="header"><div id="mid">Indoor</div></f:facet>					
+					<h:selectBooleanCheckbox value="#{v_course.course.indoor}" />
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header"><div id="mid">Action</div></f:facet>
+					<h:commandLink value="Delete" action="#{deleteCourseTask.deleteCourse(taskId, v_course.course.course_nr)}"/>										
+					<f:facet name="footer"><div id="mid"> </div></f:facet>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
