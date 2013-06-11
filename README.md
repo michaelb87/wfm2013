@@ -9,13 +9,18 @@ First steps after deploying the project in Jboss 7:
 2. click on Verwalten and then on Benutzer
 3. click on Benutzer anlegen and fill in the data 
 4. click on Gruppen and then on Gruppe anlegen
-5. make sure to create 2 groups (Trainer & member)
-6. assign groupmembers by clicking on the "+" symbol
+5. create 2 groups (Trainer & Member), make sure to use capital letters at the beginning 
+6. create 3 groups for the sportscenter mempershiptypes (Bronze, Silver, Gold)
+7. assign groupmembers by clicking on the "+" symbol (either Trainer or Member and if Member either Bronze, Silver or Gold)
+
 --- varifying the h2 (optional)
-7. login with url: jdbc:h2:./fox-h2-dbs/fox-engine    username: sa pw: sa
-8. Run SELECT * FROM ACT_ID_USER 
-9. Make sure the users you just created are there
-10. Run SELECT * FROM ACT_ID_GROUP (Trainer & member should exist now)
-11. Run SELECT * FROM ACT_ID_MEMBERSHIP 
-13. make sure the user you created (or existing ones) have a group ID of either Trainer or member
+8.  login with url: jdbc:h2:./fox-h2-dbs/fox-engine    username: sa pw: sa
+9.  Run SELECT * FROM ACT_ID_USER 
+10. Make sure the users you just created are there
+11. Run SELECT * FROM ACT_ID_GROUP (Trainer, Member, etc. should exist now)
+12. Run SELECT * FROM ACT_ID_MEMBERSHIP 
+13. make sure the user you created (or existing ones) have a group ID of either Trainer or Member and if Member either Bronze, Silver or Gold
 14. Open http://localhost:8080/sportcenter and login with user/pw
+
+--- Twitter Account
+https://twitter.com/sccms

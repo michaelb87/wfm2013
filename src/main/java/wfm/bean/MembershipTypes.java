@@ -23,9 +23,9 @@ public class MembershipTypes implements Serializable{
 	public List<SelectItem> getTypes() {
 	    List<SelectItem> retVal = new ArrayList<SelectItem>();
 
-	    retVal.add(new SelectItem("bronze"));
-	    retVal.add(new SelectItem("silver"));
-	    retVal.add(new SelectItem("gold"));
+	    retVal.add(new SelectItem("Bronze"));
+	    retVal.add(new SelectItem("Silver"));
+	    retVal.add(new SelectItem("Gold"));
 
 	    return retVal;
 	}

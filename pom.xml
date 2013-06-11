@@ -12,9 +12,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<fox.version>1.33.0</fox.version>
+
+		<log4j.properties.directory>src/main/resources</log4j.properties.directory>
 	</properties>
 
+
+
 	<dependencies>
+
 		<dependency>
 			<groupId>com.camunda.fox.platform</groupId>
 			<artifactId>fox-platform-client</artifactId>
@@ -47,6 +52,8 @@
 			<version>1.1</version>
 		</dependency>
 
+
+
 		<!-- dependencies are only used for tests -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -78,12 +85,41 @@
 			<scope>test</scope>
 		</dependency>
 
+
+		<!-- logging dependencies -->
+		
+		
+<!-- 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
+			<version>1.2.16</version>
+		</dependency>
+ -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		 <!-- twitter dependency -->
+		 
+		<dependency>
+			<groupId>org.twitter4j</groupId>
+			<artifactId>twitter4j-core</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+		
+		
+            
 		<!-- Add your own dependencies here, if in compile scope, they are added 
 			to the war -->
 
@@ -105,6 +141,10 @@
 	</repositories>
 
 	<build>
+
+
+
+
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
@@ -135,6 +175,9 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+
+
 	</build>
 
 </project>
