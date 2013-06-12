@@ -7,6 +7,7 @@
 	<ui:define name="content">
 		<f:metadata>
 			<f:viewParam name="taskId" />
+			<f:event type="preRenderView" listener="#{businessProcess.startTask(taskId, true)}" />   
 		</f:metadata>
 
 
@@ -42,10 +43,11 @@
 
 				</tr>
 				<tr>
-					<td />
+
 					<td><h:commandButton
 							action="#{addCourseTask.addCourse(taskId)}" value="done"
 							type="submit" /></td>
+					<td><h:commandButton action="#{businessProcess.completeTask(true)}" value="cancel" type="submit"/></td>
 				</tr>
 			</table>
 		</h:form>

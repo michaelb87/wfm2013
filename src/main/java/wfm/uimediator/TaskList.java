@@ -12,6 +12,8 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.task.Task;
 
+import wfm.bean.User;
+
 @SessionScoped
 @Named
 public class TaskList implements Serializable {
@@ -23,13 +25,17 @@ public class TaskList implements Serializable {
 
   @Inject
   private FormService formService;
+  
+  @Inject
+  private User user;
 
   public void update() {
-    // do nothing here, since a refreh trigger a reload of the list anyway
+    // do nothing here
   }
 
   public List<Task> getList() {
-    return taskService.createTaskQuery().list();
+	  //this query is for testing purposes only! we list all "add course"-tasks assigned to the user... could also list all tasks assigned to group ect.
+    return taskService.createTaskQuery().taskAssignee(user.getUsername()).taskName("add course").list();
   }
 
   public String getFormKey(Task task) {

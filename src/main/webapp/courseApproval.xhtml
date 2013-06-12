@@ -18,7 +18,19 @@
 				<h:commandButton action="#{courseApprovalTask.goToAddCourse(taskId)}" value="Add new course" type="submit" />
 				<h:commandButton action="#{courseApprovalTask.goToDeleteCourse(taskId)}" value= "Delete existing course" type="submit"/>
 				</h:form>
-			</p>			
+			</p>
+			<h2>Please confirm the following course registrations:</h2>
+	<h:form>
+	    <h:dataTable value="#{taskList.list}" var="thisTask" id="list" cellspacing="0" rowClasses="odd, even" styleClass="datatable">
+			<h:column><strong>	#{thisTask.name}		</strong></h:column>
+			<h:column>			#{thisTask.createTime}	</h:column>
+			<h:column>			#{thisTask.dueDate}		</h:column>			
+			<h:column>			#{thisTask.assignee}	</h:column>			
+			<h:column>	
+				<h:outputLink value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">do it</h:outputLink>
+			</h:column>		
+	    </h:dataTable>	
+	</h:form>			
 
 	</ui:define>	
 </ui:composition>
