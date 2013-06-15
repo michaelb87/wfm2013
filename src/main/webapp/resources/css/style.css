@@ -1,0 +1,12 @@
+
+.error-msg {
+	color:red;
+	margin:8px;	
+	border-style:groove;
+	border-color:red;
+	border-width:thin;
+	text-align:justify;
+	background-color:#FEFEFE;
+	font-weight:bold;
+	font-size:120%;
+}

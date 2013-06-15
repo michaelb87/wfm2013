@@ -15,14 +15,21 @@
 
 		<p>Here you can add a new course!</p>
 		<h:form>
+			<h:messages class="error-msg" tooltip="true" layout="table"/>
 			<table>
 				<tr>
 					<td style="font-weight: bold;">Course name:</td>
-					<td><h:inputText value="#{course.name}" /></td>
+					<td><h:inputText id="course_name" value="#{course.name}">
+						 	<f:validateLength minimum="3"/>
+						</h:inputText>
+					</td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Course description:</td>
-					<td><h:inputText value="#{course.desc}" /></td>
+					<td><h:inputText id="course_description" value="#{course.desc}">
+							<f:validateLength minimum="3"/>
+						</h:inputText>
+					</td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Member Type:</td>
@@ -34,7 +41,10 @@
 
 				<tr>
 					<td style="font-weight: bold;">Capacity:</td>
-					<td><h:inputText value="#{course.maxMembers}" /></td>
+					<td><h:inputText id="capacity" value="#{course.maxMembers}" >
+							<f:validateLongRange minimum="5" maximum="100"/>
+						</h:inputText>
+					</td>
 				</tr>
 
 				<tr>
@@ -42,14 +52,14 @@
 					<td><h:selectBooleanCheckbox value="#{course.indoor}" /></td>
 
 				</tr>
+				
 				<tr>
-
 					<td><h:commandButton
 							action="#{addCourseTask.addCourse(taskId)}" value="done"
 							type="submit" /></td>
 					<td><h:commandButton action="#{businessProcess.completeTask(true)}" value="cancel" type="submit"/></td>
 				</tr>
-			</table>
+			</table>			
 		</h:form>
 	</ui:define>
 </ui:composition>

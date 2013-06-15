@@ -10,6 +10,11 @@ import java.util.Properties;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -43,19 +48,19 @@ import org.slf4j.LoggerFactory;
 @Named
 @ConversationScoped
 public class LoginTask {
-	
+
 	private static final String ACCESS_TOKEN = "1507264177-0ftwhAZ15w0WH90mGchgYdPRD2EEyEJLRKfHtm8";
 	private static final String ACCESS_TOKEN_SECRET = "SKENHIkD28MfI3gaXEWDOaCtG9TTYFUmT4fz7VPPo";
 	private static final String CONSUMER_KEY = "EFC6rs5cgA8MV37KjTisqg";
 	private static final String CONSUMER_SECRET = "hx9eWPpklMNLj8RfMPZtd5Vusj3sK7SSu4Ah9yRuQ";
 
-	
+
 	//private static final Logger log = Logger.getLogger(LoginTask.class);
 	//private static final Log log = LogFactory.getLog(LoginTask.class);
 
 	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
-	
+
 
 	@Inject
 	private BusinessProcess businessProcess;
@@ -107,7 +112,7 @@ public class LoginTask {
 			}
 		} catch (Exception e) {
 			log.error("Exception parsing login from db: "+e.getMessage());
-			
+
 		}
 
 		if (isLogedIn()) { // check if Trainer or Member
@@ -138,30 +143,67 @@ public class LoginTask {
 		} catch (ActivitiCdiException ex) {
 			log.error("no process found... "+ex.getMessage());
 		}
-
-
-
 		return null;
+	}
+
+	public void validateUser(FacesContext context, UIComponent component, Object value) {
+		ACT_ID_USER dbUser = null;
+		try {		
+			dbUser = entityManager.find(ACT_ID_USER.class, ((String) value));
+		} catch (Exception e) {
+			log.error("Exception parsing login from db: "+e.getMessage());
+
+		}
+		if (dbUser!=null) {
+			user.setUsername(dbUser.getId_());
+		}	
+		else {user.setUsername(null);}
+	}
+
+	public void validatePw(FacesContext context, UIComponent component, Object value){
+		ACT_ID_USER dbUser =null;
+		try {		
+			dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
+
+			}	catch (Exception e) {
+				log.error("Exception parsing login from db: "+e.getMessage());
+
+			}
+		
+		if (dbUser == null || value==null || !dbUser.getPwd_().equals((String) value)) {
+
+			((UIInput)component).setValid(false);
+			FacesMessage message = new FacesMessage();
+			message.setSeverity(FacesMessage.SEVERITY_INFO);
+			message.setSummary("WRONG USERNAME OR PASSWORD");
+			message.setDetail("Please recheck your credentials");
+			context.addMessage(component.getClientId(context), message);
+			user.setUsername("");
+			//throw new ValidatorException(new FacesMessage("Wrong Username or Password", null));
+		}
+		else {
+			((UIInput)component).setValid(true);
+		}	
 	}
 
 
 	private void testTwitter() {
-			
-			ConfigurationBuilder builder = new ConfigurationBuilder();
-	    	builder.setOAuthAccessToken(ACCESS_TOKEN);
-	    	builder.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
-	    	builder.setOAuthConsumerKey(CONSUMER_KEY);
-	    	builder.setOAuthConsumerSecret(CONSUMER_SECRET);
-	        OAuthAuthorization auth = new OAuthAuthorization(builder.build());
-	        Twitter twitter = new TwitterFactory().getInstance(auth);
-			try {
-				twitter.updateStatus("User "+user.getUsername()+" logged in.");
-			} catch (TwitterException e) {
-				System.err.println("Error occurred while updating the status: "+e.getMessage());
-				return;
-			}
-	        System.out.println("Successfully updated the status.");
-		
-		
+
+		ConfigurationBuilder builder = new ConfigurationBuilder();
+		builder.setOAuthAccessToken(ACCESS_TOKEN);
+		builder.setOAuthAccessTokenSecret(ACCESS_TOKEN_SECRET);
+		builder.setOAuthConsumerKey(CONSUMER_KEY);
+		builder.setOAuthConsumerSecret(CONSUMER_SECRET);
+		OAuthAuthorization auth = new OAuthAuthorization(builder.build());
+		Twitter twitter = new TwitterFactory().getInstance(auth);
+		try {
+			twitter.updateStatus("User "+user.getUsername()+" logged in.");
+		} catch (TwitterException e) {
+			System.err.println("Error occurred while updating the status: "+e.getMessage());
+			return;
+		}
+		System.out.println("Successfully updated the status.");
+
+
 	}
 }

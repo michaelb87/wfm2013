@@ -7,17 +7,20 @@
 	<ui:define name="content">
 	
 		<h2>Login:</h2><br />Please put in your credentials to proceed to the course selection!
-		<h:form>
+		
+		
+		<h:form>		
 			<table>
 				<tr>
 					<td>Username:</td>
-					<td><h:inputText value="#{user.username}" />
-					</td>
+					<td><h:inputText id="userName" value="#{user.username}" validator="#{loginTask.validateUser}" /></td>	
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><h:inputText value="#{user.password}" />
-					</td>
+					<td><h:inputText id="pw" value="#{user.password}" validator="#{loginTask.validatePw}"/></td>
+				</tr>
+				<tr>
+					<h:message class="error-msg" for="pw" tooltip="true" showSummary="true"/>
 				</tr>
 				<tr>
 					<td></td>
@@ -26,5 +29,4 @@
 			</table>
 		</h:form>
 	</ui:define>
-
 </ui:composition>
