@@ -110,6 +110,14 @@
 			<scope>runtime</scope>
 		</dependency>
 		
+		<!--Yahoo Weather Lib-->
+		
+		<dependency>
+			<groupId>org.fedy2</groupId>
+  			<artifactId>YahooWeatherJavaAPI</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+		</dependency>		
+		
 		 <!-- twitter dependency -->
 		 
 		<dependency>
@@ -117,6 +125,8 @@
 			<artifactId>twitter4j-core</artifactId>
 			<version>3.0.3</version>
 		</dependency>
+		
+
 		
 		
             
