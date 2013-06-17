@@ -69,7 +69,7 @@ public class LoginTask {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("group", "empty"); // empty entry
 
-		
+
 		try {
 			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class,
 					user.getUsername());
@@ -106,18 +106,18 @@ public class LoginTask {
 				variables.put("group", "Member");
 
 			}
+			variables.put("loggedIn", logedIn);
 
+
+
+			try {
+				return businessProcess.startProcessByKey("sccms", variables);
+			} catch (ActivitiCdiException ex) {
+				log.error("no process found... "+ex.getMessage());
+			}
 		}
 
-		variables.put("loggedIn", logedIn);
 
-		
-
-		try {
-			return businessProcess.startProcessByKey("sccms", variables);
-		} catch (ActivitiCdiException ex) {
-			log.error("no process found... "+ex.getMessage());
-		}
 		return null;
 	}
 
@@ -140,11 +140,11 @@ public class LoginTask {
 		try {		
 			dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
 
-			}	catch (Exception e) {
-				log.error("Exception parsing login from db: "+e.getMessage());
+		}	catch (Exception e) {
+			log.error("Exception parsing login from db: "+e.getMessage());
 
-			}
-		
+		}
+
 		if (dbUser == null || value==null || !dbUser.getPwd_().equals((String) value)) {
 
 			((UIInput)component).setValid(false);
