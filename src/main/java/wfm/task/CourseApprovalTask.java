@@ -5,9 +5,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.activiti.cdi.ActivitiCdiException;
 import org.activiti.cdi.BusinessProcess;
-import org.activiti.cdi.annotation.CompleteTask;
 
 @Stateful
 @Named
