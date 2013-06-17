@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.activiti.cdi.BusinessProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import wfm.bean.User;
 import wfm.db.Course;
@@ -17,6 +19,8 @@ import wfm.db.Course;
 @Named
 @ConversationScoped
 public class addCourseTask {
+	
+	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
 	@Inject
 	private BusinessProcess businessProcess;
@@ -31,11 +35,9 @@ public class addCourseTask {
 	private EntityManager entityManager;
 
 	public void addCourse(String taskId) {
-		//businessProcess.startTask(taskId);
 		
 		
-		System.out.println("User: " + user.getUsername());
-		System.out.println("Course: " + course.toString());
+		log.info("User: " + user.getUsername()+" Course: " + course.toString());
 		// add to database:
 		
 		Course coursePersist = new Course();
@@ -48,6 +50,7 @@ public class addCourseTask {
 	    
 	    entityManager.persist(coursePersist);
 	    entityManager.flush();
+	    
 
 		businessProcess.setVariable("approvalAction", "logout");
 		businessProcess.completeTask();

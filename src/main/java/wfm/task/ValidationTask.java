@@ -2,6 +2,9 @@ package wfm.task;
 
 import java.util.List;
 
+import javax.ejb.Stateful;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,7 +18,9 @@ import org.activiti.engine.delegate.JavaDelegate;
 import wfm.bean.User;
 import wfm.db.Course;
 
-@Named("validate")
+@Stateful
+@Named
+@ConversationScoped
 public class ValidationTask implements JavaDelegate{
 
 	@Inject
@@ -48,7 +53,8 @@ public class ValidationTask implements JavaDelegate{
 	public boolean validateMembership(){
 		
 		//TODO: Kontrolle
-
+		System.out.println("entitmanager is: "+entityManager+" business process: "+businessProcess);
+/*
 			Query q = entityManager
 					.createNativeQuery("SELECT group_ID_  FROM ACT_ID_MEMBERSHIP a WHERE a.USER_ID_ ='"
 							+ user.getUsername() + "'");
@@ -57,7 +63,7 @@ public class ValidationTask implements JavaDelegate{
 			List<String> userGroups = q.getResultList();
 			if (userGroups.contains(course.getMemberType())) {
 				return true;
-			} 
+			} */
 
 			return false;
 	}

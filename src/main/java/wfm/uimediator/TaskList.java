@@ -13,6 +13,7 @@ import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.task.Task;
 
 import wfm.bean.User;
+import wfm.bean.ApproveCourseBean;
 
 @SessionScoped
 @Named
@@ -28,6 +29,9 @@ public class TaskList implements Serializable {
   
   @Inject
   private User user;
+  
+  @Inject
+  private ApproveCourseBean approveBean;
 
   public void update() {
     // do nothing here
@@ -35,13 +39,23 @@ public class TaskList implements Serializable {
 
   public List<Task> getList() {
 	  //this query is for testing purposes only! we list all "add course"-tasks assigned to the user... could also list all tasks assigned to group ect.
-    return taskService.createTaskQuery().taskAssignee(user.getUsername()).taskName("add course").list();
+   
+	 // List<Task> tasks =  taskService.createTaskQuery().taskAssignee(user.getUsername()).taskName("add course").list();
+	//  List<Task> tasks =  taskService.createTaskQuery().taskCandidateGroup("Trainer").taskName("approve course by Trainer").list();
+	  List<Task> tasks =  taskService.createTaskQuery().taskName("approve course by Trainer").list();
+
+	  return tasks;
   }
 
   public String getFormKey(Task task) {
     TaskFormData taskFormData = formService.getTaskFormData(task.getId());
     if (taskFormData!=null) {
-      return taskFormData.getFormKey();
+    	String formKey = taskFormData.getFormKey();
+   
+    	if (formKey.equals("waitForApproval"))
+    		approveBean.setTrainer(true);	
+    
+      return formKey;
     }
     else {
       // we do not want to fail just because we have tasks in the task list without form data (typically manually created tasks)

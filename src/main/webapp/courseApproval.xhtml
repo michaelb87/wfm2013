@@ -27,7 +27,7 @@
 			<h:column>			#{thisTask.dueDate}		</h:column>			
 			<h:column>			#{thisTask.assignee}	</h:column>			
 			<h:column>	
-				<h:outputLink value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">do it</h:outputLink>
+				<h:outputLink value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">confirm</h:outputLink>
 			</h:column>		
 	    </h:dataTable>	
 	</h:form>			

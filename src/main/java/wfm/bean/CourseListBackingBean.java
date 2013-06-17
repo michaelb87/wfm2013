@@ -3,10 +3,7 @@ package wfm.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,8 +11,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import wfm.bean.ItemEntry;
+import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
+import wfm.task.LoginTask;
 
 @Named
 @RequestScoped
@@ -23,27 +25,30 @@ import wfm.db.Course;
 public class CourseListBackingBean implements Serializable{
 
 	private static final long serialVersionUID = 1962753564688979487L;
-	/*	private String instanceId = "";
-	private String taskId = "";
-	private String page = "";*/
+	
+	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+
+
 
 	private List<ItemEntry> items;
 	private List<ItemEntry> personalItems; //for showing up in the delete courses screen
-
+	private String subscribedText;
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Inject
 	private User user;
+	
+	@Inject
+	private ApproveCourseBean approveBean;
 
 	public List<ItemEntry> getItems(){
 
 		Query query = entityManager.createQuery("SELECT c FROM Course c");
 		@SuppressWarnings("unchecked")
 		List<Course> courses =  query.getResultList();
-		System.out.println("Anzahl Kurse: "+courses.size());
-
+		
 		items = new ArrayList<ItemEntry>();
 		ItemEntry e;
 		Course c;
@@ -60,15 +65,14 @@ public class CourseListBackingBean implements Serializable{
 	{
 		this.items = items;
 	}
-	
+
 	public List<ItemEntry> getPersonalItems(){
-		
-		System.out.println("Username for showing personal courses: "+user.getUsername());
-		
+
+		log.info("Username for showing personal courses: "+user.getUsername());
+
 		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.trainer='"+user.getUsername()+"'");
 		@SuppressWarnings("unchecked")
 		List<Course> courses =  query.getResultList();
-		System.out.println("Anzahl Kurse: "+courses.size());
 
 		personalItems = new ArrayList<ItemEntry>();
 		ItemEntry e;
@@ -87,14 +91,30 @@ public class CourseListBackingBean implements Serializable{
 		this.personalItems = personalItems;
 	}
 
-	/*public String getPage() { return page; }
-	public void setPage(String page) { this.page = page; }
+	public boolean checkSubscription(int courseNr)//check if user is already subscribed to the course
+	{
+		boolean subscribed = false;
+	
+		Course c = entityManager.find(Course.class, courseNr);
+		
+		for(ACT_ID_USER u : c.getUsers()){
+			if(u.getId_().equals(user.getUsername())){
+				subscribed = true;
+				setSubscribedText("subscribed");
+			}
+					
+		}
+		return subscribed;
+	}
+	public String getSubscribedText() {
+		return subscribedText;
+	}
+	public void setSubscribedText(String subscribedText) {
+		this.subscribedText = subscribedText;
+	}
+	
 
-	public String getInstanceId() { return this.instanceId; }
-	public void setInstanceId(String instanceId) { this.instanceId = instanceId; }
-
-	public String getTaskId() { return this.taskId; }
-	public void setTaskId(String taskId) { this.taskId = taskId; }
-	 */
+	
+	
 
 }

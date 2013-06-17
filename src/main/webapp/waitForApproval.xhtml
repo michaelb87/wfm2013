@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/template.xhtml">
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewParam name="taskId" />
+			<f:event type="preRenderView"
+				listener="#{businessProcess.startTask(taskId, true)}" />
+		</f:metadata>
+
+
+
+
+		<h:panelGroup id="panelMember"
+			rendered="#{!approveCourseBean.trainer}">
+
+			<h:outputText id="textMember"
+				value="Thank you for subscribing to the course. You will get an
+			confirmation email once the trainer approves the subscription." />
+
+
+			<h:form>
+				<h:commandButton action="/login.jsf" value="logout" type="submit" />
+			</h:form>
+
+		</h:panelGroup>
+
+
+		<h:panelGroup id="panelTrainer"
+			rendered="#{approveCourseBean.trainer}">
+
+			<h:outputText id="textTrainer"
+				value="Please approve the following course: " />
+
+<h:outputText id="textCourseNr"
+				value="#{approveCourseTask.courseToApprove.course_nr} #{approveCourseTask.courseToApprove.name} from user: #{approveCourseTask.userToApprove.id_}" />
+				
+				
+
+
+			<h:form>
+				<table>
+					<tr>
+
+						<td><h:commandButton
+								action="#{approveCourseTask.approveCourse(taskId)}"
+								value="approve" type="submit" /></td>
+
+					</tr>
+				</table>
+			</h:form>
+
+		</h:panelGroup>
+
+	</ui:define>
+</ui:composition>
