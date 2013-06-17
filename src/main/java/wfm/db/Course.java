@@ -1,16 +1,19 @@
 package wfm.db;
 
 import java.io.Serializable;
-
-import javax.enterprise.context.ConversationScoped;
+import java.util.HashSet;
+import java.util.Set;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Named
-@ConversationScoped
+@SessionScoped
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = -2556217790431280277L;
@@ -25,6 +28,18 @@ public class Course implements Serializable {
 	private int maxMembers; // how many
 	private String memberType; // bronze, silver or gold course
 	private boolean indoor; // true if indoor course, false if outdoor
+	
+	
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy="courses")
+	private Set<ACT_ID_USER> users = new HashSet<ACT_ID_USER>();
+	
+	
+	public Set<ACT_ID_USER> getUsers() {
+		return users;
+	}
+	public void setUsers(Set<ACT_ID_USER> users) {
+		this.users = users;
+	}
 	
 	
 	public int getCourse_nr() {
@@ -76,5 +91,7 @@ public class Course implements Serializable {
 				+ desc + ", trainer=" + trainer + ", maxMembers=" + maxMembers
 				+ ", memberType=" + memberType + ", indoor=" + indoor + "]";
 	}
+	
+
 
 }

@@ -8,7 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.activiti.cdi.BusinessProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import wfm.bean.ApproveCourseBean;
 import wfm.bean.User;
 import wfm.db.Course;
 
@@ -17,31 +20,34 @@ import wfm.db.Course;
 @Named
 @ConversationScoped
 public class RegisterCourseTask {
+	
+	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+
 
 	@Inject
 	private BusinessProcess businessProcess;
 
 	@Inject
 	private Course course;
-	
+
 	@Inject
 	private User user;
+	
+	@Inject
+	private ApproveCourseBean approveBean;
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void registerCourse(String taskId) {
-		System.out.println("registerCourse...taskid: "+taskId);
+	public void registerCourse(String taskId, int courseId) {
+
+		log.info("User: " + user.getUsername()+" CourseId: "+courseId);
+
+		businessProcess.setVariable("courseToApprove", courseId);
+		businessProcess.setVariable("userToApprove", user.getUsername());
 		
-		/*	
-		businessProcess.startTask(taskId);
 
-	 	//TODO: 
-	   
-
-		businessProcess.setVariable("approvalAction", "logout");
 		businessProcess.completeTask();
-		 */
 	}
 
 }

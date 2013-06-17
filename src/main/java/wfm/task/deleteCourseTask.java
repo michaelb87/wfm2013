@@ -8,8 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.activiti.cdi.BusinessProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import wfm.bean.User;
+import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 
 
@@ -17,6 +20,8 @@ import wfm.db.Course;
 @Named
 @ConversationScoped
 public class deleteCourseTask {
+	
+	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
 	@Inject
 	private BusinessProcess businessProcess;
@@ -34,22 +39,30 @@ public class deleteCourseTask {
 		businessProcess.startTask(taskId);
 		
 		
-		System.out.println("User: " + user.getUsername());
+		log.info("User: " + user.getUsername());
 		
 		// delete from database:
 				
 		try{
-				System.out.println("Searching course with Id: "+id);
+				log.info("Searching course with Id: "+id);
 				course = entityManager.find(Course.class, id);
 				
-				System.out.println("Course found: " + course.toString());
-								
+				log.info("Course found: " + course.toString());
+				
+				//removing the course from users
+				for (ACT_ID_USER u : course.getUsers()) {
+					u.getCourses().remove(course);
+				}
+				//removing all users from the collection of users
+				course.getUsers().clear();
+				
 			    entityManager.remove(course);
+			   
 			    entityManager.flush();		  
 			    
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 		
 

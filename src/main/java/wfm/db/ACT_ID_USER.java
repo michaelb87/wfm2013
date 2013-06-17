@@ -1,9 +1,14 @@
 package wfm.db;
 
 import java.io.Serializable;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 
 
 
@@ -11,20 +16,37 @@ import javax.persistence.Id;
 public class ACT_ID_USER implements Serializable{
 
 	private static final long serialVersionUID = 7123L;
-	
+
 	@Id
 	private String id_;
-	
+
 	private int rev_;
 	private String first_;
 	private String last_;
 	private String email_;
 	private String pwd_;
 	private String picture_id;
+
+
 	
-	
-	
-	  public String getId_() {
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable( name = "user_course",
+	joinColumns = {@JoinColumn (name = "user_id")}, 
+	inverseJoinColumns = {@JoinColumn(name = "course_nr")})
+	private Set<Course> courses = new HashSet<Course>();
+
+
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+
+
+
+	public String getId_() {
 		return id_;
 	}
 
@@ -109,8 +131,9 @@ public class ACT_ID_USER implements Serializable{
 
 
 	@Override
-	  public String toString() {
-	    return "User [userName=" + id_ + ", password=" + pwd_ + "]";
-	  }
+	public String toString() {
+		return "User [userName=" + id_ + ", password=" + pwd_ + "]";
+	}
+
 
 }
