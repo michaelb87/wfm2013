@@ -47,6 +47,8 @@ public class addCourseTask {
 		coursePersist.setMemberType(course.getMemberType());
 		coursePersist.setIndoor(course.isIndoor());
 		coursePersist.setMaxMembers(course.getMaxMembers());
+		coursePersist.setLocation(course.getLocation());
+		coursePersist.setDate(course.getDate());
 	    
 	    entityManager.persist(coursePersist);
 	    entityManager.flush();

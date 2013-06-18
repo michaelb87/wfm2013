@@ -3,17 +3,40 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/template.xhtml">
+	template="/WEB-INF/templates/template.xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:jsfcal="http://code.google.com/p/jsfcal"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+.header {
+	font-weight: bold;
+}
+
+.rich-calendar-header {
+	text-align: center;
+}
+
+.organizer-cell {
+	width: 90px;
+	height: 90px;
+	overflow: hidden;
+}
+</style>
+
+
 	<ui:define name="content">
 		<f:metadata>
 			<f:viewParam name="taskId" />
-			<f:event type="preRenderView" listener="#{businessProcess.startTask(taskId, true)}" />   
+			<f:event type="preRenderView"
+				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
 
 
 		<h2>Add a new course</h2>
 
 		<p>Here you can add a new course!</p>
+
 		<h:form>
 			<table>
 				<tr>
@@ -43,13 +66,29 @@
 
 				</tr>
 				<tr>
+					<td style="font-weight: bold;">Location:</td>
+					<td><h:inputText value="#{course.location}" /></td>
+				</tr>
+
+				<tr>
+					<td style="font-weight: bold;">Date/Time</td>
+					<td><p:calendar value="#{course.date}"
+							pattern="dd.MM.yyyy HH:mm" /></td>
+				</tr>
+				<tr>
 
 					<td><h:commandButton
 							action="#{addCourseTask.addCourse(taskId)}" value="done"
 							type="submit" /></td>
-					<td><h:commandButton action="#{businessProcess.completeTask(true)}" value="cancel" type="submit"/></td>
+					<td><h:commandButton
+							action="#{businessProcess.completeTask(true)}" value="cancel"
+							type="submit" /></td>
 				</tr>
 			</table>
 		</h:form>
+
+		
+
+
 	</ui:define>
 </ui:composition>

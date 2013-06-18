@@ -28,12 +28,19 @@ public class ACT_ID_USER implements Serializable{
 	private String picture_id;
 
 
+
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable( name = "user_course",
 	joinColumns = {@JoinColumn (name = "user_id")}, 
 	inverseJoinColumns = {@JoinColumn(name = "course_nr")})
 	private Set<Course> courses = new HashSet<Course>();
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable( name = "ACT_ID_MEMBERSHIP",
+	joinColumns = {@JoinColumn (name = "USER_ID_")}, 
+	inverseJoinColumns = {@JoinColumn(name = "GROUP_ID_")})
+	private Set<ACT_ID_GROUP> groups = new HashSet<ACT_ID_GROUP>();
 
 
 	public Set<Course> getCourses() {
@@ -45,6 +52,14 @@ public class ACT_ID_USER implements Serializable{
 	}
 
 
+
+	public Set<ACT_ID_GROUP> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Set<ACT_ID_GROUP> groups) {
+		this.groups = groups;
+	}
 
 	public String getId_() {
 		return id_;

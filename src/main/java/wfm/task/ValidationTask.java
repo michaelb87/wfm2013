@@ -1,78 +1,68 @@
 package wfm.task;
 
-import java.util.List;
 
-import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.bean.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import wfm.bean.User;
+import wfm.db.ACT_ID_GROUP;
+import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 
-@Stateful
-@Named
-@ConversationScoped
 public class ValidationTask implements JavaDelegate{
 
-	@Inject
-	private BusinessProcess businessProcess;
+	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
-	@Inject
 	private Course course;
-	
-	@Inject
-	private User user;
-
-	@PersistenceContext
-	private EntityManager entityManager;
+	private ACT_ID_USER user;
+	private String message = "";
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		System.out.println("Execution " + execution.getId() + " was executed.");
-		
-		if(validateMembership() && validateCapacity())
+		log.info("ValidationTask " + execution.getId() + " was executed.");
+
+
+		course = (Course) execution.getVariable("courseToApprove");
+		user = (ACT_ID_USER) execution.getVariable("userToApprove");
+
+		if(validateCapacity() && validateMembership())
 		{
-			//TODO: weiter zu twitter und send notification mail
+			log.info("validation ok");
+			execution.setVariable("validation", "ok");
 		}
 		else{
-			//TODO: zurueck zur courseList und fehlermeldung ob class full oder membership not eligible
-		}
-		
-		
-	}
-	
-	public boolean validateMembership(){
-		
-		//TODO: Kontrolle
-		System.out.println("entitmanager is: "+entityManager+" business process: "+businessProcess);
-/*
-			Query q = entityManager
-					.createNativeQuery("SELECT group_ID_  FROM ACT_ID_MEMBERSHIP a WHERE a.USER_ID_ ='"
-							+ user.getUsername() + "'");
+			log.info("validation failed");
+			execution.setVariable("validation", "failed");
+			execution.setVariable("failmessage", "Subscription failed! "+message);
+		}	
 
-			@SuppressWarnings("unchecked")
-			List<String> userGroups = q.getResultList();
-			if (userGroups.contains(course.getMemberType())) {
-				return true;
-			} */
-
-			return false;
 	}
 	
 	public boolean validateCapacity(){
-		
-		//TODO: anzahl aller member die zu dem course subscribed sind (SQL aus zwischentabelle course-members) muss <= course.getMaxMembers() sein
-		
+
+		if (course.getUsers().size()<course.getMaxMembers())
+			return true;
+		else
+			message="The course '"+course.getName()+"' is already full. ";
+
 		return false;		
 	}
+
+	public boolean validateMembership(){
+		boolean ok = false;
+
+		for (ACT_ID_GROUP g : user.getGroups()){
+			if(g.getId_().equals(course.getMemberType()))
+				ok = true;
+		}
+		
+		if(ok==false)
+			message="Your membership type is not eligible for the course you want to attend. ";
+
+		return ok;
+	}
+
+
 
 }
