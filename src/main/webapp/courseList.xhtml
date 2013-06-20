@@ -10,6 +10,8 @@
 			<f:event type="preRenderView"
 				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
+		
+		<h:outputText value="#{processVariables['failmessage']}" rendered = "#{processVariables['validation']=='failed'}" style="color: red;"/>
 
 		<h1>List of available courses</h1>
 		<h:form>

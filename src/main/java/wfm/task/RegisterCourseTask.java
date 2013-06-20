@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import wfm.bean.ApproveCourseBean;
 import wfm.bean.User;
+import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 
 
@@ -20,7 +21,7 @@ import wfm.db.Course;
 @Named
 @ConversationScoped
 public class RegisterCourseTask {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
 
@@ -32,7 +33,7 @@ public class RegisterCourseTask {
 
 	@Inject
 	private User user;
-	
+
 	@Inject
 	private ApproveCourseBean approveBean;
 
@@ -43,9 +44,17 @@ public class RegisterCourseTask {
 
 		log.info("User: " + user.getUsername()+" CourseId: "+courseId);
 
-		businessProcess.setVariable("courseToApprove", courseId);
-		businessProcess.setVariable("userToApprove", user.getUsername());
-		
+
+		Course courseToApprove = entityManager.find(Course.class, courseId);	
+
+
+		ACT_ID_USER userToApprove = entityManager.find(ACT_ID_USER.class, user.getUsername());
+
+
+
+		businessProcess.setVariable("courseToApprove", courseToApprove);
+		businessProcess.setVariable("userToApprove", userToApprove);
+
 
 		businessProcess.completeTask();
 	}

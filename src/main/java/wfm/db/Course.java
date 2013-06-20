@@ -1,8 +1,10 @@
 package wfm.db;
 
 import java.io.Serializable;
+
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Date;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
 
 @Entity
 @Named
@@ -28,6 +31,8 @@ public class Course implements Serializable {
 	private int maxMembers; // how many
 	private String memberType; // bronze, silver or gold course
 	private boolean indoor; // true if indoor course, false if outdoor
+	private Date date;
+	private String location;
 	
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="courses")
@@ -90,6 +95,18 @@ public class Course implements Serializable {
 		return "Course [course_nr=" + course_nr + ", name=" + name + ", desc="
 				+ desc + ", trainer=" + trainer + ", maxMembers=" + maxMembers
 				+ ", memberType=" + memberType + ", indoor=" + indoor + "]";
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 

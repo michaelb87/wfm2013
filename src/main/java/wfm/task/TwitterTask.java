@@ -13,6 +13,8 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuthAuthorization;
 import twitter4j.conf.ConfigurationBuilder;
+import wfm.db.ACT_ID_USER;
+import wfm.db.Course;
 
 @Named
 public class TwitterTask implements JavaDelegate{
@@ -24,12 +26,17 @@ public class TwitterTask implements JavaDelegate{
 	
 	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
-	private static  int c =0;
-
+	
+	private Course courseToApprove;
+	private ACT_ID_USER userToApprove;
+	private String status;
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		log.info("Execution " + execution.getId() + " was executed.");
+		log.info("TwitterTask " + execution.getId() + " was executed.");
+		
+		courseToApprove = (Course) execution.getVariable("courseToApprove");
+		userToApprove = (ACT_ID_USER) execution.getVariable("userToApprove");
 		
 		ConfigurationBuilder builder = new ConfigurationBuilder();
     	builder.setOAuthAccessToken(ACCESS_TOKEN);
@@ -39,13 +46,13 @@ public class TwitterTask implements JavaDelegate{
         OAuthAuthorization auth = new OAuthAuthorization(builder.build());
         Twitter twitter = new TwitterFactory().getInstance(auth);
 		try {
-			c++;
-			twitter.updateStatus("Tweet "+c+": User x subscribed to course y.");
+			 status = userToApprove.getFirst_()+" "+userToApprove.getLast_()+" subscribed to course '"+courseToApprove.getName()+"' at '"+courseToApprove.getLocation()+"' on "+courseToApprove.getDate();
+			twitter.updateStatus(status);
 		} catch (TwitterException e) {
 			log.error("Error occurred while updating the status: "+e.getMessage());
 			return;
 		}
-        log.info("Successfully updated the status.");
+        log.info("Successfully updated the status: "+status);
 	
 		
 	}
