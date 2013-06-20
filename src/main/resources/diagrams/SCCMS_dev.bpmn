@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="weatherOK" name="weatherOK"></message>
+  <message id="weatherNOK" name="weatherNOK"></message>
   <process id="sccms" name="sccms" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <userTask id="usertask1" name="subscribe for course" activiti:assignee="${username}" activiti:formKey="courseList"></userTask>
@@ -61,18 +63,20 @@
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${validation == 'failed'}]]></conditionExpression>
     </sequenceFlow>
     <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeDuration>PT20S</timeDuration>
+      </timerEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow34" sourceRef="servicetask3" targetRef="timerintermediatecatchevent1"></sequenceFlow>
-    <serviceTask id="servicetask5" name="WeatherCheck"></serviceTask>
+    <serviceTask id="servicetask5" name="check weather" activiti:class="wfm.task.WeatherCheckTask"></serviceTask>
     <sequenceFlow id="flow35" sourceRef="timerintermediatecatchevent1" targetRef="servicetask5"></sequenceFlow>
     <eventBasedGateway id="eventgateway1" name="Event Gateway"></eventBasedGateway>
     <sequenceFlow id="flow36" sourceRef="servicetask5" targetRef="eventgateway1"></sequenceFlow>
     <intermediateCatchEvent id="messageintermediatecatchevent1" name="MessageCatchEvent">
-      <messageEventDefinition></messageEventDefinition>
+      <messageEventDefinition messageRef="weatherOK"></messageEventDefinition>
     </intermediateCatchEvent>
     <intermediateCatchEvent id="messageintermediatecatchevent2" name="MessageCatchEvent">
-      <messageEventDefinition></messageEventDefinition>
+      <messageEventDefinition messageRef="weatherNOK"></messageEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow37" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent2"></sequenceFlow>
     <sequenceFlow id="flow38" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent1"></sequenceFlow>

@@ -75,6 +75,7 @@
 					<td><h:selectBooleanCheckbox value="#{course.indoor}" /></td>
 
 				</tr>
+				<tr>
 					<td style="font-weight: bold;">Location:</td>
 					<td><h:inputText value="#{course.location}" /></td>
 				</tr>
@@ -84,7 +85,6 @@
 					<td><p:calendar value="#{course.date}"
 							pattern="dd.MM.yyyy HH:mm" /></td>
 				</tr>
-				<tr>
 				
 				<tr>
 					<td><h:commandButton
@@ -96,9 +96,5 @@
 				</tr>
 			</table>			
 		</h:form>
-
-		
-
-
 	</ui:define>
 </ui:composition>

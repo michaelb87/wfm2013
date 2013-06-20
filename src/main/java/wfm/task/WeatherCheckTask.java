@@ -33,6 +33,7 @@ public class WeatherCheckTask implements JavaDelegate{
 		
 		//http://developer.yahoo.com/weather/
 		//for more information on how the weather service works and the codes need to be interpreted
+		
 		YahooWeatherService service = new YahooWeatherService();		
 		Channel channel = service.getForecast(WeatherCheckTask.weoidVienna, DegreeUnit.CELSIUS);
 		//read the current weather condition
@@ -41,8 +42,8 @@ public class WeatherCheckTask implements JavaDelegate{
 		//http://developer.yahoo.com/weather/#codes
 		if (condition < 19 || condition >= 37 || condition == 35) {
 			//cancel course
+			
 		}
-
 		
 	}
 
