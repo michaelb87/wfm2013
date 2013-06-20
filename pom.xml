@@ -15,9 +15,7 @@
 
 		<log4j.properties.directory>src/main/resources</log4j.properties.directory>
 	</properties>
-
-
-
+ 
 	<dependencies>
 
 		<dependency>
@@ -111,13 +109,21 @@
 		</dependency>
 		
 		<!--Yahoo Weather Lib-->
-		
+		<!-- 
 		<dependency>
 			<groupId>org.fedy2</groupId>
   			<artifactId>YahooWeatherJavaAPI</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
 		</dependency>		
-		
+		 -->
+		 <dependency>
+  				 <groupId>org.fedy2</groupId>
+  			<artifactId>YahooWeatherJavaAPI</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+    		<scope>system</scope>
+    		<systemPath>${project.basedir}/lib/YahooWeatherJavaAPI-0.0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
+		 
 		 <!-- twitter dependency -->
 		 
 		<dependency>
