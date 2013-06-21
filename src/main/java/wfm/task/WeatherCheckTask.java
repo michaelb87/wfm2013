@@ -42,8 +42,10 @@ public class WeatherCheckTask implements JavaDelegate{
 		//http://developer.yahoo.com/weather/#codes
 		if (condition < 19 || condition >= 37 || condition == 35) {
 			//cancel course
-			
+			System.out.println("Weahter is really bad");
+			System.out.println(channel.getItem().getCondition());
 		}
+		else System.out.println("Weather is " +  channel.getItem().getCondition() + " - Course is taking place as scheduled: ");
 		
 	}
 
