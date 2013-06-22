@@ -1,24 +1,13 @@
 package wfm.task;
 
-import javax.inject.Inject;
 
-import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 import org.fedy2.weather.YahooWeatherService;
 import org.fedy2.weather.data.Channel;
 import org.fedy2.weather.data.unit.DegreeUnit;
 
-import wfm.bean.User;
-import wfm.db.Course;
-
 public class WeatherCheckTask implements JavaDelegate {
-
-	@Inject
-	private Course course;
-
-	@Inject
-	private User user;
 
 	public static String weoidVienna = "12591694";
 
