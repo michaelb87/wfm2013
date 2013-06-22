@@ -25,6 +25,7 @@ public class WeatherCheckTask implements JavaDelegate {
 		// if weather is bad... screw you guys im going home -->
 		int condition = channel.getItem().getCondition().getCode();
 		// http://developer.yahoo.com/weather/#codes
+		//for testing always bad weather: if (condition < 100) {
 		if (condition < 19 || condition >= 37 || condition == 35) {
 			// cancel course
 			System.out.println("Weahter is really bad");

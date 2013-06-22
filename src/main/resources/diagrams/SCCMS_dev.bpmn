@@ -97,7 +97,7 @@
     <sequenceFlow id="flow53" sourceRef="servicetask7" targetRef="eventgateway2"></sequenceFlow>
     <intermediateCatchEvent id="timerintermediatecatchevent2" name="TimerCatchEvent">
       <timerEventDefinition>
-        <timeDuration>PT1S</timeDuration>
+        <timeDuration>PT1M</timeDuration>
       </timerEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow54" sourceRef="eventgateway2" targetRef="timerintermediatecatchevent2"></sequenceFlow>
