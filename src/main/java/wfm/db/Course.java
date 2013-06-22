@@ -5,7 +5,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
-import javax.enterprise.context.SessionScoped;
+
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +17,7 @@ import javax.persistence.ManyToMany;
 
 @Entity
 @Named
-@SessionScoped
+@RequestScoped
 public class Course implements Serializable {
 
 	private static final long serialVersionUID = -2556217790431280277L;

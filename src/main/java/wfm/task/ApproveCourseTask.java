@@ -62,6 +62,8 @@ public class ApproveCourseTask {
 	}
 	
 	public String logout() {
+		Course registeredCourse = businessProcess.getVariable("courseToApprove");
+		businessProcess.getTask().setAssignee(registeredCourse.getTrainer());
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "login.xhtml?faces-redirect=true";
     }
