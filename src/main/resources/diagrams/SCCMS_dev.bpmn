@@ -75,7 +75,7 @@
       <signalEventDefinition signalRef="deleteCourse"></signalEventDefinition>
     </intermediateThrowEvent>
     <sequenceFlow id="flow41" sourceRef="usertask4" targetRef="signalintermediatethrowevent1"></sequenceFlow>
-    <serviceTask id="servicetask6" name="Notify User" activiti:class="wfm.task.NotifyUserAboutCancellation"></serviceTask>
+    <serviceTask id="servicetask6" name="Notify User" activiti:class="wfm.task.NotifyUserAboutCancelation"></serviceTask>
     <sequenceFlow id="flow43" sourceRef="signalintermediatecatchevent1" targetRef="servicetask6"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow44" sourceRef="servicetask5" targetRef="exclusivegateway5"></sequenceFlow>
