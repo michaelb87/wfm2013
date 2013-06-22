@@ -12,40 +12,41 @@ import org.fedy2.weather.data.unit.DegreeUnit;
 import wfm.bean.User;
 import wfm.db.Course;
 
-
-public class WeatherCheckTask implements JavaDelegate{
-	
-	@Inject
-	private BusinessProcess businessProcess;
+public class WeatherCheckTask implements JavaDelegate {
 
 	@Inject
 	private Course course;
-	
+
 	@Inject
 	private User user;
-	
-	
+
 	public static String weoidVienna = "12591694";
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		
-		//http://developer.yahoo.com/weather/
-		//for more information on how the weather service works and the codes need to be interpreted
-		
-		YahooWeatherService service = new YahooWeatherService();		
-		Channel channel = service.getForecast(WeatherCheckTask.weoidVienna, DegreeUnit.CELSIUS);
-		//read the current weather condition
-		//if weather is bad... screw you guys im going home -->
+
+		// http://developer.yahoo.com/weather/
+		// for more information on how the weather service works and the codes
+		// need to be interpreted
+
+		YahooWeatherService service = new YahooWeatherService();
+		Channel channel = service.getForecast(WeatherCheckTask.weoidVienna,
+				DegreeUnit.CELSIUS);
+		// read the current weather condition
+		// if weather is bad... screw you guys im going home -->
 		int condition = channel.getItem().getCondition().getCode();
-		//http://developer.yahoo.com/weather/#codes
+		// http://developer.yahoo.com/weather/#codes
 		if (condition < 19 || condition >= 37 || condition == 35) {
-			//cancel course
+			// cancel course
 			System.out.println("Weahter is really bad");
 			System.out.println(channel.getItem().getCondition());
+			execution.setVariable("weatherOk", false);
+		} else {
+			System.out.println("Weather is " + channel.getItem().getCondition()
+					+ " - Course is taking place as scheduled: ");
+			execution.setVariable("weatherOk", true);
 		}
-		else System.out.println("Weather is " +  channel.getItem().getCondition() + " - Course is taking place as scheduled: ");
-		
+
 	}
 
 }

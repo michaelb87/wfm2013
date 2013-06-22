@@ -59,7 +59,7 @@
     </sequenceFlow>
     <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
       <timerEventDefinition>
-        <timeDuration>PT3M</timeDuration>
+        <timeDuration>PT1S</timeDuration>
       </timerEventDefinition>
     </intermediateCatchEvent>
     <serviceTask id="servicetask5" name="check weather" activiti:class="wfm.task.WeatherCheckTask"></serviceTask>
@@ -77,19 +77,21 @@
     <sequenceFlow id="flow41" sourceRef="usertask4" targetRef="signalintermediatethrowevent1"></sequenceFlow>
     <serviceTask id="servicetask6" name="Notify User" activiti:class="wfm.task.NotifyUserAboutCancellation"></serviceTask>
     <sequenceFlow id="flow43" sourceRef="signalintermediatecatchevent1" targetRef="servicetask6"></sequenceFlow>
-    <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway" default="flow47"></exclusiveGateway>
+    <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow44" sourceRef="servicetask5" targetRef="exclusivegateway5"></sequenceFlow>
     <endEvent id="endevent7" name="End"></endEvent>
     <sequenceFlow id="flow45" name="weather ok?" sourceRef="exclusivegateway5" targetRef="endevent7">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${weather == 'notok'}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${weatherOk}]]></conditionExpression>
     </sequenceFlow>
     <serviceTask id="servicetask7" name="notify user about course cancelation" activiti:class="wfm.task.NotifyUserAboutCancellation"></serviceTask>
     <endEvent id="endevent8" name="End"></endEvent>
     <sequenceFlow id="flow46" sourceRef="servicetask6" targetRef="endevent8"></sequenceFlow>
-    <sequenceFlow id="flow47" sourceRef="exclusivegateway5" targetRef="servicetask7"></sequenceFlow>
     <endEvent id="endevent9" name="End"></endEvent>
     <sequenceFlow id="flow48" sourceRef="servicetask7" targetRef="endevent9"></sequenceFlow>
     <sequenceFlow id="flow49" sourceRef="signalintermediatethrowevent1" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow50" sourceRef="exclusivegateway5" targetRef="servicetask7">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!weatherOk}]]></conditionExpression>
+    </sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_sccms">
     <bpmndi:BPMNPlane bpmnElement="sccms" id="BPMNPlane_sccms">
@@ -332,11 +334,6 @@
         <omgdi:waypoint x="1121.0" y="425.0"></omgdi:waypoint>
         <omgdi:waypoint x="1121.0" y="459.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
-        <omgdi:waypoint x="996.0" y="496.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1069.0" y="496.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1072.0" y="540.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
         <omgdi:waypoint x="1072.0" y="595.0"></omgdi:waypoint>
         <omgdi:waypoint x="1072.0" y="620.0"></omgdi:waypoint>
@@ -345,6 +342,11 @@
         <omgdi:waypoint x="433.0" y="557.0"></omgdi:waypoint>
         <omgdi:waypoint x="383.0" y="558.0"></omgdi:waypoint>
         <omgdi:waypoint x="384.0" y="496.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
+        <omgdi:waypoint x="996.0" y="496.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1072.0" y="496.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1072.0" y="540.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
