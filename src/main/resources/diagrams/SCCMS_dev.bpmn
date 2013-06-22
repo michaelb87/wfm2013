@@ -83,7 +83,7 @@
     <sequenceFlow id="flow45" name="weather ok? course can take place" sourceRef="exclusivegateway5" targetRef="endevent7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${weatherOk}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask7" name="notify TRAINER about weather situation - if not already notified" activiti:class="wfm.task.NotifyUserAboutCancellation"></serviceTask>
+    <serviceTask id="servicetask7" name="notify TRAINER about weather situation - if not already notified" activiti:class="wfm.task.NotifyTrainerAboutWeather"></serviceTask>
     <endEvent id="endevent8" name="End"></endEvent>
     <sequenceFlow id="flow46" sourceRef="servicetask6" targetRef="endevent8"></sequenceFlow>
     <sequenceFlow id="flow49" sourceRef="signalintermediatethrowevent1" targetRef="exclusivegateway3"></sequenceFlow>
@@ -104,7 +104,7 @@
     <sequenceFlow id="flow55" sourceRef="eventgateway2" targetRef="signalintermediatecatchevent2"></sequenceFlow>
     <endEvent id="endevent10" name="End"></endEvent>
     <sequenceFlow id="flow56" name="course took place, seems the trainer didn't cancel" sourceRef="timerintermediatecatchevent2" targetRef="endevent10"></sequenceFlow>
-    <serviceTask id="servicetask8" name="notify user about cancelation"></serviceTask>
+    <serviceTask id="servicetask8" name="notify user about cancelation" activiti:class="wfm.task.NotifyUserAboutCancelation"></serviceTask>
     <sequenceFlow id="flow57" name="trainer canceled the cours" sourceRef="signalintermediatecatchevent2" targetRef="servicetask8"></sequenceFlow>
     <endEvent id="endevent11" name="End"></endEvent>
     <sequenceFlow id="flow58" sourceRef="servicetask8" targetRef="endevent11"></sequenceFlow>
