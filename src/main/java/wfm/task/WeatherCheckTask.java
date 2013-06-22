@@ -1,7 +1,6 @@
 package wfm.task;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.delegate.DelegateExecution;
@@ -13,7 +12,7 @@ import org.fedy2.weather.data.unit.DegreeUnit;
 import wfm.bean.User;
 import wfm.db.Course;
 
-@Named("weatherCheck")
+
 public class WeatherCheckTask implements JavaDelegate{
 	
 	@Inject
