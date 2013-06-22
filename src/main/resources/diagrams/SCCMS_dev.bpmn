@@ -80,18 +80,34 @@
     <exclusiveGateway id="exclusivegateway5" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow44" sourceRef="servicetask5" targetRef="exclusivegateway5"></sequenceFlow>
     <endEvent id="endevent7" name="End"></endEvent>
-    <sequenceFlow id="flow45" name="weather ok?" sourceRef="exclusivegateway5" targetRef="endevent7">
+    <sequenceFlow id="flow45" name="weather ok? course can take place" sourceRef="exclusivegateway5" targetRef="endevent7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${weatherOk}]]></conditionExpression>
     </sequenceFlow>
-    <serviceTask id="servicetask7" name="notify user about course cancelation" activiti:class="wfm.task.NotifyUserAboutCancellation"></serviceTask>
+    <serviceTask id="servicetask7" name="notify TRAINER about weather situation - if not already notified" activiti:class="wfm.task.NotifyUserAboutCancellation"></serviceTask>
     <endEvent id="endevent8" name="End"></endEvent>
     <sequenceFlow id="flow46" sourceRef="servicetask6" targetRef="endevent8"></sequenceFlow>
-    <endEvent id="endevent9" name="End"></endEvent>
-    <sequenceFlow id="flow48" sourceRef="servicetask7" targetRef="endevent9"></sequenceFlow>
     <sequenceFlow id="flow49" sourceRef="signalintermediatethrowevent1" targetRef="exclusivegateway3"></sequenceFlow>
-    <sequenceFlow id="flow50" sourceRef="exclusivegateway5" targetRef="servicetask7">
+    <sequenceFlow id="flow50" name="weather situation bad?" sourceRef="exclusivegateway5" targetRef="servicetask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!weatherOk}]]></conditionExpression>
     </sequenceFlow>
+    <intermediateCatchEvent id="signalintermediatecatchevent2" name="SignalCatchEvent">
+      <signalEventDefinition signalRef="deleteCourse"></signalEventDefinition>
+    </intermediateCatchEvent>
+    <eventBasedGateway id="eventgateway2" name="Event Gateway"></eventBasedGateway>
+    <sequenceFlow id="flow53" sourceRef="servicetask7" targetRef="eventgateway2"></sequenceFlow>
+    <intermediateCatchEvent id="timerintermediatecatchevent2" name="TimerCatchEvent">
+      <timerEventDefinition>
+        <timeDuration>PT1S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow54" sourceRef="eventgateway2" targetRef="timerintermediatecatchevent2"></sequenceFlow>
+    <sequenceFlow id="flow55" sourceRef="eventgateway2" targetRef="signalintermediatecatchevent2"></sequenceFlow>
+    <endEvent id="endevent10" name="End"></endEvent>
+    <sequenceFlow id="flow56" name="course took place, seems the trainer didn't cancel" sourceRef="timerintermediatecatchevent2" targetRef="endevent10"></sequenceFlow>
+    <serviceTask id="servicetask8" name="notify user about cancelation"></serviceTask>
+    <sequenceFlow id="flow57" name="trainer canceled the cours" sourceRef="signalintermediatecatchevent2" targetRef="servicetask8"></sequenceFlow>
+    <endEvent id="endevent11" name="End"></endEvent>
+    <sequenceFlow id="flow58" sourceRef="servicetask8" targetRef="endevent11"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_sccms">
     <bpmndi:BPMNPlane bpmnElement="sccms" id="BPMNPlane_sccms">
@@ -156,13 +172,13 @@
         <omgdc:Bounds height="40.0" width="40.0" x="1012.0" y="230.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent7" id="BPMNShape_endevent7">
-        <omgdc:Bounds height="35.0" width="35.0" x="866.0" y="620.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="860.0" y="670.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="signalintermediatecatchevent1" id="BPMNShape_signalintermediatecatchevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="1104.0" y="298.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent8" id="BPMNShape_endevent8">
-        <omgdc:Bounds height="35.0" width="35.0" x="1104.0" y="459.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1104.0" y="449.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="signalintermediatethrowevent1" id="BPMNShape_signalintermediatethrowevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="433.0" y="540.0"></omgdc:Bounds>
@@ -174,10 +190,25 @@
         <omgdc:Bounds height="40.0" width="40.0" x="956.0" y="476.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask7" id="BPMNShape_servicetask7">
-        <omgdc:Bounds height="55.0" width="105.0" x="1020.0" y="540.0"></omgdc:Bounds>
+        <omgdc:Bounds height="82.0" width="105.0" x="1020.0" y="540.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="endevent9" id="BPMNShape_endevent9">
-        <omgdc:Bounds height="35.0" width="35.0" x="1055.0" y="620.0"></omgdc:Bounds>
+      <bpmndi:BPMNShape bpmnElement="signalintermediatecatchevent2" id="BPMNShape_signalintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1006.0" y="690.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="eventgateway2" id="BPMNShape_eventgateway2">
+        <omgdc:Bounds height="40.0" width="40.0" x="1052.0" y="640.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="timerintermediatecatchevent2" id="BPMNShape_timerintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1104.0" y="690.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent10" id="BPMNShape_endevent10">
+        <omgdc:Bounds height="35.0" width="35.0" x="1104.0" y="775.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask8" id="BPMNShape_servicetask8">
+        <omgdc:Bounds height="55.0" width="105.0" x="971.0" y="770.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent11" id="BPMNShape_endevent11">
+        <omgdc:Bounds height="35.0" width="35.0" x="1006.0" y="850.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="240.0" y="157.0"></omgdi:waypoint>
@@ -325,18 +356,14 @@
       <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
         <omgdi:waypoint x="956.0" y="496.0"></omgdi:waypoint>
         <omgdi:waypoint x="883.0" y="496.0"></omgdi:waypoint>
-        <omgdi:waypoint x="883.0" y="620.0"></omgdi:waypoint>
+        <omgdi:waypoint x="877.0" y="670.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="59.0" x="1.0" y="-15.0"></omgdc:Bounds>
+          <omgdc:Bounds height="39.0" width="100.0" x="1.0" y="-15.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
         <omgdi:waypoint x="1121.0" y="425.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1121.0" y="459.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
-        <omgdi:waypoint x="1072.0" y="595.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1072.0" y="620.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1121.0" y="449.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
         <omgdi:waypoint x="433.0" y="557.0"></omgdi:waypoint>
@@ -347,6 +374,41 @@
         <omgdi:waypoint x="996.0" y="496.0"></omgdi:waypoint>
         <omgdi:waypoint x="1072.0" y="496.0"></omgdi:waypoint>
         <omgdi:waypoint x="1072.0" y="540.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="39.0" width="100.0" x="26.0" y="2.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53">
+        <omgdi:waypoint x="1072.0" y="622.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1072.0" y="640.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
+        <omgdi:waypoint x="1092.0" y="660.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1121.0" y="659.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1121.0" y="690.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow55" id="BPMNEdge_flow55">
+        <omgdi:waypoint x="1052.0" y="660.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1023.0" y="659.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1023.0" y="690.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
+        <omgdi:waypoint x="1121.0" y="725.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1121.0" y="775.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="52.0" width="100.0" x="11.0" y="-25.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
+        <omgdi:waypoint x="1023.0" y="725.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1023.0" y="770.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="39.0" width="100.0" x="-102.0" y="-18.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow58" id="BPMNEdge_flow58">
+        <omgdi:waypoint x="1023.0" y="825.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1023.0" y="850.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
