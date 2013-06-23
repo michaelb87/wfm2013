@@ -38,14 +38,14 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
-				<navigation-case>
+		<navigation-case>
 			<if>#{uiMediator.nextTaskId==null}</if>
 			<to-view-id>/login.jsf</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
-		<navigation-rule>
+
+	<navigation-rule>
 		<from-view-id>/addCourse.xhtml</from-view-id>
 		<navigation-case>
 			<if>#{uiMediator.nextTaskId!=null}</if>
@@ -57,13 +57,13 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
-				<navigation-case>
+		<navigation-case>
 			<if>#{uiMediator.nextTaskId==null}</if>
 			<to-view-id>/login.jsf</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<from-view-id>/deleteCourse.xhtml</from-view-id>
 		<navigation-case>
@@ -76,14 +76,14 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
-				<navigation-case>
+		<navigation-case>
 			<if>#{uiMediator.nextTaskId==null}</if>
 			<to-view-id>/login.jsf</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
-		<navigation-rule>
+
+	<navigation-rule>
 		<from-view-id>/courseList.xhtml</from-view-id>
 		<navigation-case>
 			<if>#{uiMediator.nextTaskId!=null}</if>
@@ -95,13 +95,13 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
-				<navigation-case>
+		<navigation-case>
 			<if>#{uiMediator.nextTaskId==null}</if>
 			<to-view-id>/login.jsf</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
-	
+
 	<navigation-rule>
 		<from-view-id>/waitForApproval.xhtml</from-view-id>
 		<navigation-case>
@@ -114,12 +114,18 @@
 				</view-param>
 			</redirect>
 		</navigation-case>
-				<navigation-case>
+		<navigation-case>
 			<if>#{uiMediator.nextTaskId==null}</if>
 			<to-view-id>/login.jsf</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
+
+	<managed-bean>
+		<managed-bean-name>currentDate</managed-bean-name>
+		<managed-bean-class>java.util.Date</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 
 </faces-config>

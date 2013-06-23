@@ -82,8 +82,11 @@
 
 				<tr>
 					<td style="font-weight: bold;">Date/Time</td>
-					<td><p:calendar value="#{course.date}"
-							pattern="dd.MM.yyyy HH:mm" /></td>
+					<td><p:calendar id="calDate" value="#{course.date}" pattern="dd.MM.yyyy HH:mm" mindate="#{currentDate}">
+    							<!--<f:ajax execute="calDate" render="calendarmessage" />-->
+						</p:calendar>	
+						<h:message id="error-msg" for="calDate"/> 		
+					</td>
 				</tr>
 				
 				<tr>

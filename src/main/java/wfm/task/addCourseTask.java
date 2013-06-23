@@ -20,7 +20,7 @@ import wfm.db.Course;
 @ConversationScoped
 public class addCourseTask {
 	
-	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+	private static final Logger log = LoggerFactory.getLogger(addCourseTask.class);
 
 	@Inject
 	private BusinessProcess businessProcess;
@@ -51,8 +51,7 @@ public class addCourseTask {
 		coursePersist.setDate(course.getDate());
 	    
 	    entityManager.persist(coursePersist);
-	    entityManager.flush();
-	    
+	    entityManager.flush();	    
 
 		businessProcess.setVariable("approvalAction", "logout");
 		businessProcess.completeTask();
