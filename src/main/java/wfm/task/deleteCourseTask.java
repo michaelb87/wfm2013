@@ -39,13 +39,15 @@ public class deleteCourseTask {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	private List<String> userMails = new ArrayList<String>();
-	private List<String> courseNames = new ArrayList<String>();
-	private List<String> userNames = new ArrayList<String>();
+	private String courseName;
+	
+	//private List<String> userMails = new ArrayList<String>();
+	//private List<String> courseNames = new ArrayList<String>();
+	//private List<String> userNames = new ArrayList<String>();
 
 	public void deleteCourse(String taskId, int id) {
 		businessProcess.startTask(taskId);
-		
+		/*
 		//get all mails from subscribed users
 		Query q = entityManager
 				.createNativeQuery("SELECT EMAIL_ FROM USER_COURSE uc, ACT_ID_USER u WHERE uc.USER_ID = u.ID_ AND uc.COURSE_NR ='"+id+"'");
@@ -80,7 +82,7 @@ public class deleteCourseTask {
 		//nice would be one query:
 		//ex: SELECT EMAIL_, ID_, c.NAME  FROM USER_COURSE uc, ACT_ID_USER u, COURSE c WHERE uc.USER_ID = u.ID_ AND uc.COURSE_NR = 75 AND uc.COURSE_NR = c.COURSE_NR
 		//but how to access each own column?
-		
+		*/
 		log.info("User: " + user.getUsername());
 		
 		// delete from database:
@@ -90,6 +92,9 @@ public class deleteCourseTask {
 				course = entityManager.find(Course.class, id);
 				
 				log.info("Course found: " + course.toString());
+				
+				courseName = course.getName();
+								
 				
 				//removing the course from users
 				for (ACT_ID_USER u : course.getUsers()) {
@@ -102,14 +107,15 @@ public class deleteCourseTask {
 			   
 			    entityManager.flush();		  
 			    
+			    log.info("Course deleted successfully...");
 			
 		}catch(Exception e){
 			log.error(e.getMessage());
 		}
-		
-		businessProcess.setVariable("deleteProcess", userMails);
-		businessProcess.setVariable("courseName", courseNames);
-		businessProcess.setVariable("userName", userNames);		
+		businessProcess.setVariable("deletedCourseName", courseName);
+		//businessProcess.setVariable("deleteProcess", userMails);
+		//businessProcess.setVariable("courseName", courseNames);
+		//businessProcess.setVariable("userName", userNames);		
 		businessProcess.completeTask();
 	}
 

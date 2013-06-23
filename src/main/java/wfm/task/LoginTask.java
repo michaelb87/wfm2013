@@ -73,10 +73,14 @@ public class LoginTask {
 		try {
 			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class,
 					user.getUsername());
-
+			
 			if (dbUser != null) {
 				if (user.getPassword().equals(dbUser.getPwd_())) {
 					logedIn = true;
+					
+					businessProcess.setVariable("userMail", dbUser.getEmail_());
+					businessProcess.setVariable("userName", dbUser.getId_());
+					
 				} else {
 					user.setPassword("");
 					logedIn = false;
@@ -107,8 +111,8 @@ public class LoginTask {
 
 			}
 			variables.put("loggedIn", logedIn);
-
-
+			
+			
 
 			try {
 				return businessProcess.startProcessByKey("sccms", variables);

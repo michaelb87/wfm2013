@@ -19,7 +19,11 @@ import javax.persistence.PersistenceContext;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 
-
+/*
+ * This class can be DELETED if user notification works
+ * 
+ * OLD VERSION
+ * */
 @Named("deleteMail")
 public class deleteMailTask implements JavaDelegate {
 
