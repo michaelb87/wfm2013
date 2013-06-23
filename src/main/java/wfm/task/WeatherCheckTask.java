@@ -22,17 +22,15 @@ public class WeatherCheckTask implements JavaDelegate {
 		Channel channel = service.getForecast(WeatherCheckTask.weoidVienna,
 				DegreeUnit.CELSIUS);
 		// read the current weather condition
-		// if weather is bad... screw you guys im going home -->
 		int condition = channel.getItem().getCondition().getCode();
 		// http://developer.yahoo.com/weather/#codes
 		//for testing always bad weather: if (condition < 100) {
 		if (condition < 19 || condition >= 37 || condition == 35) {
 			// cancel course
-			System.out.println("Weahter is really bad");
-			System.out.println(channel.getItem().getCondition());
+			System.out.println("Weahter is really bad. it is " + channel.getItem().getCondition().getText());
 			execution.setVariable("weatherOk", false);
 		} else {
-			System.out.println("Weather is " + channel.getItem().getCondition()
+			System.out.println("Weather is " + channel.getItem().getCondition().getText()
 					+ " - Course is taking place as scheduled: ");
 			execution.setVariable("weatherOk", true);
 		}
