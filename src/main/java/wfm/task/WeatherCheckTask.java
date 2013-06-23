@@ -40,12 +40,14 @@ public class WeatherCheckTask implements JavaDelegate {
 		int conditioncode = forecast.getCode(); // numeric code describing the weather see:  http://developer.yahoo.com/weather/#codes
 		String conditiontext = forecast.getText(); // the weather text
 		int highTemp = forecast.getHigh(); // highest temperature of the next day
-
+		
+		
 		//if weather code predicts snow, rain, heavy wind etc. or the temperature is below our defined limit for outdoor course - it evaluates to true
 		if ((conditioncode < 19 || conditioncode >= 37 || conditioncode == 35) || highTemp < limitTemperature) {
 			// cancel course
 			log.info("Weahter is really bad. it is " + conditiontext + " let Trainer decide wthat to do next");
 			execution.setVariable("weatherOk", false);
+			execution.setVariable("badWeatherCondition", conditiontext);
 		} else {
 			log.info("Weather is " + conditiontext + " - Course is taking place as scheduled: ");
 			execution.setVariable("weatherOk", true);
