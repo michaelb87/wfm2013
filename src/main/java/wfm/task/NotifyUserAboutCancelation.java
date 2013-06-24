@@ -12,11 +12,15 @@ import javax.mail.internet.MimeMessage;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import wfm.db.Course;
 
 
 public class NotifyUserAboutCancelation implements JavaDelegate {
+	
+	public static Logger log = LoggerFactory.getLogger(NotifyUserAboutCancelation.class);
 
 	private String add;
 	private String cName;
@@ -26,13 +30,21 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		add = (String) execution.getVariable("userMail");
-		//cName = (String) execution.getVariable("deletedCourseName");
-		cName = (String) ((Course)execution.getVariable("courseToApprove")).getName();
+		cName = (String) execution.getVariable("deletedCourseName");
+		//cName = (String) ((Course)execution.getVariable("courseToApprove")).getName();
 		uName = (String) execution.getVariable("userName");
 		
 		System.out.println("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);	
 		//-------------------- different msg for course rejection vs. cancellatiopn
-		String msgType = (boolean) execution.getVariable("approved") ? "cancelled" : "rejected";
+		String msgType = "";
+		
+		try {
+			msgType = (boolean) execution.getVariable("approved") ? "cancelled" : "rejected";
+		}
+		catch (NullPointerException ex) {
+			msgType = "cancelled";
+			log.info("no active current user process instance registered for respective course");
+		}
 		
 		initializeMailService(add,cName,uName, msgType);
 		System.out.println("done...");

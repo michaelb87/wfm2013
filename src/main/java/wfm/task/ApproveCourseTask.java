@@ -72,6 +72,7 @@ public class ApproveCourseTask {
 	public void rejectCourse(String taskId) {
 		businessProcess.startTask(taskId);
 		businessProcess.setVariable("approvalAction", "back");
+		businessProcess.setVariable("deletedCourseName", ((Course) businessProcess.getVariable("courseToApprove")).getName());
 		businessProcess.setVariable("approved", false);
 		businessProcess.completeTask();
 	}
