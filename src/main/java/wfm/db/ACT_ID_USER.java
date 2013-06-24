@@ -154,7 +154,7 @@ public class ACT_ID_USER implements Serializable{
 
 	@Override
 	public String toString() {
-		return "User [userName=" + id_ + ", password=" + pwd_ + "]";
+		return "User [userName=" + id_ + ", password=" + pwd_ + ", email="+ email_ + "]";
 	}
 
 

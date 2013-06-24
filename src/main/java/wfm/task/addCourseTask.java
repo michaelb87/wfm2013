@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import wfm.bean.User;
+import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 
 
@@ -53,7 +54,11 @@ public class addCourseTask {
 	    
 	    entityManager.persist(coursePersist);
 	    entityManager.flush();	    
-
+	    
+	    //ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, user.getUsername());
+	    
+	    //log.info("zzz: "+trainerToBeNotified);
+	    //businessProcess.setVariable("trainer", trainerToBeNotified);   // Works, trainer is saved correctly, but getVariable gets member instead of trainer Oo
 		businessProcess.setVariable("approvalAction", "logout");
 		businessProcess.completeTask();
 	}

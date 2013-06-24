@@ -17,7 +17,7 @@
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><h:inputText id="pw" value="#{user.password}" validator="#{loginTask.validatePw}"/></td>
+					<td><h:inputSecret id="pw" value="#{user.password}" validator="#{loginTask.validatePw}"/></td>
 				</tr>
 				<tr>
 					<h:message class="error-msg" for="pw" tooltip="true" showSummary="true"/>
