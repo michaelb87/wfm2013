@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class WeatherCheckTask implements JavaDelegate {
 
 	public static String woeidVienna = "12591694"; // woeid vieanna check: http://woeid.rosselliot.co.nz/
-	public static int limitTemperature = 35; // if high temperature is below this limit -> weather bad   STD.= 15
+	public static int limitTemperature = 15; // if high temperature is below this limit -> weather bad   STD.= 15
 	private static final Logger log = LoggerFactory.getLogger(WeatherCheckTask.class);
 
 	@Override
