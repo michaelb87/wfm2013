@@ -8,21 +8,7 @@
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:jsfcal="http://code.google.com/p/jsfcal"
 	xmlns:p="http://primefaces.org/ui">
-	<style>
-.header {
-	font-weight: bold;
-}
 
-.rich-calendar-header {
-	text-align: center;
-}
-
-.organizer-cell {
-	width: 90px;
-	height: 90px;
-	overflow: hidden;
-}
-</style>
 
 
 	<ui:define name="content">
@@ -98,11 +84,14 @@
 				</tr>
 				
 				<tr>
-					<td><h:commandButton
-							action="#{addCourseTask.addCourse(taskId)}" value="done"
+					<td><h:commandButton class="btn btn-large btn-primary"
+							action="#{addCourseTask.addCourse(taskId)}" value="Add"
 							type="submit" /></td>
-					<td><h:commandButton
-							action="#{businessProcess.completeTask(true)}" value="cancel"
+							
+							
+							
+					<td><h:commandButton class="btn btn-large"
+							action="#{businessProcess.completeTask(true)}" value="Cancel"
 							type="submit" /></td>
 				</tr>
 			</table>			

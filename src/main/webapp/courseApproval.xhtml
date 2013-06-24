@@ -5,32 +5,43 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
-	<f:metadata>
-		<f:viewParam name="taskId" />      
-   	</f:metadata>
-	
-   	
-	<h2>Approve course registrations</h2>
+		<f:metadata>
+			<f:viewParam name="taskId" />
+		</f:metadata>
 
-			<p>
-				Hello ${user.username}<br/>
-				<h:form>
-				<h:commandButton action="#{courseApprovalTask.goToAddCourse(taskId)}" value="Add new course" type="submit" />
-				<h:commandButton action="#{courseApprovalTask.goToDeleteCourse(taskId)}" value= "Delete existing course" type="submit"/>
-				</h:form>
-			</p>
-			<h2>Please confirm the following course registrations:</h2>
-	<h:form>
-	    <h:dataTable value="#{taskList.list}" var="thisTask" id="list" cellspacing="0" rowClasses="odd, even" styleClass="datatable">
-			<h:column><strong>	#{thisTask.name}		</strong></h:column>
-			<h:column>			#{thisTask.createTime}	</h:column>
-			<h:column>			#{thisTask.dueDate}		</h:column>			
-			<h:column>			#{thisTask.assignee}	</h:column>			
-			<h:column>	
-				<h:outputLink value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">confirm</h:outputLink>
-			</h:column>		
-	    </h:dataTable>	
-	</h:form>			
+		<h1>Hello ${user.username}</h1>
+		<br />
+		<h2>Please confirm the following course registrations:</h2>
+		<h:form>
+			<h:dataTable value="#{taskList.list}" var="thisTask" id="list"
+				cellspacing="0" rowClasses="odd, even" styleClass="datatable">
+				<h:column>
+					<strong> #{thisTask.name} </strong>
+				</h:column>
+				<h:column>			#{thisTask.createTime}	</h:column>
+				<h:column>			#{thisTask.dueDate}		</h:column>
+				<h:column>			#{thisTask.assignee}	</h:column>
+				<h:column>
+					<h:outputLink
+						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">confirm</h:outputLink>
+				</h:column>
+			</h:dataTable>
+		</h:form>
 
-	</ui:define>	
+		<h2>Please choose an action:</h2>
+
+		<h:form>
+			<h:commandButton class="btn btn-large btn-primary"
+				action="#{courseApprovalTask.goToAddCourse(taskId)}"
+				value="Add course" type="submit" />
+			<br />
+			<br />
+			<h:commandButton class="btn btn-large btn-primary"
+				action="#{courseApprovalTask.goToDeleteCourse(taskId)}"
+				value="Delete course" type="submit" />
+		</h:form>
+
+
+
+	</ui:define>
 </ui:composition>

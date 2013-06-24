@@ -12,18 +12,19 @@
 		</f:metadata>
 
 
-
-
 		<h:panelGroup id="panelMember"
 			rendered="#{!approveCourseBean.trainer}">
 
-			<h:outputText id="textMember"
-				value="Thank you for subscribing to the course. You will get an
+			<h3>
+				<h:outputText id="textMember"
+					value="Thank you for subscribing to the course. You will get an
 			confirmation email once the trainer approves the subscription." />
+			</h3>
 
-
+			<br />
 			<h:form>
-				<h:commandButton action="#{approveCourseTask.logout()}" value="logout" type="submit" />
+				<h:commandButton class="btn btn-large btn-primary"
+					action="#{approveCourseTask.logout()}" value="Logout" type="submit" />
 			</h:form>
 
 		</h:panelGroup>
@@ -32,22 +33,25 @@
 		<h:panelGroup id="panelTrainer"
 			rendered="#{approveCourseBean.trainer}">
 
-			<h:outputText id="textTrainer"
-				value="Please approve the following course: " />
+			<h2>
+				<h:outputText id="textTrainer"
+					value="Please approve the following course: " />
+			</h2>
+			<br />
 
-<h:outputText id="textCourseNr"
-				value="#{approveCourseTask.courseToApprove.course_nr} #{approveCourseTask.courseToApprove.name} from user: #{approveCourseTask.userToApprove.id_}" />
-				
-				
-
-
+			<h3>
+				<h:outputText id="textCourseNr"
+					value="Course: #{approveCourseTask.courseToApprove.course_nr} #{approveCourseTask.courseToApprove.name} from user: #{approveCourseTask.userToApprove.first_} #{approveCourseTask.userToApprove.last_}" />
+			</h3>
+			<br />
+			<br />
 			<h:form>
 				<table>
 					<tr>
 
-						<td><h:commandButton
+						<td><h:commandButton class="btn btn-large btn-primary"
 								action="#{approveCourseTask.approveCourse(taskId)}"
-								value="approve" type="submit" /></td>
+								value="Approve" type="submit" /></td>
 
 					</tr>
 				</table>
