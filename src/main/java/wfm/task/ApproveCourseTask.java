@@ -58,15 +58,24 @@ public class ApproveCourseTask {
 		}
 
 		businessProcess.setVariable("approvalAction", "back");
+		businessProcess.setVariable("approved", true);
 		
 		Course registeredCourse = businessProcess.getVariable("courseToApprove");
 		
 		 ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
 		 businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
-		log.info("Mail: "+trainerToBeNotified.getEmail_());
+		 log.info("Mail: "+trainerToBeNotified.getEmail_());
 		
 		businessProcess.completeTask();
 	}
+	
+	public void rejectCourse(String taskId) {
+		businessProcess.startTask(taskId);
+		businessProcess.setVariable("approvalAction", "back");
+		businessProcess.setVariable("approved", false);
+		businessProcess.completeTask();
+	}
+	
 	
 	public String logout() {
 		Course registeredCourse = businessProcess.getVariable("courseToApprove");

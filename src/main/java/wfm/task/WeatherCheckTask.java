@@ -30,9 +30,14 @@ public class WeatherCheckTask implements JavaDelegate {
 				DegreeUnit.CELSIUS);
 		// read tomorrows weather condition
 		forecast = channel.getItem().getForecasts().get(0);
+		
+		if (forecast==null) {
+			throw new NullPointerException("Could not retreive Forecast!");
+		}
+		
 		}
 		catch (Exception ex) {
-			log.error("Could not receive weather forecast for the next day - expecting the worst case");
+			log.error("Could not receive weather forecast for the next day - expecting the worst case " + ex.getMessage());
 			execution.setVariable("weatherOk", false);
 			return;
 		}

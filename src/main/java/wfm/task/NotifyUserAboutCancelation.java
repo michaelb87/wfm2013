@@ -13,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 
+import wfm.db.Course;
+
 
 public class NotifyUserAboutCancelation implements JavaDelegate {
 
@@ -24,14 +26,20 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		add = (String) execution.getVariable("userMail");
-		cName = (String) execution.getVariable("deletedCourseName");
+		//cName = (String) execution.getVariable("deletedCourseName");
+		cName = (String) ((Course)execution.getVariable("courseToApprove")).getName();
 		uName = (String) execution.getVariable("userName");
 		
-		System.out.println("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);
-		initializeMailService(add,cName,uName);
+		System.out.println("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);	
+		//-------------------- different msg for course rejection vs. cancellatiopn
+		String msgType = (boolean) execution.getVariable("approved") ? "cancelled" : "rejected";
+		
+		initializeMailService(add,cName,uName, msgType);
 		System.out.println("done...");
 	}
-	private void initializeMailService(String add,String cName, String uName) throws AddressException, MessagingException {
+	
+	//set that for message
+	private void initializeMailService(String add,String cName, String uName, String msgType) throws AddressException, MessagingException {
 		
 		   // Sender's email ID needs to be mentioned
 		   String from = "sscms.sender@gmail.com";
@@ -69,13 +77,15 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		      message.setSubject("SCCMS: Course canceled!");
 
 		      // Now set the actual message
+		      // set header according to reason
+		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that a course you have been subscribed to has been canceled!\n\n" : "This Email is a notification that your attempt to subscribe to a course was " + msgType + " by the trainer \n\n";
 		      message.setText("Dear "+uName+"!\n" +
-		      		"This Email is a notification that a course you have been subscribed to has been canceled!\n\n" +
+		    		header+
 		      		"The affected course is: "+cName+"\n"+
 		      		"Please feel free to select an alternative.\n\n" +
-		      		"This is an automatically generated course cancelling notification.\n\n" +
-		      		"Best regards,\nSCCMS");	    
-
+		      		"This is an automatically generated course " +  msgType + "  notification.\n\n" +
+		      		"Best regards,\nSCCMS");	      
+		      
 		      // Send message
 		      Transport transport = session.getTransport("smtp");
 		      transport.connect(host, from, pass);
