@@ -39,7 +39,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		String msgType = "";
 		
 		try {
-			msgType = (boolean) execution.getVariable("approved") ? "cancelled" : "rejected";
+			msgType = (Boolean) execution.getVariable("approved") ? "cancelled" : "rejected";
 		}
 		catch (NullPointerException ex) {
 			msgType = "cancelled";

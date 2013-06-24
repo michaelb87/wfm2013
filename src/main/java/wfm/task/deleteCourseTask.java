@@ -1,9 +1,5 @@
 package wfm.task;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -18,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import wfm.bean.User;
 import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
-import javax.persistence.Query;
 
 @Stateful
 @Named
