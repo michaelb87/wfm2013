@@ -24,62 +24,86 @@
 		<p>Here you can add a new course!</p>
 
 		<h:form>
-			<h:messages class="error-msg" tooltip="true" layout="table"/>
-			<table>
+			<!-- <h:messages class="error-msg" tooltip="true" layout="table"/>-->
+			<table >
 				<tr>
 					<td style="font-weight: bold;">Course name:</td>
-					<td><h:inputText id="course_name" value="#{course.name}">
+					<td ><h:inputText id="course_name" value="#{course.name}" required="true" label="course name">
 						 	<f:validateLength minimum="3"/>
 						</h:inputText>
+					</td>
+					<td >
+					<h:messages for="course_name" errorStyle="color:red; display:block" />
 					</td>
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Course description:</td>
-					<td><h:inputText id="course_description" value="#{course.desc}">
-							<f:validateLength minimum="3"/>
+					<td><h:inputText id="course_description" value="#{course.desc}" required="true" label="course description">
+							<f:validateLength maximum="10"/>
 						</h:inputText>
 					</td>
+					<td >
+					<h:messages for="course_description" errorStyle="color:red; display:block" />
+					</td>
+					
+					
+					
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Member Type:</td>
 					<td><h:selectOneMenu value="#{course.memberType}" var="type">
 							<f:selectItems value="#{membershipTypes.types}" />
 						</h:selectOneMenu></td>
-
+	
 				</tr>
 
 				<tr>
 					<td style="font-weight: bold;">Capacity:</td>
-					<td><h:inputText id="capacity" value="#{course.maxMembers}" >
-							<f:validateLongRange minimum="5" maximum="100"/>
+					<td><h:inputText id="capacity" value="#{course.maxMembers}" label="capacity">
+							<f:validateLongRange minimum="5" maximum="50"/>
 						</h:inputText>
+					</td>
+					<td >
+					<h:messages for="capacity"  errorStyle="color:red; display:block" />
 					</td>
 				</tr>
 				
 				<tr>
 					<td style="font-weight: bold;">Reward Points:</td>
-					<td><h:inputText id="reward" value="#{course.rewardPoints}" >
-							<f:validateLongRange minimum="0" maximum="200"/>
+					<td><h:inputText id="reward" value="#{course.rewardPoints}" label="reward points">
+							<f:validateLength maximum="200"/>
 						</h:inputText>
+					</td>
+					<td >
+					<h:messages for="reward"  errorStyle="color:red; display:block" />
 					</td>
 				</tr>
 
 				<tr>
 					<td style="font-weight: bold;">Indoor</td>
-					<td><h:selectBooleanCheckbox value="#{course.indoor}" /></td>
+					<td><h:selectBooleanCheckbox value="#{course.indoor}" style="margin-bottom:20px"/></td>
 
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Location:</td>
-					<td><h:inputText value="#{course.location}" /></td>
+					<td><h:inputText id="location" value="#{course.location}" required="true" label="location"/></td>
+					<td >
+					<h:messages for="location" errorStyle="color:red; display:block" />
+					</td>
 				</tr>
 
 				<tr>
 					<td style="font-weight: bold;">Date/Time</td>
-					<td><p:calendar id="calDate" value="#{course.date}" pattern="dd.MM.yyyy HH:mm" mindate="#{currentDate}">
-    							<!--<f:ajax execute="calDate" render="calendarmessage" />-->
-						</p:calendar>	
-						<h:message id="error-msg" for="calDate"/> 		
+					<td>
+					<p:calendar id="calDate" value="#{course.date}" pattern="dd.MM.yyyy HH:mm" mindate="#{currentDate}" required="true" label="date and time">
+    				<f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
+    				</p:calendar>	
+							
+					</td>
+					<td>
+					<ul style="list-style-type:none;"><li>
+					<h:message for="calDate" errorStyle="color:red; display:block" /> 	
+					</li></ul>				
 					</td>
 				</tr>
 				

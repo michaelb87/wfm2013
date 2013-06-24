@@ -15,15 +15,14 @@
 		<h:form>
 			<h:dataTable value="#{taskList.list}" var="thisTask" id="list"
 				cellspacing="0" rowClasses="odd, even" styleClass="datatable">
+				
 				<h:column>
-					<strong> #{thisTask.name} </strong>
+					Subscription of user <strong> #{thisTask.assignee} </strong>
 				</h:column>
-				<h:column>			#{thisTask.createTime}	</h:column>
-				<h:column>			#{thisTask.dueDate}		</h:column>
-				<h:column>			#{thisTask.assignee}	</h:column>
-				<h:column>
+				<h:column>	from #{thisTask.createTime}:	</h:column>
+				<h:column> 
 					<h:outputLink
-						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">confirm</h:outputLink>
+						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">CONFIRM</h:outputLink>
 				</h:column>
 			</h:dataTable>
 		</h:form>
@@ -31,14 +30,22 @@
 		<h2>Please choose an action:</h2>
 
 		<h:form>
-			<h:commandButton class="btn btn-large btn-primary"
-				action="#{courseApprovalTask.goToAddCourse(taskId)}"
-				value="Add course" type="submit" />
-			<br />
-			<br />
-			<h:commandButton class="btn btn-large btn-primary"
-				action="#{courseApprovalTask.goToDeleteCourse(taskId)}"
-				value="Delete course" type="submit" />
+			<table>
+				<tr>
+					<td><h:commandButton class="btn btn-large btn-primary"
+							action="#{courseApprovalTask.goToAddCourse(taskId)}"
+							value="Add course" type="submit" /></td>
+					<td width="20px"></td>
+					<td><h:commandButton class="btn btn-large btn-primary"
+							action="#{courseApprovalTask.goToDeleteCourse(taskId)}"
+							value="Delete course" type="submit" /></td>
+					<td width="20px"></td>
+					<td><h:commandButton class="btn btn-large btn-primary"
+							action="/login.xhtml" value="Logout" type="submit" /></td>
+
+				</tr>
+
+			</table>
 		</h:form>
 
 

@@ -83,7 +83,8 @@ img {
 button,
 input,
 select,
-textarea {
+textarea,
+checkbox {
   margin: 0;
   font-size: 100%;
   vertical-align: middle;
@@ -1252,6 +1253,7 @@ textarea::-webkit-input-placeholder {
 .checkbox.inline {
   display: inline-block;
   padding-top: 5px;
+   padding-bottom: 5px; /*added*/
   margin-bottom: 0;
   vertical-align: middle;
 }
