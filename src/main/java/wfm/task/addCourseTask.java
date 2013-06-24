@@ -35,8 +35,7 @@ public class addCourseTask {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public void addCourse(String taskId) {
-		
+	public void addCourse(String taskId) {		
 		
 		log.info("User: " + user.getUsername()+" Course: " + course.toString());
 		// add to database:
@@ -55,11 +54,7 @@ public class addCourseTask {
 	    entityManager.persist(coursePersist);
 	    entityManager.flush();	    
 	    
-	    //ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, user.getUsername());
-	    
-	    //log.info("zzz: "+trainerToBeNotified);
-	    //businessProcess.setVariable("trainer", trainerToBeNotified);   // Works, trainer is saved correctly, but getVariable gets member instead of trainer Oo
-		businessProcess.setVariable("approvalAction", "logout");
+	    businessProcess.setVariable("approvalAction", "logout");
 		businessProcess.completeTask();
 	}
 

@@ -61,11 +61,11 @@ public class ApproveCourseTask {
 		businessProcess.setVariable("approved", true);
 		
 		Course registeredCourse = businessProcess.getVariable("courseToApprove");
+		//needed for trainer notification mail
+		ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
+		log.info("Trainermail: "+trainerToBeNotified.getEmail_());
 		
-		 ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
-		 businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
-		 log.info("Mail: "+trainerToBeNotified.getEmail_());
-		
+		businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());		
 		businessProcess.completeTask();
 	}
 	

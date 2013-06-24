@@ -15,8 +15,6 @@ import org.activiti.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import wfm.db.Course;
-
 
 public class NotifyUserAboutCancelation implements JavaDelegate {
 	
@@ -30,8 +28,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		add = (String) execution.getVariable("userMail");
-		cName = (String) execution.getVariable("deletedCourseName");
-		//cName = (String) ((Course)execution.getVariable("courseToApprove")).getName();
+		cName = (String) execution.getVariable("deletedCourseName");		
 		uName = (String) execution.getVariable("userName");
 		
 		System.out.println("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);	
