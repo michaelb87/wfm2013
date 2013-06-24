@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class WeatherCheckTask implements JavaDelegate {
 
 	public static String woeidVienna = "12591694"; // woeid vieanna check: http://woeid.rosselliot.co.nz/
-	public static int limitTemperature = 15; // if high temperature is below this limit -> weather bad
+	public static int limitTemperature = 35; // if high temperature is below this limit -> weather bad   STD.= 15
 	private static final Logger log = LoggerFactory.getLogger(WeatherCheckTask.class);
 
 	@Override
@@ -45,7 +45,7 @@ public class WeatherCheckTask implements JavaDelegate {
 		//if weather code predicts snow, rain, heavy wind etc. or the temperature is below our defined limit for outdoor course - it evaluates to true
 		if ((conditioncode < 19 || conditioncode >= 37 || conditioncode == 35) || highTemp < limitTemperature) {
 			// cancel course
-			log.info("Weahter is really bad. it is " + conditiontext + " let Trainer decide wthat to do next");
+			log.info("Weather is really bad. it is " + conditiontext + " let Trainer decide wthat to do next");
 			execution.setVariable("weatherOk", false);
 			execution.setVariable("badWeatherCondition", conditiontext);
 		} else {

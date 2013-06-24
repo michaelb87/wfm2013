@@ -69,6 +69,14 @@
 						</h:inputText>
 					</td>
 				</tr>
+				
+				<tr>
+					<td style="font-weight: bold;">Reward Points:</td>
+					<td><h:inputText id="reward" value="#{course.rewardPoints}" >
+							<f:validateLongRange minimum="0" maximum="200"/>
+						</h:inputText>
+					</td>
+				</tr>
 
 				<tr>
 					<td style="font-weight: bold;">Indoor</td>
