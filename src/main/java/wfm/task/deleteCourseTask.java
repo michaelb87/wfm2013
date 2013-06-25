@@ -19,7 +19,7 @@ import wfm.db.Course;
 @Named
 @ConversationScoped
 public class deleteCourseTask {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
 	@Inject
@@ -27,47 +27,52 @@ public class deleteCourseTask {
 
 	@Inject
 	private Course course;
-	
+
 	@Inject
 	private User user;
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	private String courseName;
-	
+
 	public void deleteCourse(String taskId, int id) {
-		
+
 		businessProcess.startTask(taskId);
-				
+
 		// delete from database:
-				
+
 		try{
-				log.info("Searching course with Id: "+id);
-				course = entityManager.find(Course.class, id);
-				
-				log.info("Course found: " + course.toString());
-				
-				courseName = course.getName();
-								
-				
-				//removing the course from users
-				for (ACT_ID_USER u : course.getUsers()) {
-					u.getCourses().remove(course);
-				}
-				//removing all users from the collection of users
-				course.getUsers().clear();
-				
-			    entityManager.remove(course);
-			   
-			    entityManager.flush();		  
-			    
-			    log.info("Course deleted successfully...");
-			
+			log.info("Searching course with Id: "+id);
+			course = entityManager.find(Course.class, id);
+
+			log.info("Course found: " + course.toString());
+
+			courseName = course.getName();
+
+
+			//removing the course from users
+			for (ACT_ID_USER u : course.getUsers()) {
+				u.getCourses().remove(course);
+			}
+			//removing all users from the collection of users
+			course.getUsers().clear();
+
+			entityManager.remove(course);
+
+			entityManager.flush();		  
+
+			log.info("Course deleted successfully...");
+
 		}catch(Exception e){
 			log.error(e.getMessage());
 		}
 		businessProcess.setVariable("deletedCourseName", courseName);	
+		businessProcess.setVariable("courseAction", "deleted");
 		businessProcess.completeTask();
 	}
+
+	
+
+
 }

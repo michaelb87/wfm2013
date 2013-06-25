@@ -83,6 +83,11 @@
 			</redirect>
 		</navigation-case>
 		<navigation-case>
+			<if>cancel</if>
+			<to-view-id>/courseApproval.jsf</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<if>#{uiMediator.nextTaskId==null}</if>
 			<to-view-id>/login.jsf</to-view-id>
 			<redirect />

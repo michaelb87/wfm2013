@@ -59,6 +59,7 @@ public class ApproveCourseTask {
 
 		businessProcess.setVariable("approvalAction", "back");
 		businessProcess.setVariable("approved", true);
+		businessProcess.setVariable("courseAction", "approved");
 		
 		Course registeredCourse = businessProcess.getVariable("courseToApprove");
 		//needed for trainer notification mail

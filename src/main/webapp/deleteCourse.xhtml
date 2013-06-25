@@ -12,7 +12,7 @@
 
 		<h2>Delete one of the courses</h2>
 
-		<p>Here you can delete one of the courses!</p>		
+		<p class="text-info">Here you can delete one of the courses!</p>		
 		<h:form>
 			
 			<h:dataTable value="#{courses.personalItems}" var="v_course" id="courseList" frame="box" styleClass="rounded-corner" rowClasses="odd,even">
@@ -52,6 +52,8 @@
 					<f:facet name="footer"><div id="mid"> </div></f:facet>
 				</h:column>
 			</h:dataTable>
+			<br/>
+			
 		</h:form>
 	</ui:define>
 </ui:composition>
