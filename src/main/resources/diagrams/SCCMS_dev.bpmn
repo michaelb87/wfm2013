@@ -55,7 +55,7 @@
     </sequenceFlow>
     <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
       <timerEventDefinition>
-        <timeDuration>PT10S</timeDuration>
+        <timeDate>${timerEventTime}</timeDate>
       </timerEventDefinition>
     </intermediateCatchEvent>
     <serviceTask id="servicetask5" name="check weather" activiti:class="wfm.task.WeatherCheckTask"></serviceTask>

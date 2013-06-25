@@ -1,5 +1,7 @@
 package wfm.task;
 
+import java.sql.Timestamp;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.context.FacesContext;
@@ -37,6 +39,7 @@ public class ApproveCourseTask {
 	private Course courseToApprove;
 	private ACT_ID_USER userToApprove;
 
+
 	public void approveCourse(String taskId) {
 
 		businessProcess.startTask(taskId);
@@ -60,12 +63,34 @@ public class ApproveCourseTask {
 		businessProcess.setVariable("approvalAction", "back");
 		businessProcess.setVariable("approved", true);
 		
-		Course registeredCourse = businessProcess.getVariable("courseToApprove");
+		//--------------------------------------------------------------------
+		//course needed for TimerEvent and Trainer notification
+		Course registeredCourse = businessProcess.getVariable("courseToApprove"); 
+		
+		//TimerEvent functionality
+		
+		Timestamp t = (Timestamp) registeredCourse.getDate();
+		log.info("Date of course: "+t);
+		
+		long old = t.getTime();
+		long minutesToSubtract = 5;  //minutes before the actual start of the course
+		long neu = minutesToSubtract*60*1000;		
+		
+		Timestamp timer = new Timestamp(old-neu);
+
+		String s = timer.toString();
+		String timerEvent = s.replace(' ', 'T');
+		
+		log.info("Date of course for timerEvent: "+timerEvent);
+		businessProcess.setVariable("timerEventTime", timerEvent);
+		
+		//---------------------------------------------------------------------------
+		
 		//needed for trainer notification mail
 		ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
-		log.info("Trainermail: "+trainerToBeNotified.getEmail_());
-		
-		businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());		
+		log.info("Trainermail: "+trainerToBeNotified.getEmail_());		
+		businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
+		//---------------------------------------------------------------------------
 		businessProcess.completeTask();
 	}
 	
