@@ -9,27 +9,33 @@
 			<f:viewParam name="taskId" />
 		</f:metadata>
 
-		<h:outputText value="Adding course was cancelled."
-			rendered="#{processVariables['courseAction']=='cancelled'}"
-			class="text-info" />
-		<h:outputText
-			value="Adding course '#{processVariables['addedCourse']}' was successful"
-			rendered="#{processVariables['courseAction']=='added'}"
-			class="text-success" />
-	
-			
-		<h:outputText
-			value="Deleting course '#{processVariables['deletedCourseName']}' was successful"
-			rendered="#{processVariables['courseAction']=='deleted'}"
-			class="text-success" />
-		<h:outputText
-			value="Approving course was successful"
-			rendered="#{processVariables['courseAction']=='approved'}"
-			class="text-success" />
+		<h:panelGroup id="messages"
+			rendered="#{processVariables['courseAction']!=null}" width="100%">
+			<h:outputText id="textCancelled" value="Adding course was cancelled."
+				rendered="#{processVariables['courseAction']=='cancelled'}"
+				class="text-error" />
+			<h:outputText
+				value="Adding course '#{processVariables['courseFromAction']}' was successful."
+				rendered="#{processVariables['courseAction']=='added'}"
+				class="text-success" />
+			<h:outputText
+				value="Deleting course '#{processVariables['courseFromAction']}' was successful."
+				rendered="#{processVariables['courseAction']=='deleted'}"
+				class="text-success" />
+			<h:outputText
+				value="Approving course '#{processVariables['courseFromAction']}' was successful."
+				rendered="#{processVariables['courseAction']=='approved'}"
+				class="text-success" />
+			<h:outputText
+				value="Rejecting course '#{processVariables['courseFromAction']}' was successful."
+				rendered="#{processVariables['courseAction']=='rejected'}"
+				class="text-success" />
+			<hr />
+		</h:panelGroup>
 
-		<h1>Hello ${user.username}</h1>
+		<h2>Hello ${user.username}</h2>
 		<br />
-		<h2>Please confirm the following course registrations:</h2>
+		<h3>Please confirm the following course registrations:</h3>
 		<h:form>
 			<h:dataTable value="#{taskList.list}" var="thisTask" id="list"
 				cellspacing="0" rowClasses="odd, even" styleClass="datatable">
@@ -45,7 +51,7 @@
 			</h:dataTable>
 		</h:form>
 
-		<h2>Please choose an action:</h2>
+		<h3>Please choose an action:</h3>
 
 		<h:form>
 			<table>

@@ -23,7 +23,7 @@ import wfm.db.ACT_ID_USER;
 @Named
 @ConversationScoped
 public class ApproveCourseTask {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
 	@Inject
@@ -34,8 +34,8 @@ public class ApproveCourseTask {
 
 	@Inject
 	private ApproveCourseBean approveBean;
-	
-	
+
+
 	private Course courseToApprove;
 	private ACT_ID_USER userToApprove;
 
@@ -43,9 +43,9 @@ public class ApproveCourseTask {
 	public void approveCourse(String taskId) {
 
 		businessProcess.startTask(taskId);
-		
+
 		try{
-			
+
 			userToApprove.getCourses().add(courseToApprove);
 
 			courseToApprove.getUsers().add(userToApprove);
@@ -62,55 +62,64 @@ public class ApproveCourseTask {
 
 		businessProcess.setVariable("approvalAction", "back");
 		businessProcess.setVariable("approved", true);
-		businessProcess.setVariable("courseAction", "approved");
-		
+
+
 		//--------------------------------------------------------------------
 		//course needed for TimerEvent and Trainer notification
 		Course registeredCourse = businessProcess.getVariable("courseToApprove"); 
-		
+
 		//TimerEvent functionality
-		
+
 		Timestamp t = (Timestamp) registeredCourse.getDate();
 		log.info("Date of course: "+t);
-		
+
 		long old = t.getTime();
 		long minutesToSubtract = 5;  //minutes before the actual start of the course
 		long neu = minutesToSubtract*60*1000;		
-		
+
 		Timestamp timer = new Timestamp(old-neu);
 
 		String s = timer.toString();
 		String timerEvent = s.replace(' ', 'T');
-		
+
 		log.info("Date of course for timerEvent: "+timerEvent);
 		businessProcess.setVariable("timerEventTime", timerEvent);
-		
+
 		//---------------------------------------------------------------------------
-		
+
 		//needed for trainer notification mail
 		ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
 		log.info("Trainermail: "+trainerToBeNotified.getEmail_());		
 		businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
 		//---------------------------------------------------------------------------
 		businessProcess.completeTask();
+		//variables for messages
+		businessProcess.setVariable("courseAction", "approved");
+		businessProcess.setVariable("courseFromAction", courseToApprove.getName());
 	}
-	
+
 	public void rejectCourse(String taskId) {
+		String cname = ((Course) businessProcess.getVariable("courseToApprove")).getName();
 		businessProcess.startTask(taskId);
 		businessProcess.setVariable("approvalAction", "back");
-		businessProcess.setVariable("deletedCourseName", ((Course) businessProcess.getVariable("courseToApprove")).getName());
+		businessProcess.setVariable("deletedCourseName", cname);
 		businessProcess.setVariable("approved", false);
 		businessProcess.completeTask();
+
+		//variables for messages
+		businessProcess.setVariable("courseAction", "rejected");
+		businessProcess.setVariable("courseFromAction", cname);
+
 	}
-	
-	
+
+
 	public String logout() {
 		Course registeredCourse = businessProcess.getVariable("courseToApprove");
 		businessProcess.getTask().setAssignee(registeredCourse.getTrainer());
 		log.info("setting task assigne for: "+ businessProcess.getTask().getName() + " to " +  registeredCourse.getTrainer());
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "login.xhtml?faces-redirect=true";
-    }
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "login.xhtml?faces-redirect=true";
+	}
 
 	public Course getCourseToApprove() {
 		courseToApprove = businessProcess.getVariable("courseToApprove");			
@@ -123,7 +132,7 @@ public class ApproveCourseTask {
 
 	public ACT_ID_USER getUserToApprove() {
 		userToApprove = businessProcess.getVariable("userToApprove");
-		
+
 		return userToApprove;
 	}
 
