@@ -11,15 +11,17 @@
 				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
 		
-		<h:outputText value="#{processVariables['failmessage']}" rendered = "#{processVariables['validation']=='failed'}" style="color: red;"/>
+		<h:outputText value="#{processVariables['failmessage']}" rendered = "#{processVariables['validation']=='failed'}" class="text-error"/>
 
 		<h1>Hello ${user.username}!</h1>
 		<h:form>
-			<p>
+			<p class="text-info">
 				
-				<br />Please select <u>one</u> of the following courses you want to
+				<br />Please subscribe to a course you want to
 				attend!
 			</p>
+			
+			
 
 			<h:dataTable value="#{courses.items}" var="v_course" id="courseList"
 				frame="box" styleClass="rounded-corner" rowClasses="odd,even">
@@ -93,8 +95,8 @@
 			</h:dataTable>
 
 			<br/>
-			<h:commandButton class="btn btn-large" action="#{businessProcess.completeTask(true)}"
-				value="Cancel" type="submit" />
+			<h:commandButton class="btn btn-large" action="#{registerCourseTask.logout(taskId)}"
+				value="Logout" type="submit" />
 
 		</h:form>
 	</ui:define>

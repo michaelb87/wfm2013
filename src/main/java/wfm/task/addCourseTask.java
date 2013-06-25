@@ -54,7 +54,14 @@ public class addCourseTask {
 	    entityManager.persist(coursePersist);
 	    entityManager.flush();	    
 	    
-	    businessProcess.setVariable("approvalAction", "logout");
+	    businessProcess.setVariable("courseAction", "added");
+	    businessProcess.setVariable("addedCourse", course.getName());
+		businessProcess.completeTask();
+	}
+	
+	public void cancel(String taskId) {		
+	    
+	    businessProcess.setVariable("courseAction", "cancelled");
 		businessProcess.completeTask();
 	}
 

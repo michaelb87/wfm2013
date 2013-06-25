@@ -9,18 +9,36 @@
 			<f:viewParam name="taskId" />
 		</f:metadata>
 
+		<h:outputText value="Adding course was cancelled."
+			rendered="#{processVariables['courseAction']=='cancelled'}"
+			class="text-info" />
+		<h:outputText
+			value="Adding course '#{processVariables['addedCourse']}' was successful"
+			rendered="#{processVariables['courseAction']=='added'}"
+			class="text-success" />
+	
+			
+		<h:outputText
+			value="Deleting course '#{processVariables['deletedCourseName']}' was successful"
+			rendered="#{processVariables['courseAction']=='deleted'}"
+			class="text-success" />
+		<h:outputText
+			value="Approving course was successful"
+			rendered="#{processVariables['courseAction']=='approved'}"
+			class="text-success" />
+
 		<h1>Hello ${user.username}</h1>
 		<br />
 		<h2>Please confirm the following course registrations:</h2>
 		<h:form>
 			<h:dataTable value="#{taskList.list}" var="thisTask" id="list"
 				cellspacing="0" rowClasses="odd, even" styleClass="datatable">
-				
+
 				<h:column>
 					Subscription of user <strong> #{thisTask.assignee} </strong>
 				</h:column>
 				<h:column>	from #{thisTask.createTime}:	</h:column>
-				<h:column> 
+				<h:column>
 					<h:outputLink
 						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">CONFIRM</h:outputLink>
 				</h:column>
@@ -41,7 +59,8 @@
 							value="Delete course" type="submit" /></td>
 					<td width="20px"></td>
 					<td><h:commandButton class="btn btn-large btn-primary"
-							action="/login.xhtml" value="Logout" type="submit" /></td>
+							action="#{courseApprovalTask.logout(taskId)}" value="Logout"
+							type="submit" /></td>
 
 				</tr>
 

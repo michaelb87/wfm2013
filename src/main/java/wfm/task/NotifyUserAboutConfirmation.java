@@ -2,8 +2,6 @@ package wfm.task;
 
 import java.util.Properties;
 
-import javax.inject.Inject;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -11,47 +9,42 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 
-public class NotifyTrainerAboutWeather implements JavaDelegate {
 
-	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+public class NotifyUserAboutConfirmation implements JavaDelegate {
 	
-	private String add;
-	private String cName;
-	private String bwcondition;		
-	private String userId;
+	public static Logger log = LoggerFactory.getLogger(NotifyUserAboutCancelation.class);
 	
-	@PersistenceContext
-	private EntityManager entityManager;
+	private Course courseToApprove;
+	private ACT_ID_USER userToApprove;
 	
-	@Inject
-	private Course c;
-			
+	
+	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		
-		c = (Course) execution.getVariable("courseToApprove");		
-		bwcondition = (String) execution.getVariable("badWeatherCondition");
-		cName = c.getName();
-		userId = c.getTrainer(); 		
-		add = (String) execution.getVariable("trainer");				
-					
-		System.out.println("Sending mail...to: "+add+" with name "+userId+" about affected course by bad weather condition: "+cName+" with condition: "+bwcondition);
+		setCourseToApprove((Course) execution.getVariable("courseToApprove"));					
+		setUserToApprove((ACT_ID_USER) execution.getVariable("userToApprove"));
 		
-		initializeMailService(add,cName,userId,bwcondition);
 		
-		System.out.println("done...");
+		log.info("Sending mail...to: "+userToApprove.getEmail_()+" with name "+userToApprove.getId_()+" as subscription confirmation for course: "+courseToApprove.getName());	
+		
+		String msgType = "confirmed";
+
+		initializeMailService(userToApprove.getEmail_(),courseToApprove.getName(),userToApprove.getId_(), msgType);
+		log.info("done...");
 	}
-	private void initializeMailService(String add,String cName, String userId, String bwcondition) throws AddressException, MessagingException {
+	
+	//set that for message
+	private void initializeMailService(String add,String cName, String uName, String msgType) throws AddressException, MessagingException {
 		
 		   // Sender's email ID needs to be mentioned
 		   String from = "sscms.sender@gmail.com";
@@ -86,25 +79,44 @@ public class NotifyTrainerAboutWeather implements JavaDelegate {
 		                               new InternetAddress(to));
 
 		      // Set Subject: header field
-		      message.setSubject("SCCMS: Weather notification!");
+		      message.setSubject("SCCMS: Course "+msgType+"!");
 
 		      // Now set the actual message
-		      message.setText("Dear "+userId+"!\n\n" +
-		      		"This Email is a notification that one of your planned outdoor course should be canceled due to bad weather forecast!\n\n" +
-		      		"The affected course is: "+cName+"\n\n"+
-		      		"Following conditions are forecasted: "+bwcondition+"\n"+
-		      		"Please feel free to decide if the weather conditions compromise a proper course activity.\n\n" +
-		      		"This is an automatically generated weather-forecast notification.\n\n" +
-		      		"Best regards,\nSCCMS");	    
-
+		      // set header according to reason
+		      String header = "\nThis Email is a notification that your subscription to the course '"+cName+"' has been "+msgType+"!\n";
+		     
+		      String text = "subscription confirmation"; 
+			     
+		      message.setText("Dear "+uName+"!\n" +
+		    		header+
+		      		"\n"+
+		      		"This is an automatically generated course " +  text + ".\n\n" +
+		      		"Best regards,\nSCCMS");	      
+		      
 		      // Send message
 		      Transport transport = session.getTransport("smtp");
 		      transport.connect(host, from, pass);
 		      transport.sendMessage(message, message.getAllRecipients());
 		      transport.close();
-		      System.out.println("Sent message successfully....");
+		      log.info("Sent message successfully....");
 		   }catch (MessagingException mex) {
 		      mex.printStackTrace();
 		   }			
 		}
+
+	public Course getCourseToApprove() {
+		return courseToApprove;
+	}
+
+	public void setCourseToApprove(Course courseToApprove) {
+		this.courseToApprove = courseToApprove;
+	}
+
+	public ACT_ID_USER getUserToApprove() {
+		return userToApprove;
+	}
+
+	public void setUserToApprove(ACT_ID_USER userToApprove) {
+		this.userToApprove = userToApprove;
+	}
 }

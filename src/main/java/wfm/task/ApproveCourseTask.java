@@ -62,6 +62,7 @@ public class ApproveCourseTask {
 
 		businessProcess.setVariable("approvalAction", "back");
 		businessProcess.setVariable("approved", true);
+		businessProcess.setVariable("courseAction", "approved");
 		
 		//--------------------------------------------------------------------
 		//course needed for TimerEvent and Trainer notification

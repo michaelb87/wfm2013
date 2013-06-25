@@ -31,7 +31,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		cName = (String) execution.getVariable("deletedCourseName");		
 		uName = (String) execution.getVariable("userName");
 		
-		System.out.println("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);	
+		log.info("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);	
 		//-------------------- different msg for course rejection vs. cancellatiopn
 		String msgType = "";
 		
@@ -44,7 +44,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		}
 		
 		initializeMailService(add,cName,uName, msgType);
-		System.out.println("done...");
+		log.info("done...");
 	}
 	
 	//set that for message
@@ -83,16 +83,19 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		                               new InternetAddress(to));
 
 		      // Set Subject: header field
-		      message.setSubject("SCCMS: Course canceled!");
+		      message.setSubject("SCCMS: Course "+msgType+"!");
 
 		      // Now set the actual message
 		      // set header according to reason
-		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that a course you have been subscribed to has been canceled!\n\n" : "This Email is a notification that your attempt to subscribe to a course was " + msgType + " by the trainer \n\n";
-		      message.setText("Dear "+uName+"!\n" +
+		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that the course '"+cName+"' you have been subscribed to has been "+msgType+"!\n\n" : "This Email is a notification that your attempt to subscribe to the course '"+cName+"' was " + msgType + " by the trainer \n\n";
+		     
+		      String text = (msgType.equals("cancelled")) ? "cancellation" : "rejection";
+			     
+		      message.setText("Dear "+uName+"!\n\n" +
 		    		header+
-		      		"The affected course is: "+cName+"\n"+
+		      		"\n"+
 		      		"Please feel free to select an alternative.\n\n" +
-		      		"This is an automatically generated course " +  msgType + "  notification.\n\n" +
+		      		"This is an automatically generated course " +  text + " notification.\n\n" +
 		      		"Best regards,\nSCCMS");	      
 		      
 		      // Send message
@@ -100,7 +103,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		      transport.connect(host, from, pass);
 		      transport.sendMessage(message, message.getAllRecipients());
 		      transport.close();
-		      System.out.println("Sent message successfully....");
+		      log.info("Sent message successfully....");
 		   }catch (MessagingException mex) {
 		      mex.printStackTrace();
 		   }			

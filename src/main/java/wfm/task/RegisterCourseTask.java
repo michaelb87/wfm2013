@@ -2,6 +2,7 @@ package wfm.task;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -55,8 +56,18 @@ public class RegisterCourseTask {
 		businessProcess.setVariable("courseToApprove", courseToApprove);
 		businessProcess.setVariable("userToApprove", userToApprove);
 
-
+		businessProcess.setVariable("subscriptionAction", "subscribe");
 		businessProcess.completeTask();
 	}
+	
+	public String logout(String taskId) {
+		
+		log.info("user " + user.getUsername()+" is going to log out");
+		businessProcess.startTask(taskId);
+		businessProcess.setVariable("subscriptionAction", "logout");
+		businessProcess.completeTask();
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login.xhtml?faces-redirect=true";
+    }
 
 }
