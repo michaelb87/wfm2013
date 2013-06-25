@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import wfm.bean.User;
-import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 
 
@@ -52,17 +51,21 @@ public class addCourseTask {
 		coursePersist.setDate(course.getDate());
 	    
 	    entityManager.persist(coursePersist);
-	    entityManager.flush();	    
+	    entityManager.flush();	  
 	    
+	    businessProcess.completeTask();
+	  //variables for messages
 	    businessProcess.setVariable("courseAction", "added");
-	    businessProcess.setVariable("addedCourse", course.getName());
-		businessProcess.completeTask();
+	    businessProcess.setVariable("courseFromAction", course.getName());
+		
 	}
 	
 	public void cancel(String taskId) {		
 	    
-	    businessProcess.setVariable("courseAction", "cancelled");
+	   
 		businessProcess.completeTask();
+		businessProcess.setVariable("courseAction", "cancelled");
+		
 	}
 
 }

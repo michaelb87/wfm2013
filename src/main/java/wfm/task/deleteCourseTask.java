@@ -68,8 +68,10 @@ public class deleteCourseTask {
 			log.error(e.getMessage());
 		}
 		businessProcess.setVariable("deletedCourseName", courseName);	
-		businessProcess.setVariable("courseAction", "deleted");
 		businessProcess.completeTask();
+		//variables for messages
+		businessProcess.setVariable("courseAction", "deleted");
+		businessProcess.setVariable("courseFromAction", courseName);
 	}
 
 	

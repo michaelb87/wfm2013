@@ -11,7 +11,8 @@ First steps after deploying the project in Jboss 7:
 4. click on Gruppen and then on Gruppe anlegen
 5. create 2 groups (Trainer & Member), make sure to use capital letters at the beginning 
 6. create 3 groups for the sportscenter mempershiptypes (Bronze, Silver, Gold)
-7. assign groupmembers by clicking on the "+" symbol (either Trainer or Member and if Member either Bronze, Silver or Gold)
+7. assign groupmembers by clicking on the "+" symbol 
+(either Trainer or Member and if Member add Bronze, Silver and/or Gold; Gold doesn't automatically include Bronze and Silver)
 
 --- varifying the h2 (optional)
 8.  login with url: jdbc:h2:./fox-h2-dbs/fox-engine    username: sa pw: sa
