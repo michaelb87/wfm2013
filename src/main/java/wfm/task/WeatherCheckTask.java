@@ -21,24 +21,26 @@ public class WeatherCheckTask implements JavaDelegate {
 
 		// http://developer.yahoo.com/weather/
 		// for more information on how the weather service works and the codes
-		// need to be interpreted
-		
+		// need to be interpreted		
 		Forecast forecast = null;
 		try {
 		YahooWeatherService service = new YahooWeatherService();
-		Channel channel = service.getForecast(WeatherCheckTask.woeidVienna,
-				DegreeUnit.CELSIUS);
+		log.info("Weatherservice initialized");
+		Channel channel = service.getForecast(WeatherCheckTask.woeidVienna, DegreeUnit.CELSIUS);
+		log.info("Channel build");
 		// read tomorrows weather condition
 		forecast = channel.getItem().getForecasts().get(0);
-		
+		log.info("Forecast build");
 		if (forecast==null) {
 			throw new NullPointerException("Could not retreive Forecast!");
 		}
 		
 		}
 		catch (Exception ex) {
-			log.error("Could not receive weather forecast for the next day - expecting the worst case " + ex.getMessage());
+			log.error("Could not receive weather forecast for the next day - expecting the worst case : "  + ex.getCause());
 			execution.setVariable("weatherOk", false);
+			// remind trainer on his responsibility
+			execution.setVariable("badWeatherCondition", "manual weather check necessary");
 			return;
 		}
 		// needless assignments to point out the meaning of the forecast
