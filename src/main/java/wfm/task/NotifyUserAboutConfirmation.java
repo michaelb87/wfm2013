@@ -44,17 +44,18 @@ public class NotifyUserAboutConfirmation implements JavaDelegate {
 	private void initializeMailService(String add,String cName, String uName, String msgType) throws AddressException, MessagingException {
 		
 		   // Sender's email ID needs to be mentioned
-		   String from = "sscms.sender@gmail.com";
-		   String pass = "12345pass";
+		   String from = "noreply.sccms@michaelb.at";
+		   String pass = "9c5567f9";
 		   // Recipient's email ID needs to be mentioned.
 		   String to = add;
 
-		   String host = "smtp.gmail.com";
+		   String host = "mail.michaelb.at";
 
 		   // Get system properties
 		   Properties properties = System.getProperties();
 		   // Setup mail server
-		   properties.put("mail.smtp.starttls.enable", "true");
+		  // properties.put("mail.smtp.starttls.enable", "true");
+		   properties.put("mail.smtp.ssl.trust", "mail.michaelb.at");
 		   properties.put("mail.smtp.host", host);
 		   properties.put("mail.smtp.user", from);
 		   properties.put("mail.smtp.password", pass);
