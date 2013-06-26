@@ -37,8 +37,12 @@
 		<br />
 		<h3>Please confirm the following course registrations:</h3>
 		<h:form>
+		<h:outputText id="nothingToConfirm" value="Currently there is nothing to confirm."
+				rendered="#{taskList.list.size()==0}"
+				class="muted" />
+		
 			<h:dataTable value="#{taskList.list}" var="thisTask" id="list"
-				class="table"  style="width:600px">
+				class="table"  style="width:600px" rendered="#{taskList.list.size()>0}">
 				<!-- cellspacing="0" rowClasses="odd, even" styleClass="datatable">-->
 				<h:column>
 					<f:facet name="header">
