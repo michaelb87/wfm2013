@@ -7,53 +7,132 @@
 	<ui:define name="content">
 		<f:metadata>
 			<f:viewParam name="taskId" />
+			<f:event type="preRenderView"
+				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
 
 
 		<h2>Delete one of the courses</h2>
 
-		<p class="text-info">Here you can delete one of the courses!</p>		
+		<p class="text-info">Here you can delete one of the courses!</p>
 		<h:form>
-			
-			<h:dataTable value="#{courses.personalItems}" var="v_course" id="courseList" frame="box" styleClass="rounded-corner" rowClasses="odd,even">
+
+			<h:dataTable value="#{courses.personalItems}" var="v_course"
+				id="deleteList" class="table" style="width:97%">
 				<h:column>
-					<f:facet name="header"><div id="start">Number</div></f:facet>
+					<f:facet name="header">
+						<div id="start">Number</div>
+					</f:facet>
 					<h:outputText value="#{v_course.course.course_nr}" />
-					<f:facet name="footer"><div id="start"> </div></f:facet>
+					<f:facet name="footer">
+						<div id="start"></div>
+					</f:facet>
 				</h:column>
 				<h:column>
-					<f:facet name="header"><div id="mid">Name</div></f:facet>
+					<f:facet name="header">
+						<div id="mid">Name</div>
+					</f:facet>
 					<h:outputText value="#{v_course.course.name}" />
-					<f:facet name="footer"><div id="mid"> </div></f:facet>
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
 				</h:column>
 				<h:column>
-					<f:facet name="header"><div id="mid">Description</div></f:facet>
+					<f:facet name="header">
+						<div id="mid">Description</div>
+					</f:facet>
 					<h:outputText value="#{v_course.course.desc}" />
-					<f:facet name="footer"><div id="mid"> </div></f:facet>
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
 				</h:column>
+
 				<h:column>
-					<f:facet name="header"><div id="mid">Trainer</div></f:facet>
-					<h:outputText value="#{v_course.course.trainer}" />
-					<f:facet name="footer"><div id="mid"> </div></f:facet>
+					<f:facet name="header">
+						<div id="mid">Date/Time</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.date}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
 				</h:column>
+
 				<h:column>
-					<f:facet name="header"><div id="mid">Capacity</div></f:facet>
+					<f:facet name="header">
+						<div id="mid">Capacity</div>
+					</f:facet>
 					<h:outputText value="#{v_course.course.maxMembers}" />
-					<f:facet name="footer"><div id="mid"> </div></f:facet>
-				</h:column>				
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+
+
 				<h:column>
-					<f:facet name="header"><div id="mid">Indoor</div></f:facet>					
-					<h:selectBooleanCheckbox value="#{v_course.course.indoor}" disabled="true"/>
-					<f:facet name="footer"><div id="mid"> </div></f:facet>
+					<f:facet name="header">
+						<div id="mid">Indoor</div>
+					</f:facet>
+					<h:selectBooleanCheckbox value="#{v_course.course.indoor}"
+						disabled="true" style="margin-bottom:20px" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Location</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.location}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
 				</h:column>
 				<h:column>
-					<f:facet name="header"><div id="mid">Action</div></f:facet>
-					<h:commandLink value="Delete" action="#{deleteCourseTask.deleteCourse(taskId, v_course.course.course_nr)}"/>										
-					<f:facet name="footer"><div id="mid"> </div></f:facet>
+					<f:facet name="header">
+						<div id="mid">Membership</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.memberType}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Trainer</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.trainer}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Reward points</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.rewardPoints}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Action</div>
+					</f:facet>
+					<h:commandLink value="Delete"
+						action="#{deleteCourseTask.deleteCourse(taskId, v_course.course.course_nr)}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
 				</h:column>
 			</h:dataTable>
-			<br/>
-			
+			<br />
+			<h:commandButton class="btn btn-large"
+							action="#{deleteCourseTask.cancel(taskId)}" value="Cancel" immediate="true" 
+							type="submit" />
+
 		</h:form>
 	</ui:define>
 </ui:composition>

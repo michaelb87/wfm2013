@@ -10,21 +10,30 @@
 			<f:event type="preRenderView"
 				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
-		
-		<h:outputText value="#{processVariables['failmessage']}" rendered = "#{processVariables['validation']=='failed'}" class="text-error"/>
 
-		<h1>Hello ${user.username}!</h1>
+		<h:panelGroup id="messages"
+			rendered="#{processVariables['validation']=='failed'}" width="100%">
+			<h:outputText value="#{processVariables['failmessage']}"
+				class="text-error" />
+			<hr />
+		</h:panelGroup>
+
+
 		<h:form>
-			<p class="text-info">
-				
-				<br />Please subscribe to a course you want to
-				attend!
-			</p>
-			
-			
 
+			<h:commandLink class="btn btn-small"
+				value="Current Reward points: #{registerCourseTask.getRewardPoints()}" />
+
+			<h2>Hello ${user.username}!</h2>
+
+			<p class="text-info">
+
+				<br />Please subscribe to a course you want to attend!
+			</p>
+
+				
 			<h:dataTable value="#{courses.items}" var="v_course" id="courseList"
-				frame="box" styleClass="rounded-corner" rowClasses="odd,even">
+				class="table" style="width:97%">
 				<h:column>
 					<f:facet name="header">
 						<div id="start">Number</div>
@@ -52,6 +61,59 @@
 						<div id="mid"></div>
 					</f:facet>
 				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Date/Time</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.date}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Capacity</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.maxMembers}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Indoor</div>
+					</f:facet>
+					<h:selectBooleanCheckbox value="#{v_course.course.indoor}"
+						disabled="true" style="margin-bottom:20px" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Location</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.location}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Membership</div>
+					</f:facet>
+					<h:outputText value="#{v_course.course.memberType}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
 				<h:column>
 					<f:facet name="header">
 						<div id="mid">Trainer</div>
@@ -63,18 +125,9 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<div id="mid">Capacity</div>
+						<div id="mid">Reward points</div>
 					</f:facet>
-					<h:outputText value="#{v_course.course.maxMembers}" />
-					<f:facet name="footer">
-						<div id="mid"></div>
-					</f:facet>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<div id="mid">Indoor</div>
-					</f:facet>
-					<h:selectBooleanCheckbox value="#{v_course.course.indoor}" disabled="true"/>
+					<h:outputText value="#{v_course.course.rewardPoints}" />
 					<f:facet name="footer">
 						<div id="mid"></div>
 					</f:facet>
@@ -94,9 +147,10 @@
 				</h:column>
 			</h:dataTable>
 
-			<br/>
-			<h:commandButton class="btn btn-large" action="#{registerCourseTask.logout(taskId)}"
-				value="Logout" type="submit" />
+			<br />
+			<h:commandButton class="btn btn-large"
+				action="#{registerCourseTask.logout(taskId)}" value="Logout"
+				type="submit" />
 
 		</h:form>
 	</ui:define>

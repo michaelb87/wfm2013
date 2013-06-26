@@ -1,5 +1,9 @@
 package wfm.task;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -48,7 +52,16 @@ public class addCourseTask {
 		coursePersist.setMaxMembers(course.getMaxMembers());
 		coursePersist.setRewardPoints(course.getRewardPoints());
 		coursePersist.setLocation(course.getLocation());
-		coursePersist.setDate(course.getDate());
+		
+		log.info("coursedate: "+course.getDate());
+		
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(course.getDate());
+		
+		cal.add(Calendar.HOUR_OF_DAY, -2);
+		Date newDate = cal.getTime();
+		log.info("newDate: "+newDate);
+		coursePersist.setDate(newDate);
 	    
 	    entityManager.persist(coursePersist);
 	    entityManager.flush();	  

@@ -79,11 +79,13 @@ public class ApproveCourseTask {
 
 		Timestamp timer = new Timestamp(old-neu);
 
-		String s = timer.toString();
-		String timerEvent = s.replace(' ', 'T');
+		log.info("Date of course for timerEvent: "+timer);
+		businessProcess.setVariable("timerEventTime", timer);
+		
+		//course took place ement
 
-		log.info("Date of course for timerEvent: "+timerEvent);
-		businessProcess.setVariable("timerEventTime", timerEvent);
+		log.info("Date of course for courseEventTime: "+registeredCourse.getDate());
+		businessProcess.setVariable("courseEventTime", registeredCourse.getDate());
 
 		//---------------------------------------------------------------------------
 

@@ -59,15 +59,24 @@ public class RegisterCourseTask {
 		businessProcess.setVariable("subscriptionAction", "subscribe");
 		businessProcess.completeTask();
 	}
-	
+
 	public String logout(String taskId) {
-		
+
 		log.info("user " + user.getUsername()+" is going to log out");
 		businessProcess.startTask(taskId);
 		businessProcess.setVariable("subscriptionAction", "logout");
 		businessProcess.completeTask();
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        return "login.xhtml?faces-redirect=true";
-    }
+		return "login.xhtml?faces-redirect=true";
+	}
+
+	public String getRewardPoints(){
+		ACT_ID_USER us = entityManager.find(ACT_ID_USER.class, user.getUsername());
+		if(us.getRewardPoints()==null)
+			return ""+0;
+		else
+			return us.getRewardPoints().toString();
+
+	}
 
 }

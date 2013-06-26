@@ -5,26 +5,48 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/template.xhtml">
 	<ui:define name="content">
+
+	<h:form id="loginForm">
+		<h:panelGroup id="messages" rendered="#{loginTask.wrongCredentials}"
+			width="100%">
+			<h:outputText id="textWrong" value="Please recheck your credentials."
+				class="text-error" />
+			<hr />
+		</h:panelGroup>
+
+		<h2>Login</h2>
+		<p class="text-info">Please put in your credentials to proceed to
+			the course selection!</p>
+
+
 	
-		<h2>Login:</h2><br />Please put in your credentials to proceed to the course selection!
-		
-		
-		<h:form>		
 			<table>
 				<tr>
 					<td>Username:</td>
-					<td><h:inputText id="userName" value="#{user.username}" validator="#{loginTask.validateUser}" /></td>	
+					<td><h:inputText id="userName" value="#{user.username}"
+							label="username" validator="#{loginTask.validateUser}"
+							required="true" /></td>
+					<td><h:messages for="userName" class="text-error"
+							errorStyle="display:block" /></td>
 				</tr>
 				<tr>
 					<td>Password:</td>
-					<td><h:inputSecret id="pw" value="#{user.password}" validator="#{loginTask.validatePw}"/></td>
+					<td><h:inputSecret id="pw" value="#{user.password}"
+							label="password" validator="#{loginTask.validatePw}"
+							required="true" /></td>
+					<td><h:messages for="pw" class="text-error"
+							errorStyle="display:block" /></td>
 				</tr>
+				<!-- <tr>
+					<h:message class="error-msg" for="pw" tooltip="true"
+						showSummary="true" />
+				</tr> -->
 				<tr>
-					<h:message class="error-msg" for="pw" tooltip="true" showSummary="true"/>
-				</tr>
-				<tr>
-					<td></td>
-					<td><h:commandButton class="btn btn-large btn-primary" action="#{loginTask.startLogin()}" value="Login" type="submit" /></td>
+					 <td></td>
+					<td><h:commandButton class="btn btn-large btn-primary"
+							action="#{loginTask.startLogin()}" value="Login" type="submit" />
+
+							</td>
 				</tr>
 			</table>
 		</h:form>

@@ -38,7 +38,7 @@ public class deleteCourseTask {
 
 	public void deleteCourse(String taskId, int id) {
 
-		businessProcess.startTask(taskId);
+	//	businessProcess.startTask(taskId);
 
 		// delete from database:
 
@@ -68,13 +68,20 @@ public class deleteCourseTask {
 			log.error(e.getMessage());
 		}
 		businessProcess.setVariable("deletedCourseName", courseName);	
+		
 		businessProcess.completeTask();
 		//variables for messages
 		businessProcess.setVariable("courseAction", "deleted");
 		businessProcess.setVariable("courseFromAction", courseName);
 	}
 
-	
+	public void cancel(String taskId) {			    
+	//	businessProcess.startTask(taskId);
+		businessProcess.setVariable("routeAction", "cancel");
+		businessProcess.completeTask();
+		businessProcess.setVariable("courseAction", "cancelled");
+		
+	}
 
 
 }

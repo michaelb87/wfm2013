@@ -2,9 +2,13 @@ package wfm.db;
 
 import java.io.Serializable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
+import java.util.TimeZone;
+import java.sql.Timestamp;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -13,6 +17,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import org.primefaces.component.log.Log;
 
 
 @Entity
@@ -106,6 +112,8 @@ public class Course implements Serializable {
 				+ ", memberType=" + memberType + ", indoor=" + indoor + "]";
 	}
 	public Date getDate() {
+		
+		
 		return date;
 	}
 	public void setDate(Date date) {

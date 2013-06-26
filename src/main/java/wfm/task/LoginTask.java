@@ -8,8 +8,10 @@ import java.util.Map;
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -59,6 +61,8 @@ public class LoginTask {
 	public boolean isLogedIn() {
 		return logedIn;
 	}
+	
+	private boolean wrongCredentials = false;
 
 	@PersistenceContext
 	protected static EntityManager entityManager;
@@ -150,18 +154,40 @@ public class LoginTask {
 
 		if (dbUser == null || value==null || !dbUser.getPwd_().equals((String) value)) {
 
-			((UIInput)component).setValid(false);
+		/*	((UIInput)component).setValid(false);
 			FacesMessage message = new FacesMessage();
 			message.setSeverity(FacesMessage.SEVERITY_INFO);
-			message.setSummary("WRONG USERNAME OR PASSWORD");
-			message.setDetail("Please recheck your credentials");
-			context.addMessage(component.getClientId(context), message);
+			message.setSummary("Please recheck your credentials.");
+			message.setDetail("Please recheck your credentials.");
+			context.addMessage(component.getClientId(context), message);*/
 			user.setUsername("");
 			//throw new ValidatorException(new FacesMessage("Wrong Username or Password", null));
+			
+			this.setWrongCredentials(true);
+			refreshPage();
 		}
 		else {
-			((UIInput)component).setValid(true);
+			//((UIInput)component).setValid(true);
+			this.setWrongCredentials(false);
 		}	
+		
+	}
+	
+	protected void refreshPage() {
+		FacesContext fc = FacesContext.getCurrentInstance();
+		String refreshpage = fc.getViewRoot().getViewId();
+		ViewHandler ViewH =fc.getApplication().getViewHandler();
+		UIViewRoot UIV = ViewH.createView(fc,refreshpage);
+		UIV.setViewId(refreshpage);
+		fc.setViewRoot(UIV);
+		}
+
+	public boolean isWrongCredentials() {
+		return wrongCredentials;
+	}
+
+	public void setWrongCredentials(boolean wrongCredentials) {
+		this.wrongCredentials = wrongCredentials;
 	}
 
 

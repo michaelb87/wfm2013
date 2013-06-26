@@ -11,7 +11,7 @@
 
 		<h:panelGroup id="messages"
 			rendered="#{processVariables['courseAction']!=null}" width="100%">
-			<h:outputText id="textCancelled" value="Adding course was cancelled."
+			<h:outputText id="textCancelled" value="Action was cancelled."
 				rendered="#{processVariables['courseAction']=='cancelled'}"
 				class="text-error" />
 			<h:outputText
@@ -38,15 +38,36 @@
 		<h3>Please confirm the following course registrations:</h3>
 		<h:form>
 			<h:dataTable value="#{taskList.list}" var="thisTask" id="list"
-				cellspacing="0" rowClasses="odd, even" styleClass="datatable">
-
+				class="table"  style="width:600px">
+				<!-- cellspacing="0" rowClasses="odd, even" styleClass="datatable">-->
 				<h:column>
-					Subscription of user <strong> #{thisTask.assignee} </strong>
+					<f:facet name="header">
+						<div id="start">Member ID</div>
+					</f:facet>
+						#{thisTask.assignee}
+						<f:facet name="footer">
+						<div id="start"></div>
+					</f:facet>
 				</h:column>
-				<h:column>	from #{thisTask.createTime}:	</h:column>
 				<h:column>
+					<f:facet name="header">
+						<div id="start">Date/Time of Subscription</div>
+					</f:facet>
+						#{thisTask.createTime}
+						<f:facet name="footer">
+						<div id="start"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="start">Action</div>
+					</f:facet>
 					<h:outputLink
 						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">CONFIRM</h:outputLink>
+					<f:facet name="footer">
+						<div id="start"></div>
+					</f:facet>
+
 				</h:column>
 			</h:dataTable>
 		</h:form>

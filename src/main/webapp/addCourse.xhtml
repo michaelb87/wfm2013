@@ -39,7 +39,7 @@
 				<tr>
 					<td style="font-weight: bold;">Course description:</td>
 					<td><h:inputText id="course_description" value="#{course.desc}" required="true" label="course description">
-							<f:validateLength maximum="10"/>
+							<f:validateLength maximum="100"/>
 						</h:inputText>
 					</td>
 					<td >
@@ -95,7 +95,7 @@
 				<tr>
 					<td style="font-weight: bold;">Date/Time:</td>
 					<td>
-					<p:calendar id="calDate" value="#{course.date}" pattern="dd.MM.yyyy HH:mm" mindate="#{currentDate}" required="true" label="date and time">
+					<p:calendar id="calDate" value="#{course.date}" timeZone="CET" pattern="dd.MM.yyyy HH:mm" mindate="#{currentDate}" required="true" label="date and time">
     				<f:convertDateTime pattern="dd.MM.yyyy HH:mm"/>
     				</p:calendar>	
 							

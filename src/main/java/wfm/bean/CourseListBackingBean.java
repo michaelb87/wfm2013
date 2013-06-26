@@ -1,6 +1,8 @@
 package wfm.bean;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -44,8 +46,10 @@ public class CourseListBackingBean implements Serializable{
 	private ApproveCourseBean approveBean;
 
 	public List<ItemEntry> getItems(){
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());		
+		log.info("Current Date: "+currentDate);
 
-		Query query = entityManager.createQuery("SELECT c FROM Course c");
+		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.date > '"+currentDate+"'");
 		@SuppressWarnings("unchecked")
 		List<Course> courses =  query.getResultList();
 		
@@ -69,8 +73,9 @@ public class CourseListBackingBean implements Serializable{
 	public List<ItemEntry> getPersonalItems(){
 
 		log.info("Username for showing personal courses: "+user.getUsername());
-
-		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.trainer='"+user.getUsername()+"'");
+		Timestamp currentDate = new Timestamp(System.currentTimeMillis());		
+		log.info("Current Date: "+currentDate);
+		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.trainer='"+user.getUsername()+"' and c.date > '"+currentDate+"'");
 		@SuppressWarnings("unchecked")
 		List<Course> courses =  query.getResultList();
 
