@@ -5,6 +5,8 @@ import javax.inject.Named;
 
 import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.JavaDelegate;
+import org.activiti.engine.delegate.BpmnError;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +52,8 @@ public class TwitterTask implements JavaDelegate{
 			twitter.updateStatus(status);
 		} catch (TwitterException e) {
 			log.error("Error occurred while updating the status: "+e.getMessage());
-			return;
+			 throw new BpmnError("TwitterExeptionOccured");
+		//	return;
 		}
         log.info("Successfully updated the status: "+status);
 	

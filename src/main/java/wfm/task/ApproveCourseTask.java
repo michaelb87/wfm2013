@@ -52,7 +52,6 @@ public class ApproveCourseTask {
 
 			entityManager.merge(courseToApprove);
 			entityManager.merge(userToApprove);
-			entityManager.getTransaction().commit();
 			entityManager.flush();		  
 
 
