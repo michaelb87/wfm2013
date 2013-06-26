@@ -50,13 +50,14 @@ public class deleteCourseTask {
 
 			courseName = course.getName();
 
-
+			//TODO:
+/*
 			//removing the course from users
 			for (ACT_ID_USER u : course.getUsers()) {
 				u.getCourses().remove(course);
 			}
 			//removing all users from the collection of users
-			course.getUsers().clear();
+			course.getUsers().clear();*/
 
 			entityManager.remove(course);
 
@@ -67,9 +68,12 @@ public class deleteCourseTask {
 		}catch(Exception e){
 			log.error(e.getMessage());
 		}
-		businessProcess.setVariable("deletedCourseName", courseName);	
+		
 		
 		businessProcess.completeTask();
+		
+		businessProcess.setVariable("deletedCourseName", courseName);	
+		
 		//variables for messages
 		businessProcess.setVariable("courseAction", "deleted");
 		businessProcess.setVariable("courseFromAction", courseName);

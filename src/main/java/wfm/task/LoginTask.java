@@ -118,7 +118,7 @@ public class LoginTask {
 	public void validateUser(FacesContext context, UIComponent component, Object value) {
 		ACT_ID_USER dbUser = null;
 		try {		
-			dbUser = entityManager.find(ACT_ID_USER.class, ((String) value));
+			dbUser = entityManager.find(ACT_ID_USER.class, value);
 		} catch (Exception e) {
 			log.error("Exception parsing login from db: "+e.getMessage());
 
@@ -131,6 +131,7 @@ public class LoginTask {
 
 	public void validatePw(FacesContext context, UIComponent component, Object value){
 		ACT_ID_USER dbUser =null;
+		
 		try {		
 			dbUser = entityManager.find(ACT_ID_USER.class, user.getUsername());
 
@@ -140,7 +141,7 @@ public class LoginTask {
 		}
 
 		if (dbUser == null || value==null || !dbUser.getPwd_().equals((String) value)) {
-			user.setUsername("");
+			//user.setUsername("");
 			this.setWrongCredentials(true);
 			refreshPage();
 		}

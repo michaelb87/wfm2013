@@ -98,14 +98,15 @@ public class CourseListBackingBean implements Serializable{
 		boolean subscribed = false;
 	
 		Course c = entityManager.find(Course.class, courseNr);
-		
+		//TODO:
+		/*
 		for(ACT_ID_USER u : c.getUsers()){
 			if(u.getId_().equals(user.getUsername())){
 				subscribed = true;
 				setSubscribedText("subscribed");
 			}
 					
-		}
+		}*/
 		return subscribed;
 	}
 	public String getSubscribedText() {

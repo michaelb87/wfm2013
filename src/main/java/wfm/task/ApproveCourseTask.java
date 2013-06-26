@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import wfm.bean.ApproveCourseBean;
 import wfm.db.Course;
 import wfm.db.ACT_ID_USER;
+import wfm.db.USER_COURSE;
+import wfm.db.USER_COURSE_ID;
 
 
 @Stateful
@@ -45,54 +47,66 @@ public class ApproveCourseTask {
 		businessProcess.startTask(taskId);
 
 		try{
-			userToApprove.getCourses().add(courseToApprove);
-			courseToApprove.getUsers().add(userToApprove);
+			USER_COURSE userCourse = new USER_COURSE();
+			USER_COURSE_ID userCourseId = new USER_COURSE_ID();
+			userCourseId.setCourse(courseToApprove);
+			userCourseId.setUser(userToApprove);
+			userCourse.setPk(userCourseId);
+			userCourse.setProcessinstanceID(businessProcess.getProcessInstanceId());
+
+			courseToApprove.getUserCourse().add(userCourse);
+			userToApprove.getUserCourse().add(userCourse);
+
+			//entityManager.persist(userCourse);
+			//entityManager.merge(courseToApprove);
+			//entityManager.merge(userToApprove);
 
 			entityManager.merge(courseToApprove);
-			entityManager.merge(userToApprove);
-			entityManager.flush();		  
+			//entityManager.flush();		  
+
+
+			businessProcess.setVariable("approvalAction", "back");
+			businessProcess.setVariable("approved", true);
+
+
+			//--------------------------------------------------------------------
+			//course needed for TimerEvent and Trainer notification
+			Course registeredCourse = businessProcess.getVariable("courseToApprove"); 
+
+			//TimerEvent functionality
+
+			Timestamp t = (Timestamp) registeredCourse.getDate();
+			log.info("Date of course: "+t);
+
+			long old = t.getTime();
+			long minutesToSubtract = 5;  //minutes before the actual start of the course
+			long neu = minutesToSubtract*60*1000;		
+
+			Timestamp timer = new Timestamp(old-neu);
+
+			log.info("Date of course for timerEvent: "+timer);
+			businessProcess.setVariable("timerEventTime", timer);
+
+			//course took place event
+
+			log.info("Date of course for courseEventTime: "+registeredCourse.getDate());
+			businessProcess.setVariable("courseEventTime", registeredCourse.getDate());
+
+			//---------------------------------------------------------------------------
+
+			//needed for trainer notification mail
+			ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
+			log.info("Trainermail: "+trainerToBeNotified.getEmail_());		
+			businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
+			//---------------------------------------------------------------------------
+			businessProcess.completeTask();
+			//variables for messages
+			businessProcess.setVariable("courseAction", "approved");
+			businessProcess.setVariable("courseFromAction", courseToApprove.getName());
+
 		}catch(Exception e){
 			log.error("Error ApproveCourseTask: "+e.getMessage());
 		}
-
-		businessProcess.setVariable("approvalAction", "back");
-		businessProcess.setVariable("approved", true);
-
-
-		//--------------------------------------------------------------------
-		//course needed for TimerEvent and Trainer notification
-		Course registeredCourse = businessProcess.getVariable("courseToApprove"); 
-
-		//TimerEvent functionality
-
-		Timestamp t = (Timestamp) registeredCourse.getDate();
-		log.info("Date of course: "+t);
-
-		long old = t.getTime();
-		long minutesToSubtract = 5;  //minutes before the actual start of the course
-		long neu = minutesToSubtract*60*1000;		
-
-		Timestamp timer = new Timestamp(old-neu);
-
-		log.info("Date of course for timerEvent: "+timer);
-		businessProcess.setVariable("timerEventTime", timer);
-		
-		//course took place event
-
-		log.info("Date of course for courseEventTime: "+registeredCourse.getDate());
-		businessProcess.setVariable("courseEventTime", registeredCourse.getDate());
-
-		//---------------------------------------------------------------------------
-
-		//needed for trainer notification mail
-		ACT_ID_USER trainerToBeNotified = entityManager.find(ACT_ID_USER.class, registeredCourse.getTrainer());
-		log.info("Trainermail: "+trainerToBeNotified.getEmail_());		
-		businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
-		//---------------------------------------------------------------------------
-		businessProcess.completeTask();
-		//variables for messages
-		businessProcess.setVariable("courseAction", "approved");
-		businessProcess.setVariable("courseFromAction", courseToApprove.getName());
 	}
 
 	public void rejectCourse(String taskId) {
