@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 
 
@@ -32,12 +34,23 @@ public class ACT_ID_USER implements Serializable{
 	@Column
 	private Integer rewardPoints;
 	
+	@OneToMany(mappedBy = "pk.user",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	private Set<USER_COURSE> userCourse = new HashSet<USER_COURSE>();
 	
-	@ManyToMany(fetch=FetchType.EAGER)
+	public Set<USER_COURSE> getUserCourse() {
+		return userCourse;
+	}
+
+	public void setUserCourse(Set<USER_COURSE> userCourse) {
+		this.userCourse = userCourse;
+	}
+	
+/*	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable( name = "user_course",
 	joinColumns = {@JoinColumn (name = "user_id")}, 
-	inverseJoinColumns = {@JoinColumn(name = "course_nr")})
-	private Set<Course> courses = new HashSet<Course>();
+	inverseJoinColumns = {@JoinColumn(name = "course_nr")}
+	)
+	private Set<Course> courses = new HashSet<Course>();*/
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable( name = "ACT_ID_MEMBERSHIP",
@@ -46,21 +59,15 @@ public class ACT_ID_USER implements Serializable{
 	private Set<ACT_ID_GROUP> groups = new HashSet<ACT_ID_GROUP>();
 
 
-	public Set<Course> getCourses() {
+	/*public Set<Course> getCourses() {
 		return courses;
 	}
 
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
 	}
+*/
 
-	public Integer getRewardPoints() {
-		return this.rewardPoints;
-	}
-
-	public void setRewardPoints(Integer rewardPoints) {
-		this.rewardPoints = rewardPoints;
-	}
 
 	public Set<ACT_ID_GROUP> getGroups() {
 		return groups;
@@ -68,6 +75,14 @@ public class ACT_ID_USER implements Serializable{
 
 	public void setGroups(Set<ACT_ID_GROUP> groups) {
 		this.groups = groups;
+	}
+	
+	public Integer getRewardPoints() {
+		return this.rewardPoints;
+	}
+
+	public void setRewardPoints(Integer rewardPoints) {
+		this.rewardPoints = rewardPoints;
 	}
 
 	public String getId_() {

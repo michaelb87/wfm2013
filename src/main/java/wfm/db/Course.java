@@ -6,11 +6,13 @@ import java.util.Set;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -34,8 +36,10 @@ public class Course implements Serializable {
 	private Date date;
 	private String location;
 	
+	@OneToMany(mappedBy = "pk.course",fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	private Set<USER_COURSE> userCourse = new HashSet<USER_COURSE>();
 	
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy="courses")
+	/*@ManyToMany(fetch = FetchType.EAGER, mappedBy="courses")
 	private Set<ACT_ID_USER> users = new HashSet<ACT_ID_USER>();
 	
 	
@@ -44,12 +48,20 @@ public class Course implements Serializable {
 	}
 	public void setUsers(Set<ACT_ID_USER> users) {
 		this.users = users;
-	}
+	}*/
 	
 	public int getRewardPoints() {
 		return this.rewardPoints;
 	}
 	
+	public Set<USER_COURSE> getUserCourse() {
+		return userCourse;
+	}
+
+	public void setUserCourse(Set<USER_COURSE> userCourse) {
+		this.userCourse = userCourse;
+	}
+
 	public void setRewardPoints(int rewardPoints) {
 		this.rewardPoints = rewardPoints;
 	}
