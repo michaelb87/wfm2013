@@ -27,9 +27,14 @@ First steps after deploying the project in Jboss 7:
 https://twitter.com/sccms
 
 
---Weather Service
+--- Weather Service
 adding libraries to build path with maven is just a mess so please install the library locally by 
 executing the command from basedir of the project
 
 mvn install:install-file -DgroupId=org.fedy2 -DartifactId=YahooWeatherJavaAPI -Dpackaging=jar -Dversion=0.0.1-SNAPSHOT -Dfile=lib/YahooWeatherJavaAPI-0.0.1-SNAPSHOT.jar -DgeneratePom=true
 
+--- Mail Service
+username: noreply.sccms@michaelb.at 
+/passwort: 9c5567f9 
+/ server: mail.michaelb.at 
+/ port: 587
