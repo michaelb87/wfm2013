@@ -15,11 +15,13 @@
 		<h:panelGroup id="panelMember"
 			rendered="#{!approveCourseBean.trainer}">
 
-			<h3>
+			
 				<h:outputText id="textMember"
 					value="Thank you for subscribing to the course. You will get an
-			confirmation email once the trainer approves the subscription." />
-			</h3>
+			confirmation email once the trainer approves the subscription." 
+				class="text-success" />
+			<hr />
+			
 
 			<br />
 			<h:form>
@@ -35,14 +37,123 @@
 
 			<h2>
 				<h:outputText id="textTrainer"
-					value="Please approve the following course: " />
+					value="Course Approval " />
 			</h2>
 			<br />
 
-			<h3>
-				<h:outputText id="textCourseNr"
-					value="Course: #{approveCourseTask.courseToApprove.course_nr} '#{approveCourseTask.courseToApprove.name}' from user: #{approveCourseTask.userToApprove.first_} #{approveCourseTask.userToApprove.last_}" />
-			</h3>
+		
+			<p class="text-info">
+			<h:outputText id="textMemberToApprove"
+					value="Please approve the following course for member '#{approveCourseTask.userToApprove.first_} #{approveCourseTask.userToApprove.last_}' with username '#{approveCourseTask.userToApprove.id_}':" />
+			</p>
+			
+						<h:dataTable  id="approveCourse" value="#{approveCourseTask.courseToApprove}" var="approve_course" 
+				class="table" style="width:97%">
+				<h:column>
+					<f:facet name="header">
+						<div id="start">Number</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.course_nr}" />
+					<f:facet name="footer">
+						<div id="start"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Name</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.name}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Description</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.desc}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Date/Time</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.date}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Capacity</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.maxMembers}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Indoor</div>
+					</f:facet>
+					<h:selectBooleanCheckbox value="#{approve_course.indoor}"
+						disabled="true" style="margin-bottom:20px" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Location</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.location}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Membership</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.memberType}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Trainer</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.trainer}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<div id="mid">Reward points</div>
+					</f:facet>
+					<h:outputText value="#{approve_course.rewardPoints}" />
+					<f:facet name="footer">
+						<div id="mid"></div>
+					</f:facet>
+				</h:column>
+				</h:dataTable>
+			
+			
+			
+			
+			
+			
 			<br />
 			<br />
 			<h:form>
