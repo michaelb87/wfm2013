@@ -10,51 +10,56 @@ import javax.inject.Named;
 import org.activiti.engine.FormService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @RequestScoped
 @Named("uiMediator")
 public class UIMediator implements Serializable {
 
-  private static final long serialVersionUID = 1L;
+	private static final Logger log = LoggerFactory.getLogger(UIMediator.class);
 
-  @Inject
-  private TaskService taskService;
+	private static final long serialVersionUID = 1L;
 
-  @Inject
-  private FormService formService;
+	@Inject
+	private TaskService taskService;
 
-  private String nextTaskId;
+	@Inject
+	private FormService formService;
 
-  private String nextTaskForm;
+	private String nextTaskId;
 
-  /**
-   * check for new task in same process for same user
-   */
-  public void checkProcessInstanceStatus(String assignee, String processInstanceId) {
-    nextTaskId = null;
-    nextTaskForm = null;
-    if (processInstanceId != null && assignee != null) {
-      List<Task> tasks = taskService.createTaskQuery().taskAssignee(assignee).processInstanceId(processInstanceId).list();
-      if (tasks.size() == 1) {
-        nextTaskId = tasks.get(0).getId();
-        nextTaskForm = formService.getTaskFormData(nextTaskId).getFormKey();
-      }
-    }
-    
-    // Possible addition: wait for a defined time if something pops up.
-    
-    if (nextTaskForm!=null) {
-      System.out.println("Mediator decided to route to task form " + nextTaskForm);      
-    } else {
-      System.out.println("Mediator decided to route back to task list, nothing to do immediateley");      
-    }
-  }
-  public String getNextTaskId() {
-    return nextTaskId;
-  }
+	private String nextTaskForm;
 
-  public String getNextTaskForm() {
-    return nextTaskForm;
-  }
+	/**
+	 * check for new task in same process for same user
+	 */
+	public void checkProcessInstanceStatus(String assignee, String processInstanceId) {
+		nextTaskId = null;
+		nextTaskForm = null;
+		if (processInstanceId != null && assignee != null) {
+			List<Task> tasks = taskService.createTaskQuery().taskAssignee(assignee).processInstanceId(processInstanceId).list();
+			if (tasks.size() == 1) {
+				nextTaskId = tasks.get(0).getId();
+				nextTaskForm = formService.getTaskFormData(nextTaskId).getFormKey();
+			}
+		}
+
+		// Possible addition: wait for a defined time if something pops up.
+
+		if (nextTaskForm!=null) {
+			log.info("Mediator decided to route to task form " + nextTaskForm);      
+		} else {
+			log.info("Mediator decided to route back to task list, nothing to do immediateley");      
+		}
+	}
+	public String getNextTaskId() {
+		return nextTaskId;
+	}
+
+	public String getNextTaskForm() {
+		return nextTaskForm;
+	}
 
 }
