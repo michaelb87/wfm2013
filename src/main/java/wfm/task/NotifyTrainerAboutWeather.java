@@ -23,7 +23,7 @@ import wfm.db.Course;
 
 public class NotifyTrainerAboutWeather implements JavaDelegate {
 
-	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+	private static final Logger log = LoggerFactory.getLogger(NotifyTrainerAboutWeather.class);
 	
 	private String add;
 	private String cName;
@@ -45,11 +45,11 @@ public class NotifyTrainerAboutWeather implements JavaDelegate {
 		userId = c.getTrainer(); 		
 		add = (String) execution.getVariable("trainer");				
 					
-		System.out.println("Sending mail...to: "+add+" with name "+userId+" about affected course by bad weather condition: "+cName+" with condition: "+bwcondition);
+		log.info("Sending mail...to: "+add+" with name "+userId+" about affected course by bad weather condition: "+cName+" with condition: "+bwcondition);
 		
 		initializeMailService(add,cName,userId,bwcondition);
 		
-		System.out.println("done...");
+		log.info("done...");
 	}
 	private void initializeMailService(String add,String cName, String userId, String bwcondition) throws AddressException, MessagingException {
 		

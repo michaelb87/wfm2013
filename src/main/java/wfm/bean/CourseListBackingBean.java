@@ -2,7 +2,6 @@ package wfm.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import wfm.bean.ItemEntry;
 import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
-import wfm.task.LoginTask;
+
 
 @Named
 @RequestScoped
@@ -28,9 +27,7 @@ public class CourseListBackingBean implements Serializable{
 
 	private static final long serialVersionUID = 1962753564688979487L;
 	
-	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
-
-
+	private static final Logger log = LoggerFactory.getLogger(CourseListBackingBean.class);
 
 	private List<ItemEntry> items;
 	private List<ItemEntry> personalItems; //for showing up in the delete courses screen

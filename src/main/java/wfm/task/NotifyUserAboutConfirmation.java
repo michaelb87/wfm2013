@@ -21,19 +21,16 @@ import wfm.db.Course;
 
 public class NotifyUserAboutConfirmation implements JavaDelegate {
 	
-	public static Logger log = LoggerFactory.getLogger(NotifyUserAboutCancelation.class);
+	public static Logger log = LoggerFactory.getLogger(NotifyUserAboutConfirmation.class);
 	
 	private Course courseToApprove;
 	private ACT_ID_USER userToApprove;
-	
-	
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		setCourseToApprove((Course) execution.getVariable("courseToApprove"));					
 		setUserToApprove((ACT_ID_USER) execution.getVariable("userToApprove"));
-		
 		
 		log.info("Sending mail...to: "+userToApprove.getEmail_()+" with name "+userToApprove.getId_()+" as subscription confirmation for course: "+courseToApprove.getName());	
 		

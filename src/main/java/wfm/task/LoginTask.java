@@ -4,13 +4,10 @@ package wfm.task;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -23,13 +20,6 @@ import org.activiti.cdi.ActivitiCdiException;
 import org.activiti.cdi.BusinessProcess;
 import org.activiti.engine.runtime.ProcessInstance;
 
-/*
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.helpers.Loader;
-import org.apache.log4j.xml.DOMConfigurator;
- */
 import wfm.bean.User;
 import wfm.db.ACT_ID_USER;
 import wfm.bean.CourseListBackingBean;
@@ -42,8 +32,6 @@ import org.slf4j.LoggerFactory;
 @ConversationScoped
 public class LoginTask {
 
-
-	//private static final Logger log = Logger.getLogger(LoginTask.class);
 	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
 
 
@@ -61,7 +49,7 @@ public class LoginTask {
 	public boolean isLogedIn() {
 		return logedIn;
 	}
-	
+
 	private boolean wrongCredentials = false;
 
 	@PersistenceContext
@@ -76,14 +64,14 @@ public class LoginTask {
 		try {
 			ACT_ID_USER dbUser = entityManager.find(ACT_ID_USER.class,
 					user.getUsername());
-			
+
 			if (dbUser != null) {
 				if (user.getPassword().equals(dbUser.getPwd_())) {
 					logedIn = true;
-					
+
 					businessProcess.setVariable("userMail", dbUser.getEmail_());
 					businessProcess.setVariable("userName", dbUser.getId_());
-					
+
 				} else {
 					user.setPassword("");
 					logedIn = false;
@@ -114,8 +102,7 @@ public class LoginTask {
 
 			}
 			variables.put("loggedIn", logedIn);
-			
-			
+
 
 			try {
 				return businessProcess.startProcessByKey("sccms", variables);
@@ -153,26 +140,16 @@ public class LoginTask {
 		}
 
 		if (dbUser == null || value==null || !dbUser.getPwd_().equals((String) value)) {
-
-		/*	((UIInput)component).setValid(false);
-			FacesMessage message = new FacesMessage();
-			message.setSeverity(FacesMessage.SEVERITY_INFO);
-			message.setSummary("Please recheck your credentials.");
-			message.setDetail("Please recheck your credentials.");
-			context.addMessage(component.getClientId(context), message);*/
 			user.setUsername("");
-			//throw new ValidatorException(new FacesMessage("Wrong Username or Password", null));
-			
 			this.setWrongCredentials(true);
 			refreshPage();
 		}
 		else {
-			//((UIInput)component).setValid(true);
 			this.setWrongCredentials(false);
 		}	
-		
+
 	}
-	
+
 	protected void refreshPage() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		String refreshpage = fc.getViewRoot().getViewId();
@@ -180,7 +157,7 @@ public class LoginTask {
 		UIViewRoot UIV = ViewH.createView(fc,refreshpage);
 		UIV.setViewId(refreshpage);
 		fc.setViewRoot(UIV);
-		}
+	}
 
 	public boolean isWrongCredentials() {
 		return wrongCredentials;

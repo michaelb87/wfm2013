@@ -24,7 +24,7 @@ public class TwitterTask implements JavaDelegate{
 	private static final String CONSUMER_SECRET = "hx9eWPpklMNLj8RfMPZtd5Vusj3sK7SSu4Ah9yRuQ";
 
 	
-	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+	private static final Logger log = LoggerFactory.getLogger(TwitterTask.class);
 
 	
 	private Course courseToApprove;

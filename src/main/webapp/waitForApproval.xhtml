@@ -15,13 +15,11 @@
 		<h:panelGroup id="panelMember"
 			rendered="#{!approveCourseBean.trainer}">
 
-			
-				<h:outputText id="textMember"
-					value="Thank you for subscribing to the course. You will get an
-			confirmation email once the trainer approves the subscription." 
+			<h:outputText id="textMember"
+				value="Thank you for subscribing to the course. You will get an
+			confirmation email once the trainer approves the subscription."
 				class="text-success" />
 			<hr />
-			
 
 			<br />
 			<h:form>
@@ -36,18 +34,17 @@
 			rendered="#{approveCourseBean.trainer}">
 
 			<h2>
-				<h:outputText id="textTrainer"
-					value="Course Approval " />
+				<h:outputText id="textTrainer" value="Course Approval " />
 			</h2>
 			<br />
 
-		
 			<p class="text-info">
-			<h:outputText id="textMemberToApprove"
+				<h:outputText id="textMemberToApprove"
 					value="Please approve the following course for member '#{approveCourseTask.userToApprove.first_} #{approveCourseTask.userToApprove.last_}' with username '#{approveCourseTask.userToApprove.id_}':" />
 			</p>
-			
-						<h:dataTable  id="approveCourse" value="#{approveCourseTask.courseToApprove}" var="approve_course" 
+
+			<h:dataTable id="approveCourse"
+				value="#{approveCourseTask.courseToApprove}" var="approve_course"
 				class="table" style="width:97%">
 				<h:column>
 					<f:facet name="header">
@@ -96,9 +93,6 @@
 						<div id="mid"></div>
 					</f:facet>
 				</h:column>
-
-
-
 				<h:column>
 					<f:facet name="header">
 						<div id="mid">Indoor</div>
@@ -109,7 +103,6 @@
 						<div id="mid"></div>
 					</f:facet>
 				</h:column>
-
 				<h:column>
 					<f:facet name="header">
 						<div id="mid">Location</div>
@@ -128,7 +121,6 @@
 						<div id="mid"></div>
 					</f:facet>
 				</h:column>
-
 				<h:column>
 					<f:facet name="header">
 						<div id="mid">Trainer</div>
@@ -147,19 +139,12 @@
 						<div id="mid"></div>
 					</f:facet>
 				</h:column>
-				</h:dataTable>
-			
-			
-			
-			
-			
-			
+			</h:dataTable>
 			<br />
 			<br />
 			<h:form>
 				<table>
 					<tr>
-
 						<td><h:commandButton class="btn btn-large btn-primary"
 								action="#{approveCourseTask.approveCourse(taskId)}"
 								value="Approve" type="submit" /></td>
@@ -167,7 +152,6 @@
 						<td><h:commandButton class="btn btn-large "
 								action="#{approveCourseTask.rejectCourse(taskId)}"
 								value="Reject" type="submit" /></td>
-
 					</tr>
 				</table>
 			</h:form>

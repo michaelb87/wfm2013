@@ -38,10 +38,7 @@ public class TaskList implements Serializable {
   }
 
   public List<Task> getList() {
-	  //this query is for testing purposes only! we list all "add course"-tasks assigned to the user... could also list all tasks assigned to group ect.
-   
-	 // List<Task> tasks =  taskService.createTaskQuery().taskAssignee(user.getUsername()).taskName("add course").list();
-	//  List<Task> tasks =  taskService.createTaskQuery().taskCandidateGroup("Trainer").taskName("approve course by Trainer").list();
+
 	  List<Task> tasks =  taskService.createTaskQuery().taskName("approve course by Trainer").list();
 
 	  return tasks;

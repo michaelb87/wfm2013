@@ -9,15 +9,12 @@
 	xmlns:jsfcal="http://code.google.com/p/jsfcal"
 	xmlns:p="http://primefaces.org/ui">
 
-
-
 	<ui:define name="content">
 		<f:metadata>
 			<f:viewParam name="taskId" />
 			<f:event type="preRenderView"
 				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
-
 
 		<h2>Add a new course</h2>
 
@@ -45,18 +42,13 @@
 					<td >
 					<h:messages for="course_description" class="text-error" errorStyle="display:block"/>
 					</td>
-					
-					
-					
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Member Type:</td>
 					<td><h:selectOneMenu value="#{course.memberType}" var="type">
 							<f:selectItems value="#{membershipTypes.types}" />
-						</h:selectOneMenu></td>
-	
+						</h:selectOneMenu></td>	
 				</tr>
-
 				<tr>
 					<td style="font-weight: bold;">Capacity:</td>
 					<td><h:inputText id="capacity" value="#{course.maxMembers}" label="capacity">
@@ -66,8 +58,7 @@
 					<td >
 					<h:messages for="capacity"  class="text-error" errorStyle="display:block" />
 					</td>
-				</tr>
-				
+				</tr>				
 				<tr>
 					<td style="font-weight: bold;">Reward Points:</td>
 					<td><h:inputText id="reward" value="#{course.rewardPoints}" label="reward points">
@@ -78,11 +69,9 @@
 					<h:messages for="reward"  class="text-error" errorStyle="display:block" />
 					</td>
 				</tr>
-
 				<tr>
 					<td style="font-weight: bold;">Indoor:</td>
 					<td><h:selectBooleanCheckbox value="#{course.indoor}" style="margin-bottom:20px"/></td>
-
 				</tr>
 				<tr>
 					<td style="font-weight: bold;">Location:</td>
@@ -105,14 +94,11 @@
 					<h:message for="calDate" class="text-error" errorStyle="display:block"/> 	
 					</li></ul>				
 					</td>
-				</tr>
-				
+				</tr>				
 				<tr>
 					<td><h:commandButton class="btn btn-large btn-primary"
 							action="#{addCourseTask.addCourse(taskId)}" value="Add"
-							type="submit" /></td>
-							
-							
+							type="submit" /></td>						
 							
 					<td><h:commandButton class="btn btn-large"
 							action="#{addCourseTask.cancel(taskId)}" value="Cancel" immediate="true" 

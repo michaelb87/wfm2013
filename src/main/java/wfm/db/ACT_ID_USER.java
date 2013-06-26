@@ -28,7 +28,6 @@ public class ACT_ID_USER implements Serializable{
 	private String email_;
 	private String pwd_;
 	private String picture_id;
-	//----experimental .. reward points
 	
 	@Column
 	private Integer rewardPoints;

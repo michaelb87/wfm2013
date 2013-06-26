@@ -7,16 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
-
 @Named
 @SessionScoped
 public class ApproveCourseBean implements Serializable {
 
-
 	private static final long serialVersionUID = 1L;
 
-	  
-	
+	 	
 	@PersistenceContext 
 	EntityManager entityManager;
 
