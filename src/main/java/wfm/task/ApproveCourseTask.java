@@ -24,7 +24,7 @@ import wfm.db.ACT_ID_USER;
 @ConversationScoped
 public class ApproveCourseTask {
 
-	private static final Logger log = LoggerFactory.getLogger(LoginTask.class);
+	private static final Logger log = LoggerFactory.getLogger(ApproveCourseTask.class);
 
 	@Inject
 	private BusinessProcess businessProcess;
@@ -45,16 +45,12 @@ public class ApproveCourseTask {
 		businessProcess.startTask(taskId);
 
 		try{
-
 			userToApprove.getCourses().add(courseToApprove);
-
 			courseToApprove.getUsers().add(userToApprove);
 
 			entityManager.merge(courseToApprove);
 			entityManager.merge(userToApprove);
 			entityManager.flush();		  
-
-
 		}catch(Exception e){
 			log.error("Error ApproveCourseTask: "+e.getMessage());
 		}
@@ -81,7 +77,7 @@ public class ApproveCourseTask {
 		log.info("Date of course for timerEvent: "+timer);
 		businessProcess.setVariable("timerEventTime", timer);
 		
-		//course took place ement
+		//course took place event
 
 		log.info("Date of course for courseEventTime: "+registeredCourse.getDate());
 		businessProcess.setVariable("courseEventTime", registeredCourse.getDate());
@@ -110,7 +106,6 @@ public class ApproveCourseTask {
 		//variables for messages
 		businessProcess.setVariable("courseAction", "rejected");
 		businessProcess.setVariable("courseFromAction", cname);
-
 	}
 
 

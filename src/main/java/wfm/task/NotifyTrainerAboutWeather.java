@@ -64,7 +64,7 @@ public class NotifyTrainerAboutWeather implements JavaDelegate {
 		   // Get system properties
 		   Properties properties = System.getProperties();
 		   // Setup mail server
-		  // properties.put("mail.smtp.starttls.enable", "true");
+		   properties.put("mail.smtp.starttls.enable", "true");
 		   properties.put("mail.smtp.ssl.trust", "mail.michaelb.at");
 		   properties.put("mail.smtp.host", host);
 		   properties.put("mail.smtp.user", from);
