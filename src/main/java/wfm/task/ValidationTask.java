@@ -25,25 +25,23 @@ public class ValidationTask implements JavaDelegate{
 
 		course = (Course) execution.getVariable("courseToApprove");
 		user = (ACT_ID_USER) execution.getVariable("userToApprove");
-		
-		//TODO:
 
-	/*	if(validateCapacity() && validateMembership())
-		{*/
+		if(validateCapacity() && validateMembership())
+		{
 			log.info("validation ok");
 			execution.setVariable("validation", "ok");
-	/*	}
+		}
 		else{
 			log.info("validation failed");
 			execution.setVariable("validation", "failed");
 			execution.setVariable("failmessage", "Subscription failed! "+message);
-		}	*/
+		}	
 
 	}
 	
-/*	public boolean validateCapacity(){
+	public boolean validateCapacity(){
 
-		if (course.getUsers().size()<course.getMaxMembers())
+		if (course.getUserCourse().size()<course.getMaxMembers())
 			return true;
 		else
 			message="The course '"+course.getName()+"' is already full. ";
@@ -63,7 +61,7 @@ public class ValidationTask implements JavaDelegate{
 			message="Your membership type is not eligible for the course you want to attend. ";
 
 		return ok;
-	}*/
+	}
 
 
 

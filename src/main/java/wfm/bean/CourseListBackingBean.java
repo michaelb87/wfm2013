@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import wfm.bean.ItemEntry;
 import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
+import wfm.db.USER_COURSE;
 
 
 @Named
@@ -98,15 +99,15 @@ public class CourseListBackingBean implements Serializable{
 		boolean subscribed = false;
 	
 		Course c = entityManager.find(Course.class, courseNr);
-		//TODO:
-		/*
-		for(ACT_ID_USER u : c.getUsers()){
-			if(u.getId_().equals(user.getUsername())){
+		
+		
+		for(USER_COURSE u : c.getUserCourse()){
+			if(u.getPk().getUser().getId_().equals(user.getUsername())){
 				subscribed = true;
 				setSubscribedText("subscribed");
 			}
 					
-		}*/
+		}
 		return subscribed;
 	}
 	public String getSubscribedText() {

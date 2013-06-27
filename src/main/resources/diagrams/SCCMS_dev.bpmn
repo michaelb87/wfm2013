@@ -78,9 +78,6 @@
     <sequenceFlow id="flow50" name="weather situation bad?" sourceRef="exclusivegateway5" targetRef="servicetask7">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!weatherOk}]]></conditionExpression>
     </sequenceFlow>
-    <intermediateCatchEvent id="signalintermediatecatchevent2" name="SignalCatchEvent">
-      <signalEventDefinition signalRef="deleteCourse"></signalEventDefinition>
-    </intermediateCatchEvent>
     <eventBasedGateway id="eventgateway2" name="Event Gateway"></eventBasedGateway>
     <sequenceFlow id="flow53" sourceRef="servicetask7" targetRef="eventgateway2"></sequenceFlow>
     <intermediateCatchEvent id="timerintermediatecatchevent2" name="TimerCatchEvent">
@@ -89,10 +86,8 @@
       </timerEventDefinition>
     </intermediateCatchEvent>
     <sequenceFlow id="flow54" sourceRef="eventgateway2" targetRef="timerintermediatecatchevent2"></sequenceFlow>
-    <sequenceFlow id="flow55" sourceRef="eventgateway2" targetRef="signalintermediatecatchevent2"></sequenceFlow>
     <sequenceFlow id="flow56" name="course took place, seems the trainer didn't cancel" sourceRef="timerintermediatecatchevent2" targetRef="exclusivegateway9"></sequenceFlow>
     <serviceTask id="servicetask8" name="notify user about cancelation" activiti:class="wfm.task.NotifyUserAboutCancelation"></serviceTask>
-    <sequenceFlow id="flow57" name="trainer canceled the course" sourceRef="signalintermediatecatchevent2" targetRef="servicetask8"></sequenceFlow>
     <endEvent id="endevent11" name="End"></endEvent>
     <sequenceFlow id="flow58" sourceRef="servicetask8" targetRef="endevent11"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
@@ -142,6 +137,11 @@
     </intermediateCatchEvent>
     <sequenceFlow id="flow79" sourceRef="eventgateway1" targetRef="messageintermediatecatchevent1"></sequenceFlow>
     <sequenceFlow id="flow80" sourceRef="messageintermediatecatchevent1" targetRef="servicetask6"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent2" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="courseCancelled"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow81" sourceRef="eventgateway2" targetRef="messageintermediatecatchevent2"></sequenceFlow>
+    <sequenceFlow id="flow82" name="trainer cancelled course" sourceRef="messageintermediatecatchevent2" targetRef="servicetask8"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_sccms">
     <bpmndi:BPMNPlane bpmnElement="sccms" id="BPMNPlane_sccms">
@@ -214,9 +214,6 @@
       <bpmndi:BPMNShape bpmnElement="servicetask7" id="BPMNShape_servicetask7">
         <omgdc:Bounds height="82.0" width="105.0" x="1398.0" y="600.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="signalintermediatecatchevent2" id="BPMNShape_signalintermediatecatchevent2">
-        <omgdc:Bounds height="35.0" width="35.0" x="1560.0" y="745.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="eventgateway2" id="BPMNShape_eventgateway2">
         <omgdc:Bounds height="40.0" width="40.0" x="1430.0" y="705.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -267,6 +264,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="1460.0" y="140.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent2" id="BPMNShape_messageintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="1560.0" y="708.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="240.0" y="157.0"></omgdi:waypoint>
@@ -415,23 +415,11 @@
         <omgdi:waypoint x="1430.0" y="725.0"></omgdi:waypoint>
         <omgdi:waypoint x="1328.0" y="725.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow55" id="BPMNEdge_flow55">
-        <omgdi:waypoint x="1470.0" y="725.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1577.0" y="725.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1577.0" y="745.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
         <omgdi:waypoint x="1293.0" y="725.0"></omgdi:waypoint>
         <omgdi:waypoint x="1197.0" y="725.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="52.0" width="100.0" x="33.0" y="26.0"></omgdc:Bounds>
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
-        <omgdi:waypoint x="1577.0" y="780.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1577.0" y="800.0"></omgdi:waypoint>
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="39.0" width="100.0" x="30.0" y="-48.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow58" id="BPMNEdge_flow58">
@@ -536,6 +524,17 @@
       <bpmndi:BPMNEdge bpmnElement="flow80" id="BPMNEdge_flow80">
         <omgdi:waypoint x="1495.0" y="157.0"></omgdi:waypoint>
         <omgdi:waypoint x="1538.0" y="157.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow81" id="BPMNEdge_flow81">
+        <omgdi:waypoint x="1470.0" y="725.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1560.0" y="725.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
+        <omgdi:waypoint x="1577.0" y="743.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1577.0" y="800.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="39.0" width="100.0" x="9.0" y="-29.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

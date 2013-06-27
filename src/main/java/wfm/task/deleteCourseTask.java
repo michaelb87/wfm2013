@@ -45,17 +45,19 @@ public class deleteCourseTask {
 	private EntityManager entityManager;
 
 	private String courseName;
+	
 
-	public void deleteCourse(String taskId, int id) {
 
-		businessProcess.startTask(taskId);
+	public void deleteCourse(String taskId, int id) {	
 
 		// delete from database:
 
 		try{
 			log.info("Searching course with Id: "+id);
 			course = entityManager.find(Course.class, id);
+
 			log.info("Course found: " + course.toString());
+
 			courseName = course.getName();	
 			
 			Map<String, Object> variables = new HashMap<String, Object>();
@@ -73,7 +75,7 @@ public class deleteCourseTask {
 			Query q = entityManager
 					.createNativeQuery("DELETE  FROM USER_COURSE uc WHERE uc.COURSE_NR ="
 							+ course.getCourse_nr());
-			q.executeUpdate();
+			q.executeUpdate();		
 
 
 			entityManager.remove(course);		  
@@ -84,6 +86,7 @@ public class deleteCourseTask {
 			log.error(e.getMessage());
 		}
 		
+		
 		businessProcess.completeTask();
 		
 
@@ -93,7 +96,7 @@ public class deleteCourseTask {
 	}
 
 	public void cancel(String taskId) {			    
-	//	businessProcess.startTask(taskId);
+		
 		businessProcess.setVariable("routeAction", "cancel");
 		businessProcess.completeTask();
 		businessProcess.setVariable("courseAction", "cancelled");

@@ -7,7 +7,8 @@
 	<ui:define name="content">
 		<f:metadata>
 			<f:viewParam name="taskId" />
-			
+			<f:event type="preRenderView"
+				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
 
 
@@ -122,8 +123,8 @@
 			</h:dataTable>
 			<br />
 			<h:commandButton class="btn btn-large"
-							action="#{deleteCourseTask.cancel(taskId)}" value="Cancel" immediate="true" 
-							type="submit" />
+				action="#{deleteCourseTask.cancel(taskId)}" value="Cancel"
+				immediate="true" type="submit" />
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -71,12 +71,13 @@ public class ApproveCourseTask {
 			courseToApprove.getUserCourse().add(userCourse);
 			userToApprove.getUserCourse().add(userCourse);
 
-			//entityManager.persist(userCourse);
-			//entityManager.merge(courseToApprove);
-			//entityManager.merge(userToApprove);
-
-			entityManager.merge(courseToApprove);
-			//entityManager.flush();		  
+			
+			String query = "INSERT INTO USER_COURSE (PROCESSINSTANCEID, COURSE_NR,USER_ID) "
+					+"VALUES ('"+businessProcess.getProcessInstanceId()+"',"+courseToApprove.getCourse_nr()+",'"+userToApprove.getId_()+"')";
+			
+			log.info("insert query: "+query);
+			entityManager.createNativeQuery(query).executeUpdate();
+	  
 
 
 			businessProcess.setVariable("approvalAction", "back");

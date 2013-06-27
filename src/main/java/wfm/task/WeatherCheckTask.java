@@ -56,7 +56,7 @@ public class WeatherCheckTask implements JavaDelegate {
 			execution.setVariable("weatherOk", false);
 			execution.setVariable("badWeatherCondition", conditiontext);
 		} else {
-			log.info("Weather is " + conditiontext + " - Course is taking place as scheduled: ");
+			log.info("Weather is " + conditiontext + " - Course is taking place as scheduled.");
 			execution.setVariable("weatherOk", true);
 		}
 
