@@ -41,9 +41,7 @@ public class deleteCourseTask {
 	
 	public static String dName;  // CHANGED
 
-	public void deleteCourse(String taskId, int id) {
-
-		businessProcess.startTask(taskId);
+	public void deleteCourse(String taskId, int id) {	
 
 		// delete from database:
 
@@ -83,7 +81,7 @@ public class deleteCourseTask {
 	}
 
 	public void cancel(String taskId) {			    
-		businessProcess.startTask(taskId);
+		
 		businessProcess.setVariable("routeAction", "cancel");
 		businessProcess.completeTask();
 		businessProcess.setVariable("courseAction", "cancelled");

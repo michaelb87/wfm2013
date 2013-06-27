@@ -108,7 +108,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		      transport.close();
 		      log.info("Sent message successfully....");
 		   }catch (MessagingException mex) {
-		      mex.printStackTrace();
+			   log.error("Sending message failed: "+mex.getMessage());
 		   }			
 		}
 }
