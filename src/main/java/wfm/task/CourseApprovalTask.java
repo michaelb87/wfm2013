@@ -31,6 +31,8 @@ public class CourseApprovalTask {
 	public void goToDeleteCourse(String taskId) {
 		log.info("going to delete course ");
 		businessProcess.startTask(taskId);
+		log.info(">>>> routing to delete course");
+		log.info("(process id=) " + businessProcess.getProcessInstanceId());
 		businessProcess.setVariable("approvalAction", "delete");
 		businessProcess.completeTask();
 		

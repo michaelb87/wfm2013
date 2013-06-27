@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.activiti.cdi.BusinessProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,8 @@ public class CourseListBackingBean implements Serializable{
 	
 	@Inject
 	private ApproveCourseBean approveBean;
+	
+	@Inject BusinessProcess businessProcess;
 
 	public List<ItemEntry> getItems(){
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());		
@@ -70,7 +73,7 @@ public class CourseListBackingBean implements Serializable{
 
 	public List<ItemEntry> getPersonalItems(){
 
-		log.info("Username for showing personal courses: "+user.getUsername());
+		log.info("Username for showing personal courses: "+user.getUsername() + " / " +businessProcess.getVariable("username"));
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());		
 		log.info("Current Date: "+currentDate);
 		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.trainer='"+user.getUsername()+"' and c.date > '"+currentDate+"'");
