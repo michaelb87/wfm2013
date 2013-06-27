@@ -134,23 +134,36 @@ public class ApproveCourseTask {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/courseApproval.xhtml?taskId="+oldTaskId);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			log.info("failed redirecting back to course aprovals");
 		}
 
 	}
 
-	public void rejectCourse(String taskId) {
-		String cname = ((Course) businessProcess.getVariable("courseToApprove")).getName();
+	public void rejectCourse(String taskId, String oldTaskId) {
+		String executionId = taskService.createTaskQuery().taskId(taskId).singleResult().getExecutionId();
+		log.info(">setting execution from: " + businessProcess.getExecutionId() + " to: " + executionId);
+		Execution newExecution=runtimeService.createExecutionQuery().executionId(executionId).singleResult();
+		businessProcess.setExecution(newExecution);
+		
 		businessProcess.startTask(taskId);
 		businessProcess.setVariable("approvalAction", "back");
-		businessProcess.setVariable("deletedCourseName", cname);
 		businessProcess.setVariable("approved", false);
 		businessProcess.completeTask();
+		
+		executionId = taskService.createTaskQuery().taskId(oldTaskId).singleResult().getExecutionId();
+		log.info(">>setting execution from: " + businessProcess.getExecutionId() + " to: " + executionId);
+		newExecution=runtimeService.createExecutionQuery().executionId(executionId).singleResult();
+		businessProcess.setExecution(newExecution);
+		log.info(">>execution id is now: " + businessProcess.getExecutionId());
 
 		//variables for messages
 		businessProcess.setVariable("courseAction", "rejected");
-		businessProcess.setVariable("courseFromAction", cname);
+		
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/courseApproval.xhtml?taskId="+oldTaskId);
+		} catch (IOException e) {
+			log.info("failed redirecting back to course aprovals");
+		}
 	}
 
 
