@@ -131,7 +131,7 @@
     <sequenceFlow id="flow76" sourceRef="boundaryerror2" targetRef="servicetask11"></sequenceFlow>
     <serviceTask id="servicetask11" name="Notify Admin" activiti:class="wfm.task.NotifyAdminAboutTwitterException"></serviceTask>
     <sequenceFlow id="flow77" sourceRef="servicetask11" targetRef="exclusivegateway10"></sequenceFlow>
-    <sequenceFlow id="flow78" sourceRef="usertask4" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow78" name="notify registered Users about cancelation" sourceRef="usertask4" targetRef="noneintermediatethrowevent1"></sequenceFlow>
     <intermediateCatchEvent id="messageintermediatecatchevent1" name="MessageCatchEvent">
       <messageEventDefinition messageRef="courseCancelled"></messageEventDefinition>
     </intermediateCatchEvent>
@@ -142,6 +142,8 @@
     </intermediateCatchEvent>
     <sequenceFlow id="flow81" sourceRef="eventgateway2" targetRef="messageintermediatecatchevent2"></sequenceFlow>
     <sequenceFlow id="flow82" name="trainer cancelled course" sourceRef="messageintermediatecatchevent2" targetRef="servicetask8"></sequenceFlow>
+    <intermediateThrowEvent id="noneintermediatethrowevent1" name="NoneThrowEvent"></intermediateThrowEvent>
+    <sequenceFlow id="flow83" sourceRef="noneintermediatethrowevent1" targetRef="exclusivegateway3"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_sccms">
     <bpmndi:BPMNPlane bpmnElement="sccms" id="BPMNPlane_sccms">
@@ -267,6 +269,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent2" id="BPMNShape_messageintermediatecatchevent2">
         <omgdc:Bounds height="35.0" width="35.0" x="1560.0" y="708.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="noneintermediatethrowevent1" id="BPMNShape_noneintermediatethrowevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="367.0" y="507.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="240.0" y="157.0"></omgdi:waypoint>
@@ -515,7 +520,10 @@
       <bpmndi:BPMNEdge bpmnElement="flow78" id="BPMNEdge_flow78">
         <omgdi:waypoint x="482.0" y="557.0"></omgdi:waypoint>
         <omgdi:waypoint x="384.0" y="558.0"></omgdi:waypoint>
-        <omgdi:waypoint x="384.0" y="449.0"></omgdi:waypoint>
+        <omgdi:waypoint x="384.0" y="542.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="52.0" width="100.0" x="-135.0" y="-48.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow79" id="BPMNEdge_flow79">
         <omgdi:waypoint x="1410.0" y="157.0"></omgdi:waypoint>
@@ -535,6 +543,10 @@
         <bpmndi:BPMNLabel>
           <omgdc:Bounds height="39.0" width="100.0" x="9.0" y="-29.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow83" id="BPMNEdge_flow83">
+        <omgdi:waypoint x="384.0" y="507.0"></omgdi:waypoint>
+        <omgdi:waypoint x="384.0" y="449.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
