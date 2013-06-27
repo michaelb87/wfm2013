@@ -113,7 +113,7 @@
 		</navigation-case>
 	</navigation-rule>
 
-	<navigation-rule>
+	<!--  <navigation-rule>
 		<from-view-id>/waitForApproval.xhtml</from-view-id>
 		<navigation-case>
 			<if>#{uiMediator.nextTaskId!=null}</if>
@@ -131,6 +131,7 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
+	-->
 
 	<managed-bean>
 		<managed-bean-name>currentDate</managed-bean-name>

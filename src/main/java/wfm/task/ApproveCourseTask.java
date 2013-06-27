@@ -1,5 +1,6 @@
 package wfm.task;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 
 import javax.ejb.Stateful;
@@ -51,7 +52,7 @@ public class ApproveCourseTask {
 	private ACT_ID_USER userToApprove;
 
 
-	public String approveCourse(String taskId, String oldTaskId) {
+	public void approveCourse(String taskId, String oldTaskId) {
 		
 		String executionId = taskService.createTaskQuery().taskId(taskId).singleResult().getExecutionId();
 		log.info(">setting execution from: " + businessProcess.getExecutionId() + " to: " + executionId);
@@ -130,7 +131,13 @@ public class ApproveCourseTask {
 		}catch(Exception e){
 			log.error("Error ApproveCourseTask: "+e.getMessage());
 		}
-		return "courseApproval.xhtml?taskId="+oldTaskId;
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect("/courseApproval.xhtml?taskId="+oldTaskId);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			log.info("failed redirecting back to course aprovals");
+		}
+
 	}
 
 	public void rejectCourse(String taskId) {
@@ -148,9 +155,9 @@ public class ApproveCourseTask {
 
 
 	public String logout() {
-		Course registeredCourse = businessProcess.getVariable("courseToApprove");
-		businessProcess.getTask().setAssignee(registeredCourse.getTrainer());
-		log.info("setting task assigne for: "+ businessProcess.getTask().getName() + " to " +  registeredCourse.getTrainer());
+		//Course registeredCourse = businessProcess.getVariable("courseToApprove");
+		//businessProcess.getTask().setAssignee(registeredCourse.getTrainer());
+		//log.info("setting task assigne for: "+ businessProcess.getTask().getName() + " to " +  registeredCourse.getTrainer());
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "login.xhtml?faces-redirect=true";
 	}
