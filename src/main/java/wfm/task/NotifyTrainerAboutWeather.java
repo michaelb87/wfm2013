@@ -103,7 +103,7 @@ public class NotifyTrainerAboutWeather implements JavaDelegate {
 		      transport.connect(host, from, pass);
 		      transport.sendMessage(message, message.getAllRecipients());
 		      transport.close();
-		      System.out.println("Sent message successfully....");
+		      log.info("Sent message successfully....");
 		   }catch (MessagingException mex) {
 			   log.error("Sending message failed: "+mex.getMessage());
 		   }			
