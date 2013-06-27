@@ -90,7 +90,12 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 
 		      // Now set the actual message
 		      // set header according to reason
-		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that the course '"+dName+"' you have been subscribed to has been "+msgType+"!\n\n" : "This Email is a notification that your attempt to subscribe to the course '"+cName+"' was " + msgType + " by the trainer \n\n";
+		      String courseName = "";
+		      if(dName!=null)
+		    	  courseName="'"+dName+"' ";
+		    
+		      
+		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that the course "+courseName+"you have been subscribed to has been "+msgType+"!\n\n" : "This Email is a notification that your attempt to subscribe to the course '"+cName+"' was " + msgType + " by the trainer \n\n";
 		     
 		      String text = (msgType.equals("cancelled")) ? "cancellation" : "rejection";
 			     

@@ -35,11 +35,15 @@ public class RewardUserTask implements JavaDelegate {
 		if (userRewardPoints==null) userRewardPoints=0;
 		
 		// adding reward points according to course type
-		user.setRewardPoints(userRewardPoints += course.getRewardPoints());
-		log.info("entity belongs to current persistence context " + entityManager.contains(user));
+	
 		try {
-	    entityManager.merge(user);
-	    entityManager.flush();	
+			
+			String query = "UPDATE ACT_ID_USER u SET u.REWARDPOINTS="
+					+(userRewardPoints += course.getRewardPoints())
+					+" WHERE u.ID_='"+user.getId_()+"'";
+			log.info("update query: "+query);
+			entityManager.createNativeQuery(query).executeUpdate();
+			
 		}
 		catch (Exception ex) {
 			log.error("Persisting user failed! " + ex.getMessage());
