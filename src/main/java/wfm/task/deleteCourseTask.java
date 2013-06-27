@@ -38,6 +38,8 @@ public class deleteCourseTask {
 	private EntityManager entityManager;
 
 	private String courseName;
+	
+	public static String dName;  // CHANGED
 
 	public void deleteCourse(String taskId, int id) {
 
@@ -52,7 +54,7 @@ public class deleteCourseTask {
 			log.info("Course found: " + course.toString());
 
 			courseName = course.getName();	
-		
+			dName = courseName;
 			
 			log.info("remove course_nr = "+course.getCourse_nr());
 			Query q = entityManager
@@ -72,7 +74,7 @@ public class deleteCourseTask {
 		
 		businessProcess.completeTask();
 		
-		businessProcess.setVariable("deletedCourseName", course.getName());	
+		//businessProcess.setVariable("deletedCourseName", course.getName());	
 		
 		
 		//variables for messages

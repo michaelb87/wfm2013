@@ -23,6 +23,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 	private String add;
 	private String cName;
 	private String uName;
+	private String dName;
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -30,8 +31,9 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 		add = (String) execution.getVariable("userMail");
 		cName = (String) execution.getVariable("deletedCourseName");		
 		uName = (String) execution.getVariable("userName");
+		dName = deleteCourseTask.dName; //CHANGED
 		
-		log.info("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+cName);	
+		log.info("Sending mail...to: "+add+" with name "+uName+" about deleted course: "+dName);	
 		//-------------------- different msg for course rejection vs. cancellatiopn
 		String msgType = "";
 		
@@ -43,12 +45,12 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 			log.info("no active current user process instance registered for respective course");
 		}
 		
-		initializeMailService(add,cName,uName, msgType);
+		initializeMailService(add,cName,dName, uName, msgType);
 		log.info("done...");
 	}
 	
 	//set that for message
-	private void initializeMailService(String add,String cName, String uName, String msgType) throws AddressException, MessagingException {
+	private void initializeMailService(String add,String cName, String dName, String uName, String msgType) throws AddressException, MessagingException {
 		
 		// Sender's email ID needs to be mentioned
 		   String from = "noreply.sccms@michaelb.at";
@@ -88,7 +90,7 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 
 		      // Now set the actual message
 		      // set header according to reason
-		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that the course '"+cName+"' you have been subscribed to has been "+msgType+"!\n\n" : "This Email is a notification that your attempt to subscribe to the course '"+cName+"' was " + msgType + " by the trainer \n\n";
+		      String header = (msgType.equals("cancelled")) ? "This Email is a notification that the course '"+dName+"' you have been subscribed to has been "+msgType+"!\n\n" : "This Email is a notification that your attempt to subscribe to the course '"+cName+"' was " + msgType + " by the trainer \n\n";
 		     
 		      String text = (msgType.equals("cancelled")) ? "cancellation" : "rejection";
 			     
