@@ -67,7 +67,7 @@
 						<div id="start">Action</div>
 					</f:facet>
 					<h:outputLink
-						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}">CONFIRM</h:outputLink>
+						value="#{taskList.getFormKey(thisTask)}.jsf?taskId=#{thisTask.id}&amp;oldTaskId=#{taskId}">CONFIRM</h:outputLink>
 					<f:facet name="footer">
 						<div id="start"></div>
 					</f:facet>

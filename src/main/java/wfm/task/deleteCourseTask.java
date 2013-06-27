@@ -1,5 +1,8 @@
 package wfm.task;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -9,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.activiti.cdi.BusinessProcess;
+import org.activiti.engine.RuntimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +37,9 @@ public class deleteCourseTask {
 
 	@Inject
 	private User user;
+	
+	@Inject
+	RuntimeService runtimeService;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -48,17 +55,25 @@ public class deleteCourseTask {
 		try{
 			log.info("Searching course with Id: "+id);
 			course = entityManager.find(Course.class, id);
-
 			log.info("Course found: " + course.toString());
-
 			courseName = course.getName();	
+			
+			Map<String, Object> variables = new HashMap<String, Object>();
+			variables.put("deletedCourseName", courseName);
+			
+			for(USER_COURSE uc : course.getUserCourse()) {
+				String executionId = runtimeService.createExecutionQuery().processInstanceId(uc.getProcessinstanceID()).orderByProcessInstanceId().desc().list().get(0).getId();
+				log.info("notifying process " + uc.getProcessinstanceID() + "  with executionId-> " + executionId);
+				
+				runtimeService.messageEventReceived("courseCancelled", executionId, variables);
+			}
 		
 			
 			log.info("remove course_nr = "+course.getCourse_nr());
 			Query q = entityManager
 					.createNativeQuery("DELETE  FROM USER_COURSE uc WHERE uc.COURSE_NR ="
 							+ course.getCourse_nr());
-			q.executeUpdate();		
+			q.executeUpdate();
 
 
 			entityManager.remove(course);		  
@@ -69,12 +84,9 @@ public class deleteCourseTask {
 			log.error(e.getMessage());
 		}
 		
-		
 		businessProcess.completeTask();
 		
-		businessProcess.setVariable("deletedCourseName", course.getName());	
-		
-		
+
 		//variables for messages
 		businessProcess.setVariable("courseAction", "deleted");
 		businessProcess.setVariable("courseFromAction", courseName);

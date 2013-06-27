@@ -11,6 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.activiti.cdi.BusinessProcess;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.Execution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +39,25 @@ public class ApproveCourseTask {
 
 	@Inject
 	private ApproveCourseBean approveBean;
+	
+	@Inject
+	private TaskService taskService;
+	
+	@Inject
+	private RuntimeService runtimeService;
 
 
 	private Course courseToApprove;
 	private ACT_ID_USER userToApprove;
 
 
-	public void approveCourse(String taskId) {
-
+	public String approveCourse(String taskId, String oldTaskId) {
+		
+		String executionId = taskService.createTaskQuery().taskId(taskId).singleResult().getExecutionId();
+		log.info(">setting execution from: " + businessProcess.getExecutionId() + " to: " + executionId);
+		Execution newExecution=runtimeService.createExecutionQuery().executionId(executionId).singleResult();
+		businessProcess.setExecution(newExecution);
+		
 		businessProcess.startTask(taskId);
 
 		try{
@@ -100,13 +114,22 @@ public class ApproveCourseTask {
 			businessProcess.setVariable("trainer", trainerToBeNotified.getEmail_());
 			//---------------------------------------------------------------------------
 			businessProcess.completeTask();
+			
+			executionId = taskService.createTaskQuery().taskId(oldTaskId).singleResult().getExecutionId();
+			log.info(">>setting execution from: " + businessProcess.getExecutionId() + " to: " + executionId);
+			newExecution=runtimeService.createExecutionQuery().executionId(executionId).singleResult();
+			businessProcess.setExecution(newExecution);
+			log.info(">>execution id is now: " + businessProcess.getExecutionId());
+			
 			//variables for messages
 			businessProcess.setVariable("courseAction", "approved");
 			businessProcess.setVariable("courseFromAction", courseToApprove.getName());
+			
 
 		}catch(Exception e){
 			log.error("Error ApproveCourseTask: "+e.getMessage());
 		}
+		return "courseApproval.xhtml?taskId="+oldTaskId;
 	}
 
 	public void rejectCourse(String taskId) {

@@ -43,7 +43,7 @@ public class RegisterCourseTask {
 
 	public void registerCourse(String taskId, int courseId) {
 
-		log.info("User: " + user.getUsername()+" CourseId: "+courseId);
+		log.info("User: " + user.getUsername()+" CourseId: "+courseId + " executionId: " + businessProcess.getExecutionId());
 
 
 		Course courseToApprove = entityManager.find(Course.class, courseId);	
@@ -57,6 +57,7 @@ public class RegisterCourseTask {
 		businessProcess.setVariable("userToApprove", userToApprove);
 
 		businessProcess.setVariable("subscriptionAction", "subscribe");
+
 		businessProcess.completeTask();
 	}
 

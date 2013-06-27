@@ -7,6 +7,7 @@
 	<ui:define name="content">
 		<f:metadata>
 			<f:viewParam name="taskId" />
+			<f:viewParam name="oldTaskId" />
 			<f:event type="preRenderView"
 				listener="#{businessProcess.startTask(taskId, true)}" />
 		</f:metadata>
@@ -34,7 +35,7 @@
 			rendered="#{approveCourseBean.trainer}">
 
 			<h2>
-				<h:outputText id="textTrainer" value="Course Approval " />
+				<h:outputText id="textTrainer" value="Course Approval" />
 			</h2>
 			<br />
 
@@ -146,7 +147,7 @@
 				<table>
 					<tr>
 						<td><h:commandButton class="btn btn-large btn-primary"
-								action="#{approveCourseTask.approveCourse(taskId)}"
+								action="#{approveCourseTask.approveCourse(taskId, oldTaskId)}"
 								value="Approve" type="submit" /></td>
 						<td width="50px"></td>
 						<td><h:commandButton class="btn btn-large "
