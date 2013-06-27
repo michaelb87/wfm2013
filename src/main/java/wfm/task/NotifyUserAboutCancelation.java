@@ -21,7 +21,6 @@ public class NotifyUserAboutCancelation implements JavaDelegate {
 	public static Logger log = LoggerFactory.getLogger(NotifyUserAboutCancelation.class);
 
 	private String add;
-	private String cName;
 	private String uName;
 	private String dName;
 	

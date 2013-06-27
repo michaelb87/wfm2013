@@ -52,7 +52,7 @@ public class TwitterTask implements JavaDelegate{
 			throw new BpmnError("TwitterExeptionOccured");
 
 		}
-		log.info("Successfully updated the status: "+status);
+		log.info("Successfully updated the twitter status: "+status);
 
 
 	}

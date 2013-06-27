@@ -22,7 +22,6 @@ public class ValidationTask implements JavaDelegate{
 	public void execute(DelegateExecution execution) throws Exception {
 		log.info("ValidationTask " + execution.getId() + " was executed.");
 
-
 		course = (Course) execution.getVariable("courseToApprove");
 		user = (ACT_ID_USER) execution.getVariable("userToApprove");
 
@@ -62,7 +61,5 @@ public class ValidationTask implements JavaDelegate{
 
 		return ok;
 	}
-
-
 
 }

@@ -27,8 +27,6 @@ public class NotifyAdminAboutTwitterException implements JavaDelegate {
 
 	public static Logger log = LoggerFactory.getLogger(NotifyAdminAboutTwitterException.class);
 
-
-
 	@PersistenceContext
 	private EntityManager entityManager = LoginTask.entityManager; 
 

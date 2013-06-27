@@ -1,17 +1,12 @@
 package wfm.db;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
-
 import javax.persistence.AssociationOverrides;
 import javax.persistence.AssociationOverride;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity

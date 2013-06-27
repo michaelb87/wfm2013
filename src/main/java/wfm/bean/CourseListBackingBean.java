@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import wfm.bean.ItemEntry;
-import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
 import wfm.db.USER_COURSE;
 
@@ -48,7 +47,6 @@ public class CourseListBackingBean implements Serializable{
 
 	public List<ItemEntry> getItems(){
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());		
-		log.info("Current Date: "+currentDate);
 
 		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.date > '"+currentDate+"'");
 		@SuppressWarnings("unchecked")
@@ -73,9 +71,8 @@ public class CourseListBackingBean implements Serializable{
 
 	public List<ItemEntry> getPersonalItems(){
 
-		log.info("Username for showing personal courses: "+user.getUsername() + " / " +businessProcess.getVariable("username"));
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());		
-		log.info("Current Date: "+currentDate);
+		
 		Query query = entityManager.createQuery("SELECT c FROM Course c WHERE c.trainer='"+user.getUsername()+"' and c.date > '"+currentDate+"'");
 		@SuppressWarnings("unchecked")
 		List<Course> courses =  query.getResultList();
