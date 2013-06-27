@@ -48,7 +48,7 @@ public class USER_COURSE implements Serializable{
     private Course course;*/
 	
 	
-    @Column
+    @Column(name = "PROCESSINSTANCEID")
     private String processinstanceID;
 
 	/*public ACT_ID_USER getUser() {

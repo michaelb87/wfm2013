@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.activiti.cdi.BusinessProcess;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import wfm.bean.User;
 import wfm.db.ACT_ID_USER;
 import wfm.db.Course;
+import wfm.db.USER_COURSE;
+import wfm.db.USER_COURSE_ID;
 
 @Stateful
 @Named
@@ -38,7 +41,7 @@ public class deleteCourseTask {
 
 	public void deleteCourse(String taskId, int id) {
 
-	//	businessProcess.startTask(taskId);
+		businessProcess.startTask(taskId);
 
 		// delete from database:
 
@@ -48,20 +51,17 @@ public class deleteCourseTask {
 
 			log.info("Course found: " + course.toString());
 
-			courseName = course.getName();
+			courseName = course.getName();	
+		
+			
+			log.info("remove course_nr = "+course.getCourse_nr());
+			Query q = entityManager
+					.createNativeQuery("DELETE  FROM USER_COURSE uc WHERE uc.COURSE_NR ="
+							+ course.getCourse_nr());
+			q.executeUpdate();		
 
-			//TODO:
-/*
-			//removing the course from users
-			for (ACT_ID_USER u : course.getUsers()) {
-				u.getCourses().remove(course);
-			}
-			//removing all users from the collection of users
-			course.getUsers().clear();*/
 
-			entityManager.remove(course);
-
-			entityManager.flush();		  
+			entityManager.remove(course);		  
 
 			log.info("Course deleted successfully...");
 
@@ -72,7 +72,8 @@ public class deleteCourseTask {
 		
 		businessProcess.completeTask();
 		
-		businessProcess.setVariable("deletedCourseName", courseName);	
+		businessProcess.setVariable("deletedCourseName", course.getName());	
+		
 		
 		//variables for messages
 		businessProcess.setVariable("courseAction", "deleted");
