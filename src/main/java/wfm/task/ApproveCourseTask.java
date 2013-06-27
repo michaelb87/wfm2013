@@ -140,14 +140,20 @@ public class ApproveCourseTask {
 	}
 
 	public void rejectCourse(String taskId, String oldTaskId) {
+		
+		String cname = ((Course) businessProcess.getVariable("courseToApprove")).getName();
+		
 		String executionId = taskService.createTaskQuery().taskId(taskId).singleResult().getExecutionId();
 		log.info(">setting execution from: " + businessProcess.getExecutionId() + " to: " + executionId);
 		Execution newExecution=runtimeService.createExecutionQuery().executionId(executionId).singleResult();
 		businessProcess.setExecution(newExecution);
 		
 		businessProcess.startTask(taskId);
+		
+		businessProcess.setVariable("deletedCourseName", cname);
 		businessProcess.setVariable("approvalAction", "back");
 		businessProcess.setVariable("approved", false);
+		
 		businessProcess.completeTask();
 		
 		executionId = taskService.createTaskQuery().taskId(oldTaskId).singleResult().getExecutionId();
@@ -157,7 +163,10 @@ public class ApproveCourseTask {
 		log.info(">>execution id is now: " + businessProcess.getExecutionId());
 
 		//variables for messages
+
+
 		businessProcess.setVariable("courseAction", "rejected");
+		businessProcess.setVariable("courseFromAction", cname);
 		
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect("/courseApproval.xhtml?taskId="+oldTaskId);
