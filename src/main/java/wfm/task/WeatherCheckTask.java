@@ -52,7 +52,7 @@ public class WeatherCheckTask implements JavaDelegate {
 		//if weather code predicts snow, rain, heavy wind etc. or the temperature is below our defined limit for outdoor course - it evaluates to true
 		if ((conditioncode < 19 || conditioncode >= 37 || conditioncode == 35) || highTemp < limitTemperature) {
 			// cancel course
-			log.info("Weather is really bad. it is " + conditiontext + " let Trainer decide wthat to do next");
+			log.info("Weather is really bad. it is " + conditiontext + " let Trainer decide what to do next");
 			execution.setVariable("weatherOk", false);
 			execution.setVariable("badWeatherCondition", conditiontext);
 		} else {

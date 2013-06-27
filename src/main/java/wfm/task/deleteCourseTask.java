@@ -64,7 +64,8 @@ public class deleteCourseTask {
 			variables.put("deletedCourseName", courseName);
 			
 			for(USER_COURSE uc : course.getUserCourse()) {
-				String executionId = runtimeService.createExecutionQuery().processInstanceId(uc.getProcessinstanceID()).orderByProcessInstanceId().desc().list().get(0).getId();
+
+				String executionId = runtimeService.createExecutionQuery().processInstanceId(uc.getProcessinstanceID()).messageEventSubscriptionName("courseCancelled").orderByProcessInstanceId().desc().list().get(0).getId();
 				log.info("notifying process " + uc.getProcessinstanceID() + "  with executionId-> " + executionId);
 				
 				runtimeService.messageEventReceived("courseCancelled", executionId, variables);
