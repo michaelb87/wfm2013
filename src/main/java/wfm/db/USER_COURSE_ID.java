@@ -2,6 +2,8 @@ package wfm.db;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+
 import javax.persistence.ManyToOne;
 
 
@@ -15,7 +17,7 @@ public class USER_COURSE_ID implements java.io.Serializable {
 	private ACT_ID_USER user;
 	private Course course;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	public ACT_ID_USER getUser() {
 		return user;
 	}
@@ -24,7 +26,7 @@ public class USER_COURSE_ID implements java.io.Serializable {
 		this.user= user;
 	}
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	public Course getCourse() {
 		return course;
 	}

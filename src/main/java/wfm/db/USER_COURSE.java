@@ -28,7 +28,7 @@ public class USER_COURSE implements Serializable{
 	
 	private USER_COURSE_ID pk = new USER_COURSE_ID();
 	
-	@EmbeddedId
+	@Id
     public USER_COURSE_ID getPk() { 
 		return pk;
 		

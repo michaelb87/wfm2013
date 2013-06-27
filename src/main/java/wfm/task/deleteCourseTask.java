@@ -81,7 +81,7 @@ public class deleteCourseTask {
 	}
 
 	public void cancel(String taskId) {			    
-	//	businessProcess.startTask(taskId);
+		businessProcess.startTask(taskId);
 		businessProcess.setVariable("routeAction", "cancel");
 		businessProcess.completeTask();
 		businessProcess.setVariable("courseAction", "cancelled");
