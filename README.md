@@ -5,6 +5,7 @@ WMPM
 
 First steps after deploying the project in Jboss 7:
 
+0. Download Fox platform here: https://app.camunda.com/confluence/display/foxUserGuide/Getting+Started
 1. go to http://localhost:8080/explorer and login with kermit/kermit
 2. click on Verwalten and then on Benutzer
 3. click on Benutzer anlegen and fill in the data 
